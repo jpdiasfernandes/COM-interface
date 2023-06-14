@@ -1,0 +1,39 @@
+extends layout
+
+block content
+    .w3-container.w3-black(style="height:100vh;display:flex;justify-content:center")
+        .w3-container.w3-black(style="width:70%")
+            form.w3-container(method="POST" action="/registo")
+                fieldset
+                    legend Registo
+                    label Nº Sócio
+                    input.w3-input.w3-round(type="text" name="nSocio")
+                    label Nome
+                    input.w3-input.w3-round(type="text" name="nome")
+                    label Senha
+                    input.w3-input.w3-round(type="text" name="senha")
+                    label Data de Nascimento
+                    input.w3-input.w3-round(type="date" name="dataNacimento")
+                    label Idade
+                    input.w3-input.w3-round(type="text" name="idade")
+                    
+                    label Sexo
+                    select(name="sexo")
+                        option(value="M") M 
+                        option(value="F") F 
+                        option(value="Outro") Outro
+                    br
+                    label CC
+                    input.w3-input.w3-round(type="text" name="cc")
+                    label E-mail
+                    input.w3-input.w3-round(type="email" name="email")
+                    label Telefone Fixo
+                    input.w3-input.w3-round(type="text" name="telefone")
+                    label Nº FPO
+                    input.w3-input.w3-round(type="text" name="nFPO")
+                    label Telemóvel
+                    input.w3-input.w3-round(type="text" name="telemovel")
+                    label Morada
+                    input.w3-input.w3-round(type="text" name="morada")
+                br 
+                button.w3-btn.w3.w3-deep-orange.w3-margin-right(style="width:100%" type="submit") Criar Conta
