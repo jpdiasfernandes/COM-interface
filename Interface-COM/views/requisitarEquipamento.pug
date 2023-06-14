@@ -1,0 +1,26 @@
+extends layout
+
+block content
+    .w3-container.w3-black(style="height:100vh;display:flex;justify-content:center")
+        .w3-container.w3-black(style="width:70%")
+            form.w3-container(method="POST" action="/equipamento/requisitar")
+                fieldset
+                    legend Requisitar Equipamento
+                    label Código
+                    input.w3-input.w3-round(type="text" name="codEquipamento" value=equipamento.codEquipamento readonly)
+                    label Tipo
+                    input.w3-input.w3-round(type="text" name="tipo" value=equipamento.tipo readonly)
+                    label Custo
+                    input.w3-input.w3-round(type="text" name="custo" value=equipamento.custo readonly)
+                    input(type="hidden" name="_id" value=equipamento._id)
+                fieldset
+                    legend Tamanho
+                    select.w3-select(name="tamanho")
+                        each stock in equipamento.stock
+                            option(value=stock.tamanho) #{stock.tamanho}
+                br
+                .w3-row(style="width:100%") 
+                    .w3-half.w3-container
+                        a(href="/equipamento/socio" style="text-decoration:none;width:100%").w3-btn.w3-white.w3-margin-right Cancelar
+                    .w3-half.w3-container
+                        button.w3-btn.w3.w3-deep-orange.w3-margin-right(style="width:100%" type="submit") Confirmar requisição

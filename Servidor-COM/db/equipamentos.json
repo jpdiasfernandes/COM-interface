@@ -1,0 +1,274 @@
+[
+    {
+      "codEquipamento": "EQ001",
+      "tipo": "Computador",
+      "custo": 1500,
+      "desconto": 100,
+      "stock": [
+        {
+          "tamanho": "X",
+          "quantidade": 10
+        },
+        {
+          "tamanho": "Grande",
+          "quantidade": 5
+        }
+      ]
+    },
+    {
+      "codEquipamento": "EQ002",
+      "tipo": "Impressora",
+      "custo": 500,
+      "desconto": 50,
+      "stock": [
+        {
+          "tamanho": "XS",
+          "quantidade": 20
+        }
+      ]
+    },
+    {
+      "codEquipamento": "EQ003",
+      "tipo": "Monitor",
+      "custo": 300,
+      "desconto": 20,
+      "stock": [
+        {
+          "tamanho": "L",
+          "quantidade": 15
+        },
+        {
+          "tamanho": "M",
+          "quantidade": 10
+        }
+      ]
+    },
+    {
+      "codEquipamento": "EQ004",
+      "tipo": "Teclado",
+      "custo": 50,
+      "desconto": 0,
+      "stock": [
+        {
+          "tamanho": "L",
+          "quantidade": 30
+        }
+      ]
+    },
+    {
+      "codEquipamento": "EQ005",
+      "tipo": "Mouse",
+      "custo": 30,
+      "desconto": 5,
+      "stock": [
+        {
+          "tamanho": "XS",
+          "quantidade": 25
+        },
+        {
+          "tamanho": "X",
+          "quantidade": 20
+        }
+      ]
+    },
+    {
+      "codEquipamento": "EQ006",
+      "tipo": "Headset",
+      "custo": 100,
+      "desconto": 10,
+      "stock": [
+        {
+          "tamanho": "XL",
+          "quantidade": 12
+        }
+      ]
+    },
+    {
+      "codEquipamento": "EQ007",
+      "tipo": "Roteador",
+      "custo": 200,
+      "desconto": 25,
+      "stock": [
+        {
+          "tamanho": "L",
+          "quantidade": 8
+        }
+      ]
+    },
+    {
+      "codEquipamento": "EQ008",
+      "tipo": "Switch",
+      "custo": 150,
+      "desconto": 15,
+      "stock": [
+        {
+          "tamanho": "L",
+          "quantidade": 15
+        },
+        {
+          "tamanho": "M",
+          "quantidade": 10
+        }
+      ]
+    },
+    {
+      "codEquipamento": "EQ009",
+      "tipo": "Câmera",
+      "custo": 400,
+      "desconto": 50,
+      "stock": [
+        {
+          "tamanho": "L",
+          "quantidade": 5
+        }
+      ]
+    },
+    {
+      "codEquipamento": "EQ010",
+      "tipo": "Projetor",
+      "custo": 800,
+      "desconto": 75,
+      "stock": [
+        {
+          "tamanho": "L",
+          "quantidade": 3
+        }
+      ]
+    },
+    {
+      "codEquipamento": "EQ011",
+      "tipo": "Scanner",
+      "custo": 150,
+      "desconto": 0,
+      "stock": [
+        {
+          "tamanho": "XS",
+          "quantidade": 10
+        },
+        {
+          "tamanho": "M",
+          "quantidade": 8
+        }
+      ]
+    },
+    {
+      "codEquipamento": "EQ012",
+      "tipo": "Telefone",
+      "custo": 80,
+      "desconto": 5,
+      "stock": [
+        {
+          "tamanho": "M",
+          "quantidade": 25
+        }
+      ]
+    },
+    {
+      "codEquipamento": "EQ013",
+      "tipo": "Caixa de Som",
+      "custo": 120,
+      "desconto": 10,
+      "stock": [
+        {
+          "tamanho": "L",
+          "quantidade": 15
+        },
+        {
+          "tamanho": "XS",
+          "quantidade": 12
+        }
+      ]
+    },
+    {
+      "codEquipamento": "EQ014",
+      "tipo": "Impressora 3D",
+      "custo": 2000,
+      "desconto": 150,
+      "stock": [
+        {
+          "tamanho": "S",
+          "quantidade": 4
+        }
+      ]
+    },
+    {
+      "codEquipamento": "EQ015",
+      "tipo": "Tablet",
+      "custo": 600,
+      "desconto": 50,
+      "stock": [
+        {
+          "tamanho": "L",
+          "quantidade": 8
+        },
+        {
+          "tamanho": "XL",
+          "quantidade": 5
+        }
+      ]
+    },
+    {
+      "codEquipamento": "EQ016",
+      "tipo": "Smartphone",
+      "custo": 900,
+      "desconto": 100,
+      "stock": [
+        {
+          "tamanho": "XL",
+          "quantidade": 15
+        }
+      ]
+    },
+    {
+      "codEquipamento": "EQ017",
+      "tipo": "Câmera de Segurança",
+      "custo": 250,
+      "desconto": 20,
+      "stock": [
+        {
+          "tamanho": "L",
+          "quantidade": 10
+        },
+        {
+          "tamanho": "X",
+          "quantidade": 8
+        }
+      ]
+    },
+    {
+      "codEquipamento": "EQ018",
+      "tipo": "No-Break",
+      "custo": 300,
+      "desconto": 25,
+      "stock": [
+        {
+          "tamanho": "X",
+          "quantidade": 10
+        }
+      ]
+    },
+    {
+      "codEquipamento": "EQ019",
+      "tipo": "Caixa Registradora",
+      "custo": 150,
+      "desconto": 0,
+      "stock": [
+        {
+          "tamanho": "M",
+          "quantidade": 5
+        }
+      ]
+    },
+    {
+      "codEquipamento": "EQ020",
+      "tipo": "Estabilizador",
+      "custo": 80,
+      "desconto": 10,
+      "stock": [
+        {
+          "tamanho": "XL",
+          "quantidade": 15
+        }
+      ]
+    }
+  ]  

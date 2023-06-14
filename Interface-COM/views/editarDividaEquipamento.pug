@@ -1,0 +1,36 @@
+extends layout
+
+block content
+    .w3-container.w3-black(style="height:100vh;display:flex;justify-content:center")
+        .w3-container.w3-black(style="width:70%")
+            form.w3-container(method="POST" action="/equipamento/dividaEquipamento/editar")
+                fieldset
+                    legend Dívida Equipamento
+                    label Utilizador
+                    input.w3-input.w3-round(type="text" name="userID" value=dividaEquipamento.userID readonly)
+                    label Código do Equipamento
+                    input.w3-input.w3-round(type="text" name="codEquipamento" value=dividaEquipamento.codEquipamento readonly)
+                    input(type="hidden" name="_id" value=dividaEquipamento._id)
+                fieldset
+                    legend Estado
+                    select.w3-select(name="estado")
+                        if dividaEquipamento.estado == "pendente"
+                            option(value="pendente" selected) Pendente 
+                        else
+                            option(value="pendente") Pendente
+                        if dividaEquipamento.estado == "aprovado"
+                            option(value="aprovado" selected) Aprovado 
+                        else
+                            option(value="aprovado") Aprovado 
+                        if dividaEquipamento.estado == "rejeitado"
+                            option(value="rejeitado" selected) Rejeitado 
+                        else
+                            option(value="rejeitado") Rejeitado
+
+                br
+
+                .w3-row(style="width:100%") 
+                    .w3-half.w3-container
+                        a(href="/equipamento/diretoria" style="text-decoration:none;width:100%").w3-btn.w3-white.w3-margin-right Cancelar
+                    .w3-half.w3-container
+                        button.w3-btn.w3.w3-deep-orange.w3-margin-right(style="width:100%" type="submit") Atualizar Estado

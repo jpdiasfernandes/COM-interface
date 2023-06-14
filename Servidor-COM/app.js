@@ -14,9 +14,10 @@ db.once('open',function(){
 })
 
 var equipamentoRouter = require('./routes/equipamento');
+var dividasEquipamentoRouter = require('./routes/dividasEquipamento');
 var eventoRouter = require('./routes/evento');
 var contabilidadeRouter = require('./routes/contabilidade');
-
+var tamanhoEquipamentoRouter = require('./routes/tamanhoEquipamento');
 
 var app = express();
 
@@ -27,6 +28,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/equipamento', equipamentoRouter);
+app.use('/dividasEquipamento', dividasEquipamentoRouter);
+app.use('/tamanhoEquipamento', tamanhoEquipamentoRouter);
 app.use('/evento', eventoRouter);
 app.use('/contabilidade',contabilidadeRouter)
 
