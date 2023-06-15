@@ -1,11 +1,24 @@
+/*
+  Módulo equipamentos.js
+  
+  descrição: rotas associadas aos equipamentos e dívidas sobre equipamentos,
+  tanto na vista de um sócio tanto na vista de um diretor. No caso de ser um diretor,
+  este terá acesso a operações de edição, remoção e adição de equipamentos, assim como
+  a visualização e edição do estado das dívidas dos utilizadores sobre os equipamentos 
+  (requisições realizadas). No caso de ser um sócio, este terá acesso aos equipamentos
+  disponibilizados, assim como a opção de poder requisitá-los.
+*/
+
 var express = require('express');
 var router = express.Router();
 var axios = require('axios')
+var auth = require('../helpers/auth')
 
 /*
-  descrição: TODO
+  descrição: renderiza a página de equipamentos na vista do sócio.
+  Esta vista apresenta os equipamentos com a opção de requisitá-los.
 */
-router.get('/socio', function(req, res, next) {
+router.get('/socio', auth.verificaAcessoSocio, function(req, res, next) {
   axios.get("http://localhost:7779/equipamento")
     .then(function(resp){
         var equipamentos = resp.data
@@ -22,7 +35,7 @@ router.get('/socio', function(req, res, next) {
   removê-los, assim como a visualização das dívidas de equipamentos dos utilizadores
   que fizeram uma requisição. O diretor ainda pode atualizar o estado detsas requisições.
 */
-router.get('/diretoria', function(req, res, next) {
+router.get('/diretoria', auth.verificaAcessoDiretor, function(req, res, next) {
   axios.get("http://localhost:7779/equipamento")
     .then(function(resp){
         var equipamentos = resp.data
@@ -44,7 +57,7 @@ router.get('/diretoria', function(req, res, next) {
 /*
   descrição: remove o equipamento com id <idEquipamento>
 */
-router.get('/remover/:idEquipamento', function(req, res, next) {
+router.get('/remover/:idEquipamento', auth.verificaAcessoDiretor, function(req, res, next) {
   console.log("cheguei")
   axios.delete("http://localhost:7779/equipamento/"+req.params.idEquipamento)
     .then(function(resp){
@@ -60,7 +73,7 @@ router.get('/remover/:idEquipamento', function(req, res, next) {
   Após modificar selecionar o tamanho que pretende, o utilizador pode enfim
   requisitar o equipamento ou cancelar a operação
 */
-router.get('/requisitar/:idEquipamento', function(req, res, next) {
+router.get('/requisitar/:idEquipamento', auth.verificaAcessoSocio,function(req, res, next) {
   axios.get("http://localhost:7779/equipamento/" + req.params.idEquipamento)
     .then(function(resp){
         var equipamento = resp.data
@@ -76,7 +89,7 @@ router.get('/requisitar/:idEquipamento', function(req, res, next) {
   Após modificar os campos que pretende, o diretor pode cancelar a edição
   e voltar a página principal ou atualizar os tais valores que modificou do equipamento.
 */
-router.get('/editar/:idEquipamento', function(req, res, next) {
+router.get('/editar/:idEquipamento', auth.verificaAcessoDiretor,function(req, res, next) {
   axios.get("http://localhost:7779/equipamento/" + req.params.idEquipamento)
     .then(function(resp){
         var equipamento = resp.data
@@ -97,7 +110,7 @@ router.get('/editar/:idEquipamento', function(req, res, next) {
 /*
   descrição: renderiza a página de adição de um equipamento.
 */
-router.get('/adicionar', function(req, res, next) {
+router.get('/adicionar', auth.verificaAcessoDiretor,function(req, res, next) {
   axios.get("http://localhost:7779/tamanhoEquipamento/")
     .then(function(resp){
         var tamanhosEquipamentos = resp.data
@@ -114,7 +127,7 @@ router.get('/adicionar', function(req, res, next) {
   O equipamento é enviado através do req.body (juntamente
   com o seu ID)
 */
-router.post('/editar', function(req, res, next) {
+router.post('/editar', auth.verificaAcessoDiretor,function(req, res, next) {
   
   equipamento = {}
   equipamento["codEquipamento"] = req.body.codEquipamento
@@ -143,7 +156,7 @@ router.post('/editar', function(req, res, next) {
   descrição: adiciona um novo equipamento
   O equipamento é enviado através do req.body 
 */
-router.post('/adicionar', function(req, res, next) {
+router.post('/adicionar', auth.verificaAcessoDiretor,function(req, res, next) {
   console.log(req.body)
   equipamento = {}
   equipamento["codEquipamento"] = req.body.codEquipamento
@@ -171,10 +184,10 @@ router.post('/adicionar', function(req, res, next) {
   descrição: requisita um equipamento X de tamanho Y
   Os dados são enviados através do body
 */
-router.post('/requisitar', function(req, res, next) {
+router.post('/requisitar', auth.verificaAcessoSocio,function(req, res, next) {
   console.log(req.body)
   /*
-  axios.post("http://localhost:7779/dividaEquipamentp",req.body)
+  axios.post("http://localhost:7779/dividaEquipamento",req.body)
     .then(function(resp){
       res.render('feedbackServidor', {texto:"Equipamento requisitado adicionado com sucesso"})
     })
@@ -189,7 +202,7 @@ router.post('/requisitar', function(req, res, next) {
   Após modificar o estado da divida, o diretor pode cancelar a edição
   e voltar a página principal ou atualizao tal estado que modificou da divida.
 */
-router.get('/dividaEquipamento/editar/:idDividaEquipamento', function(req, res, next) {
+router.get('/dividaEquipamento/editar/:idDividaEquipamento', auth.verificaAcessoDiretor,function(req, res, next) {
   axios.get("http://localhost:7779/dividasEquipamento/" + req.params.idDividaEquipamento)
     .then(function(resp){
         var dividaEquipamento = resp.data
@@ -205,7 +218,7 @@ router.get('/dividaEquipamento/editar/:idDividaEquipamento', function(req, res, 
   A dívida do equipamento é enviada através do req.body (juntamente
   com o seu ID)
 */
-router.post('/dividaEquipamento/editar', function(req, res, next) {
+router.post('/dividaEquipamento/editar', auth.verificaAcessoDiretor,function(req, res, next) {
   axios.put("http://localhost:7779/dividasEquipamento/"+req.body._id,req.body)
     .then(function(resp){
       res.render('feedbackServidor', {texto:"Estado da dívida do equipamento alterada com sucesso"})
@@ -215,6 +228,5 @@ router.post('/dividaEquipamento/editar', function(req, res, next) {
     })
 
 })
-
 
 module.exports = router;

@@ -3,15 +3,17 @@ extends layout
 block content
     .w3-container.w3-black(style="height:100vh;display:flex;justify-content:center")
         .w3-container.w3-black(style="width:70%")
-            form.w3-container(method="POST" action="/registo")
+            form.w3-container(method="POST" action="/autenticacao/registo")
                 fieldset
                     legend Registo
                     label Nº Sócio
                     input.w3-input.w3-round(type="text" name="nSocio")
-                    label Nome
+                    label Nome Completo
                     input.w3-input.w3-round(type="text" name="nome")
-                    label Senha
-                    input.w3-input.w3-round(type="text" name="senha")
+                    label Username
+                    input.w3-input.w3-round(type="text" name="username")
+                    label Password
+                    input.w3-input.w3-round(type="text" name="password")
                     label Data de Nascimento
                     input.w3-input.w3-round(type="date" name="dataNacimento")
                     label Idade
@@ -23,16 +25,22 @@ block content
                         option(value="F") F 
                         option(value="Outro") Outro
                     br
+
+                    label Nível
+                    select(name="nivel")
+                        option(value="socio") socio 
+                        option(value="diretor") diretor
+                    br
                     label CC
                     input.w3-input.w3-round(type="text" name="cc")
                     label E-mail
                     input.w3-input.w3-round(type="email" name="email")
                     label Telefone Fixo
-                    input.w3-input.w3-round(type="text" name="telefone")
+                    input.w3-input.w3-round(type="text" name="telFixo")
                     label Nº FPO
                     input.w3-input.w3-round(type="text" name="nFPO")
                     label Telemóvel
-                    input.w3-input.w3-round(type="text" name="telemovel")
+                    input.w3-input.w3-round(type="text" name="telMovel")
                     label Morada
                     input.w3-input.w3-round(type="text" name="morada")
                 br 
