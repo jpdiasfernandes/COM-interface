@@ -6,13 +6,13 @@ var passport = require('passport')
 var jwt = require('jsonwebtoken')
 
 router.get('/', function(req, res) {
-    User.list()
-    .then(users => {
-      res.jsonp(users)
-    })
-    .catch(err => {
-      res.jsonp({error: err, message: "Erro na obtenção da lista de utilizadores"})
-    })
+  User.list()
+  .then(users => {
+    res.jsonp(users)
+  })
+  .catch(err => {
+    res.jsonp({error: err, message: "Erro na obtenção da lista de utilizadores"})
+  })
 });
 
 router.get('/:id', function(req, res) {
@@ -25,11 +25,18 @@ router.get('/:id', function(req, res) {
     })
 });
 
+/*
+  descrição: realiza o registo de um utilizador. Os dados do utilizador
+  são recebidos através do req.body. O campo req.body.password é utilizado
+  como senha da conta do utilizador. É utilizado o método register do modelo
+  user do mongoose para salvar o utilizador. Este método, do plugin passportLocalMongoose,
+  recebe um model de utilizador e salva automaticamente a senha hasheada para questões 
+  de segurança.
+  Erros no registo, por haver já um utilizador com <username>, são enviados com
+  status code 520.
+*/
 router.post('/registo', function(req, res) {
   var data = new Date().toISOString().substring(0,16)
-  console.log(req.body)
-  res.status(200)
-  /*
   userModel.register(
     new userModel({ 
       username: req.body.username,
@@ -49,14 +56,20 @@ router.post('/registo', function(req, res) {
     }), 
     req.body.password, 
     function(err, user) {
+      console.log(err)
       if (err) 
-        res.status(520).jsonp({error: err, message: "Register error: " + err})
+        res.status(520).jsonp({error: err, message: "Erro no registo: " + err})
       else
         res.status(201).jsonp('OK')      
     })
-    */
 })  
 
+/*
+  descrição: realiza o login de um utilizador. O login é feito através do username
+  e da password no moddileware passport.authenticate. Caso for bem sucedido (username
+  e password correctas) então é executado o jwt.sign, caso contrário é enviado um erro
+  com status code 401. O username e a password são enviadas recebidas do req.body.
+*/
 router.post('/login', passport.authenticate('local'), function(req, res){
   jwt.sign({ 
     username: req.user.username,
@@ -65,9 +78,12 @@ router.post('/login', passport.authenticate('local'), function(req, res){
     "com",
     {expiresIn: 3600},
     function(e, token) {
-      if(e) res.status(500).jsonp({error: "Erro na geração do token: " + e}) 
-      else res.status(201).jsonp({token: token})
-    });
+      if(e){ 
+        res.status(500).jsonp({error: "Erro na geração do token: " + e}) 
+      }else{
+        res.status(201).jsonp({token: token})
+      }
+    })
 })
 
 router.put('/:id', function(req, res){

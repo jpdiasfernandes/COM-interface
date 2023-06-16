@@ -21,13 +21,21 @@ router.get('/login', function(req, res, next) {
     res.render('login')
 })
 
+/*
+  descrição: realiza o login de um utilizador. O username
+  e a password são enviadas através do req.body
+*/
 router.post('/login', function(req, res, next) {
-  axios.post('/autenticacao/login')
-    .then(token =>{
-      res.cookie('token',token).status(200).render('homepage')
+  axios.post('http://localhost:7780/user/login',req.body)
+    .then(resp =>{
+      res.cookie('token',resp.data.token).status(200).render('home')
     })
     .catch(erro =>{
-      res.render('error', {error: erro, message: "Erro!"})
+      if (erro.response.status == 401){
+        res.status(401).render('feedbackServidor',{texto:"Credenciais inválidas",voltarUrl:"/autenticacao/login"})
+      }else{
+        res.render('error', {error: erro, message: erro})
+      }
     })
 })
 
@@ -39,13 +47,22 @@ router.get('/registo', function(req, res, next) {
     res.render('registo')
 })
 
+/*
+  descrição: realiza o registo de um utilizador. Os dados do utilizador
+  são enviados através do req.body
+  TODO: add verificaAcessoDiretor middleware
+*/
 router.post('/registo',function(req, res, next) {
   axios.post('http://localhost:7780/user/registo',req.body)
     .then(resp =>{
-      res.status(200).render('TODO')
+      res.status(200).render('feedbackServidor',{texto:"Utilizador adicionado com sucesso",voltarUrl:"/autenticacao/registo"})
     })
     .catch(erro =>{
-      res.render('error', {error: erro, message: "Erro!"})
+      if (erro.response.status == 520){
+        res.status(520).render('feedbackServidor',{texto:erro.response.data.message,voltarUrl:"/autenticacao/registo"})
+      }else{
+        res.render('error', {error: erro, message: erro})
+      }
     })
 })
 

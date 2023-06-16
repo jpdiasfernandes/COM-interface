@@ -1,3 +1,5 @@
+var jwt = require('jsonwebtoken')
+
 /*
   descrição: verifica se a requisição é proveniente de um utilizador com credencial de "diretor".
   Para este efeito, será utilizado o token proveniente ou da query, ou do body, ou dos cookies da requisição.
@@ -11,7 +13,7 @@ function verificaAcessoDiretor(req, res, next){
             res.status(401).jsonp({error: e})
         }
         else{
-            if (payload.level == "Diretor"){
+            if (payload.nivel == "diretor"){
                 next()
             }else{
                 res.status(401).jsonp({error: "Apenas utilizadores com credencial de diretor podem acessar esta página"})
@@ -37,7 +39,7 @@ function verificaAcessoSocio(req, res, next){
             res.status(401).jsonp({error: e})
         }
         else{
-            if (payload.level == "Socio"){
+            if (payload.nivel == "socio"){
                 next()
             }else{
                 res.status(401).jsonp({error: "Apenas utilizadores com credencial de socio podem acessar esta página"})

@@ -1,13 +1,32 @@
 var createError = require('http-errors');
 var express = require('express');
+var session = require('express-session')
 var cookieParser = require('cookie-parser');
+const { v4: uuidv4 } = require('uuid')
 var logger = require('morgan');
 var passport = require('passport')
 var LocalStrategy = require('passport-local').Strategy
 var User = require('./models/user')
+var mongoose = require('mongoose')
+
+var mongoDB = 'mongodb://127.0.0.1/COM'
+mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true})
+var db = mongoose.connection
+db.on('error', console.error.bind(console,'MongoDB connection error...'))
+db.once('open',function(){
+  console.log("Conexão ao MongoDB realizada com sucesso...")
+})
 
 var usersRouter = require('./routes/user');
 var app = express();
+
+app.use(session({
+  genid: req => {
+    return uuidv4()},
+  secret: 'com',
+  resave: false,
+  saveUninitialized: true
+}))
 
 // Configuração do passport
 passport.use(new LocalStrategy(User.authenticate()))
@@ -37,7 +56,8 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.json('error');
+  console.log(err)
+  res.json({error:err});
 });
 
 module.exports = app;

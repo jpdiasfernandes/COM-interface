@@ -61,7 +61,7 @@ router.get('/remover/:idEquipamento', auth.verificaAcessoDiretor, function(req, 
   console.log("cheguei")
   axios.delete("http://localhost:7779/equipamento/"+req.params.idEquipamento)
     .then(function(resp){
-        res.render('feedbackServidor', {texto:"Equipamento removido com sucesso"})
+        res.render('feedbackServidor', {texto:"Equipamento removido com sucesso",voltarUrl:"/equipamento/diretoria"})
     })
     .catch( erro => {
       res.render('error', {error: erro, message: "Erro!"})
@@ -145,7 +145,7 @@ router.post('/editar', auth.verificaAcessoDiretor,function(req, res, next) {
 
   axios.put("http://localhost:7779/equipamento/"+equipamento._id,equipamento)
     .then(function(resp){
-      res.render('feedbackServidor', {texto:"Equipamento alterado com sucesso"})
+      res.render('feedbackServidor', {texto:"Equipamento alterado com sucesso",voltarUrl:"/equipamento/diretoria"})
     })
     .catch( erro => {
       res.render('error', {error: erro, message: "Erro!"})
@@ -173,7 +173,7 @@ router.post('/adicionar', auth.verificaAcessoDiretor,function(req, res, next) {
 
   axios.post("http://localhost:7779/equipamento",equipamento)
     .then(function(resp){
-      res.render('feedbackServidor', {texto:"Equipamento adicionado com sucesso"})
+      res.render('feedbackServidor', {texto:"Equipamento adicionado com sucesso",voltarUrl:"/equipamento/diretoria"})
     })
     .catch( erro => {
       res.render('error', {error: erro, message: "Erro!"})
@@ -189,7 +189,7 @@ router.post('/requisitar', auth.verificaAcessoSocio,function(req, res, next) {
   /*
   axios.post("http://localhost:7779/dividaEquipamento",req.body)
     .then(function(resp){
-      res.render('feedbackServidor', {texto:"Equipamento requisitado adicionado com sucesso"})
+      res.render('feedbackServidor', {texto:"Equipamento requisitado adicionado com sucesso",voltarUrl:"/equipamento/diretoria"})
     })
     .catch( erro => {
       res.render('error', {error: erro, message: "Erro!"})
@@ -221,7 +221,7 @@ router.get('/dividaEquipamento/editar/:idDividaEquipamento', auth.verificaAcesso
 router.post('/dividaEquipamento/editar', auth.verificaAcessoDiretor,function(req, res, next) {
   axios.put("http://localhost:7779/dividasEquipamento/"+req.body._id,req.body)
     .then(function(resp){
-      res.render('feedbackServidor', {texto:"Estado da dívida do equipamento alterada com sucesso"})
+      res.render('feedbackServidor', {texto:"Estado da dívida do equipamento alterada com sucesso",voltarUrl:"/equipamento/diretoria"})
     })
     .catch( erro => {
       res.render('error', {error: erro, message: "Erro!"})

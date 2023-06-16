@@ -3,12 +3,12 @@ extends layout
 block content
     .w3-container.w3-black(style="height:100vh;display:flex;justify-content:center")
         .w3-container.w3-black(style="width:70%")
-            form.w3-container(method="POST" action="/login")
+            form.w3-container(method="POST" action="/autenticacao/login")
                 fieldset
                     legend Login
-                    label E-mail
-                    input.w3-input.w3-round(type="email" name="nome")
+                    label Username
+                    input.w3-input.w3-round(type="text" name="username")
                     label Senha
-                    input.w3-input.w3-round(type="text" name="senha")
+                    input.w3-input.w3-round(type="password" name="password")
                 br 
                 button.w3-btn.w3.w3-deep-orange.w3-margin-right(style="width:100%" type="submit") Login
