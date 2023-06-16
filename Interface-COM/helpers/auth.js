@@ -52,7 +52,62 @@ function verificaAcessoSocio(req, res, next){
     }
 }
 
+/*
+  descrição: verifica se a requisição é proveniente de um utilizador com credencial de "sócio" ou "diretor"
+*/
+function verificaAcessoSocioOuDiretor(req, res, next){
+    var token = req.query.token || req.body.token || req.cookies.token 
+    if(token){
+        jwt.verify(token, "com", function(e, payload){
+        if(e){
+            res.status(401).jsonp({error: e})
+        }
+        else{
+            if (payload.nivel == "socio" || payload.nivel == "diretor"){
+                next()
+            }else{
+                res.status(401).jsonp({error: "Apenas utilizadores com credencial de socio ou diretor podem aceder a esta página"})
+            }
+        }
+        })
+    }
+    else{
+        res.status(401).jsonp({error: "Token inexistente!"})
+    }
+}
+
+/*
+  descrição: retorna o nível de acesso do utilizador dado o seu token
+*/
+function getNivelDeAcesso(token){
+    return jwt.verify(token, "com", function(e, payload){
+        if(e){
+            return null
+        }
+        else{
+            return payload.nivel
+        }
+    })
+}
+
+/*
+  descrição: retorna o ID do utilizador dado o seu token
+*/
+function getID(token){
+    return jwt.verify(token, "com", function(e, payload){
+        if(e){
+            return null
+        }
+        else{
+            return payload.id
+        }
+    })
+}
+
 module.exports = {
     verificaAcessoDiretor,
-    verificaAcessoSocio
+    verificaAcessoSocio,
+    verificaAcessoSocioOuDiretor,
+    getNivelDeAcesso,
+    getID
 }

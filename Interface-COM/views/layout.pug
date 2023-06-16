@@ -7,6 +7,15 @@ html
     link(rel='stylesheet', href='/stylesheets/w3.css')
   body
     .w3-bar.w3-deep-orange
-      a(href="#").w3-bar-item.w3-button Página Principal
-      a(href="/equipamento/socio").w3-bar-item.w3-button Equipamentos
+      a(href="/home").w3-bar-item.w3-button Página Principal
+      if nivelAcesso == "diretor"
+        a(href="/equipamento/diretoria").w3-bar-item.w3-button Equipamentos
+      else 
+        a(href="/equipamento/socio").w3-bar-item.w3-button Equipamentos
+      a(href="/equipamento/evento").w3-bar-item.w3-button Eventos 
+      if nivelAcesso == "diretor"
+        a(href="/socios/").w3-bar-item.w3-button Sócios
+      if nivelAcesso == "socio"
+        a(href="/perfil/").w3-bar-item.w3-button Meu Perfil
+      a(href="/autenticacao/logout").w3-bar-item.w3-button Logout
     block content

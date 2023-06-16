@@ -5,6 +5,9 @@ var userModel = require('../models/user')
 var passport = require('passport')
 var jwt = require('jsonwebtoken')
 
+/*
+  descrição: lista os utilizadores da aplicação (tanto sócios como diretores)
+*/
 router.get('/', function(req, res) {
   User.list()
   .then(users => {
@@ -71,8 +74,10 @@ router.post('/registo', function(req, res) {
   com status code 401. O username e a password são enviadas recebidas do req.body.
 */
 router.post('/login', passport.authenticate('local'), function(req, res){
+  console.log(req.user._id)
   jwt.sign({ 
     username: req.user.username,
+    id: req.user._id,
     nivel: req.user.nivel,  
     sub: 'com'}, 
     "com",

@@ -22,7 +22,8 @@ router.get('/socio', auth.verificaAcessoSocio, function(req, res, next) {
   axios.get("http://localhost:7779/equipamento")
     .then(function(resp){
         var equipamentos = resp.data
-        res.render('equipamentosSocio', {equipamentos:equipamentos})
+        nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
+        res.render('equipamentosSocio', {equipamentos:equipamentos, nivelAcesso:nivelAcesso})
     })
     .catch( erro => {
       res.render('error', {error: erro, message: "Erro!"})
@@ -42,8 +43,8 @@ router.get('/diretoria', auth.verificaAcessoDiretor, function(req, res, next) {
         axios.get("http://localhost:7779/dividasEquipamento")
           .then(function(resp){
               var dividasEquipamento = resp.data
-              console.log(dividasEquipamento)
-              res.render('equipamentosDiretoria', {dividasEquipamento:dividasEquipamento,equipamentos:equipamentos})
+              nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
+              res.render('equipamentosDiretoria', {dividasEquipamento:dividasEquipamento,equipamentos:equipamentos,nivelAcesso:nivelAcesso})
           })
           .catch( erro => {
             res.render('error', {error: erro, message: "Erro!"})
@@ -61,7 +62,8 @@ router.get('/remover/:idEquipamento', auth.verificaAcessoDiretor, function(req, 
   console.log("cheguei")
   axios.delete("http://localhost:7779/equipamento/"+req.params.idEquipamento)
     .then(function(resp){
-        res.render('feedbackServidor', {texto:"Equipamento removido com sucesso",voltarUrl:"/equipamento/diretoria"})
+        nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
+        res.render('feedbackServidor', {texto:"Equipamento removido com sucesso",voltarUrl:"/equipamento/diretoria",nivelAcesso:nivelAcesso})
     })
     .catch( erro => {
       res.render('error', {error: erro, message: "Erro!"})
@@ -77,7 +79,8 @@ router.get('/requisitar/:idEquipamento', auth.verificaAcessoSocio,function(req, 
   axios.get("http://localhost:7779/equipamento/" + req.params.idEquipamento)
     .then(function(resp){
         var equipamento = resp.data
-        res.render('requisitarEquipamento', {equipamento:equipamento})
+        nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
+        res.render('requisitarEquipamento', {equipamento:equipamento,nivelAcesso:nivelAcesso})
     })
     .catch( erro => {
       res.render('error', {error: erro, message: "Erro!"})
@@ -96,7 +99,8 @@ router.get('/editar/:idEquipamento', auth.verificaAcessoDiretor,function(req, re
         axios.get("http://localhost:7779/tamanhoEquipamento/")
         .then(function(resp){
             var tamanhosEquipamentos = resp.data
-            res.render('editarEquipamento', {equipamento:equipamento,tamanhosEquipamentos:tamanhosEquipamentos})
+            nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
+            res.render('editarEquipamento', {equipamento:equipamento,tamanhosEquipamentos:tamanhosEquipamentos,nivelAcesso})
         })
         .catch( erro => {
           res.render('error', {error: erro, message: "Erro!"})
@@ -114,7 +118,8 @@ router.get('/adicionar', auth.verificaAcessoDiretor,function(req, res, next) {
   axios.get("http://localhost:7779/tamanhoEquipamento/")
     .then(function(resp){
         var tamanhosEquipamentos = resp.data
-        res.render('adicionarEquipamento', {tamanhosEquipamentos:tamanhosEquipamentos})
+        nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
+        res.render('adicionarEquipamento', {tamanhosEquipamentos:tamanhosEquipamentos,nivelAcesso:nivelAcesso})
     })
     .catch( erro => {
       res.render('error', {error: erro, message: "Erro!"})
@@ -145,7 +150,8 @@ router.post('/editar', auth.verificaAcessoDiretor,function(req, res, next) {
 
   axios.put("http://localhost:7779/equipamento/"+equipamento._id,equipamento)
     .then(function(resp){
-      res.render('feedbackServidor', {texto:"Equipamento alterado com sucesso",voltarUrl:"/equipamento/diretoria"})
+      nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
+      res.render('feedbackServidor', {texto:"Equipamento alterado com sucesso",voltarUrl:"/equipamento/diretoria",nivelAcesso:nivelAcesso})
     })
     .catch( erro => {
       res.render('error', {error: erro, message: "Erro!"})
@@ -173,7 +179,8 @@ router.post('/adicionar', auth.verificaAcessoDiretor,function(req, res, next) {
 
   axios.post("http://localhost:7779/equipamento",equipamento)
     .then(function(resp){
-      res.render('feedbackServidor', {texto:"Equipamento adicionado com sucesso",voltarUrl:"/equipamento/diretoria"})
+      nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
+      res.render('feedbackServidor', {texto:"Equipamento adicionado com sucesso",voltarUrl:"/equipamento/diretoria",nivelAcesso})
     })
     .catch( erro => {
       res.render('error', {error: erro, message: "Erro!"})
@@ -206,7 +213,8 @@ router.get('/dividaEquipamento/editar/:idDividaEquipamento', auth.verificaAcesso
   axios.get("http://localhost:7779/dividasEquipamento/" + req.params.idDividaEquipamento)
     .then(function(resp){
         var dividaEquipamento = resp.data
-        res.render('editarDividaEquipamento', {dividaEquipamento:dividaEquipamento})
+        nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
+        res.render('editarDividaEquipamento', {dividaEquipamento:dividaEquipamento,nivelAcesso:nivelAcesso})
     })
     .catch( erro => {
       res.render('error', {error: erro, message: "Erro!"})
@@ -221,7 +229,8 @@ router.get('/dividaEquipamento/editar/:idDividaEquipamento', auth.verificaAcesso
 router.post('/dividaEquipamento/editar', auth.verificaAcessoDiretor,function(req, res, next) {
   axios.put("http://localhost:7779/dividasEquipamento/"+req.body._id,req.body)
     .then(function(resp){
-      res.render('feedbackServidor', {texto:"Estado da dívida do equipamento alterada com sucesso",voltarUrl:"/equipamento/diretoria"})
+      nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
+      res.render('feedbackServidor', {texto:"Estado da dívida do equipamento alterada com sucesso",voltarUrl:"/equipamento/diretoria",nivelAcesso:nivelAcesso})
     })
     .catch( erro => {
       res.render('error', {error: erro, message: "Erro!"})

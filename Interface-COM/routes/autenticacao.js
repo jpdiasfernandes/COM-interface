@@ -1,16 +1,16 @@
 /*
   Módulo autenticação.js
   
-  descrição: rotas associadas ao processo de login e registo dos utilizador.
-  No caso do registo, apenas utilizadores com acesso de "diretor" podem realizar
-  tal operação. O processo de "login" pode ser realizado por qualquer utilizador e,
-  ao ser invocado o servidor de autenticação, o "token" enviado pelo servidor de autenticação
-  será colocado na resposta (res) ao utilizador. Deste modo, as futuras requisições deste utilizador
-  logado terão no cookie o token. 
+  descrição: rotas associadas ao processo de login/logout do utilizador.
+  O processo de "login" pode ser realizado por qualquer utilizador e,
+  ao ser invocado o servidor de autenticação, o "token" enviado pelo 
+  servidor de autenticação será colocado na resposta (res) ao utilizador. 
+  Deste modo, as futuras requisições deste utilizador logado terão no 
+  cookie o token. 
 */
 
-var express = require('express');
-var router = express.Router();
+var express = require('express')
+var router = express.Router()
 var axios = require('axios')
 var auth = require('../helpers/auth')
 
@@ -28,7 +28,7 @@ router.get('/login', function(req, res, next) {
 router.post('/login', function(req, res, next) {
   axios.post('http://localhost:7780/user/login',req.body)
     .then(resp =>{
-      res.cookie('token',resp.data.token).status(200).render('home')
+      res.cookie('token',resp.data.token).redirect('/home')
     })
     .catch(erro =>{
       if (erro.response.status == 401){
@@ -40,29 +40,18 @@ router.post('/login', function(req, res, next) {
 })
 
 /*
-  descrição: renderiza a página de registo de utilizador
-  TODO: add verificaAcessoDiretor middleware
+  descrição: realiza o logout de um utilizador. O logout corresponde
+  a desativação do status do utilizador no authserver e na limpagem
+  do cookie <token>
 */
-router.get('/registo', function(req, res, next) {
-    res.render('registo')
-})
-
-/*
-  descrição: realiza o registo de um utilizador. Os dados do utilizador
-  são enviados através do req.body
-  TODO: add verificaAcessoDiretor middleware
-*/
-router.post('/registo',function(req, res, next) {
-  axios.post('http://localhost:7780/user/registo',req.body)
+router.get('/logout', function(req, res, next) {
+  userID = auth.getID(req.cookies.token)
+  axios.put('http://localhost:7780/user/'+userID+'/desativar')
     .then(resp =>{
-      res.status(200).render('feedbackServidor',{texto:"Utilizador adicionado com sucesso",voltarUrl:"/autenticacao/registo"})
+      res.cookie('token','').redirect('/autenticacao/login')
     })
     .catch(erro =>{
-      if (erro.response.status == 520){
-        res.status(520).render('feedbackServidor',{texto:erro.response.data.message,voltarUrl:"/autenticacao/registo"})
-      }else{
         res.render('error', {error: erro, message: erro})
-      }
     })
 })
 
