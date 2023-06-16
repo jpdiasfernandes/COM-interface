@@ -6,16 +6,21 @@ html
     link(rel='icon' href='/images/favicon.png')
     link(rel='stylesheet', href='/stylesheets/w3.css')
   body
-    .w3-bar.w3-deep-orange
-      a(href="/home").w3-bar-item.w3-button Página Principal
+    .w3-sidebar.w3-bar-block(style="width:15%;background-color:#1e2124")
+      button.w3-bar-item.w3-button.w3-large(style="color:white") COM
+      if nivelAcesso == "diretor" || nivelAcesso == "socio"
+        a(href="/home").w3-bar-item.w3-button(style="color:white") Página Principal
       if nivelAcesso == "diretor"
-        a(href="/equipamento/diretoria").w3-bar-item.w3-button Equipamentos
-      else 
-        a(href="/equipamento/socio").w3-bar-item.w3-button Equipamentos
-      a(href="/equipamento/evento").w3-bar-item.w3-button Eventos 
-      if nivelAcesso == "diretor"
-        a(href="/socios/").w3-bar-item.w3-button Sócios
+        a(href="/equipamento/diretoria").w3-bar-item.w3-button(style="color:white") Equipamentos
       if nivelAcesso == "socio"
-        a(href="/perfil/").w3-bar-item.w3-button Meu Perfil
-      a(href="/autenticacao/logout").w3-bar-item.w3-button Logout
-    block content
+        a(href="/equipamento/socio").w3-bar-item.w3-button(style="color:white") Equipamentos
+      if nivelAcesso == "diretor" || nivelAcesso == "socio"
+        a(href="/equipamento/evento").w3-bar-item.w3-button(style="color:white") Eventos 
+      if nivelAcesso == "diretor"
+        a(href="/utilizador").w3-bar-item.w3-button(style="color:white") Utilizadores
+      if nivelAcesso == "socio"
+        a(href="/perfil/").w3-bar-item.w3-button(style="color:white") Meu Perfil
+      if nivelAcesso == "diretor" || nivelAcesso == "socio"
+        a(href="/autenticacao/logout").w3-bar-item.w3-button(style="color:white") Logout
+    .w3-black(style="margin-left:15%")
+      block content

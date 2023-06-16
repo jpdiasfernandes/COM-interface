@@ -1,11 +1,11 @@
 extends layout
 
 block content
-    .w3-container.w3-black
+    .w3-container(style="background-color:#36393e")
         .w3-row 
             .w3-half.w3-container
-                h1 Adicionar Sócio
-                form.w3-container(method="POST" action="/socios/adicionar")
+                h1 Adicionar Utilizador
+                form.w3-container(method="POST" action="/utilizador/adicionar")
                     fieldset
                         legend Registo
                         label Nº Sócio
@@ -48,7 +48,7 @@ block content
                     br 
                     button.w3-btn.w3.w3-deep-orange.w3-margin-right(style="width:100%" type="submit") Criar Conta
             .w3-half.w3-container
-                h1 Sócios
+                h1 Utilizadores
                 table.w3-table.w3-dark-gray
                     tr.w3-black 
                         th Username 
@@ -56,11 +56,11 @@ block content
                         th Telemóvel
                         th 
                     
-                    each socio in socios
+                    each utilizador in utilizadores
                         tr.w3-hover-deep-orange
-                            td= socio.username
-                            td= socio.email
-                            td= socio.telMovel
+                            td= utilizador.username
+                            td= utilizador.email
+                            td= utilizador.telMovel
                             td 
                                 button.w3-btn.w3-blue.w3-margin-right  
-                                    a(href="socio/editar/"+socio._id style="text-decoration:none") Trocar credencial
+                                    a(href="/utilizador/editar/"+utilizador._id style="text-decoration:none") Editar

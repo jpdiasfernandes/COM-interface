@@ -18,6 +18,9 @@ router.get('/', function(req, res) {
   })
 });
 
+/*
+  descrição: retorna o utilizador com id = <id>
+*/
 router.get('/:id', function(req, res) {
   User.getUser(req.params.id)
     .then(u => {
@@ -91,6 +94,9 @@ router.post('/login', passport.authenticate('local'), function(req, res){
     })
 })
 
+/*
+  descrição: atualiza o utilizador com id = <id>
+*/
 router.put('/:id', function(req, res){
   User.updateUser(req.params.id, req.body)
   .then(u => {

@@ -1,7 +1,7 @@
 extends layout
 
 block content
-    .w3-container.w3-black
+    .w3-container(style="background-color:#36393e")
         table.w3-table.w3-dark-gray
             tr.w3-black 
                 th Código 
@@ -19,13 +19,11 @@ block content
                         table.w3-table.w3-white
                             tr.w3-black 
                                 th Tamanho
-                                th Quantidade
                             
                             tr.w3-hover-deep-orange
                                 for stock in equipamento.stock
                                     tr 
                                         td #{stock.tamanho}
-                                        td #{stock.quantidade}
                     td 
                         button.w3-btn.w3-blue.w3-margin-right(style="width:100%")  
                             a(href="requisitar/"+equipamento._id style="text-decoration:none") Requisitar

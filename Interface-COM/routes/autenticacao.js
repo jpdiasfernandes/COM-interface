@@ -7,6 +7,8 @@
   servidor de autenticação será colocado na resposta (res) ao utilizador. 
   Deste modo, as futuras requisições deste utilizador logado terão no 
   cookie o token. 
+  O processo de logout se baseia na limpagem do cookie "token" assim como
+  a desativação do status do utilizador através do servidor de autenticação.
 */
 
 var express = require('express')
@@ -18,7 +20,7 @@ var auth = require('../helpers/auth')
   descrição: renderiza a página de login do utilizador
 */
 router.get('/login', function(req, res, next) {
-    res.render('login')
+    res.render('login',{nivelAcesso:"none"})
 })
 
 /*
