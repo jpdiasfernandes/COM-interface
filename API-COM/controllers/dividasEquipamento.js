@@ -25,9 +25,9 @@ module.exports.getDividaEquipamento = id => {
         })
 }
 
-module.exports.addDividaEquipamento = dividasEquipamento => {
+module.exports.addDividaEquipamento = dividaEquipamento => {
     return DividasEquipamento
-        .create()
+        .create(dividaEquipamento)
         .then(dados =>{
             return dados
         })

@@ -192,16 +192,21 @@ router.post('/adicionar', auth.verificaAcessoDiretor,function(req, res, next) {
   Os dados são enviados através do body
 */
 router.post('/requisitar', auth.verificaAcessoSocio,function(req, res, next) {
-  console.log(req.body)
-  /*
-  axios.post("http://localhost:7779/dividaEquipamento",req.body)
+  idUtilizador = auth.getID(req.cookies.token)
+  var dividaEquipamento = {
+    codEquipamento:req.body.codEquipamento,
+    userID:idUtilizador,
+    estado:"não entregue",
+    tamanho:req.body.tamanho
+  }
+
+  axios.post("http://localhost:7779/dividasEquipamento",dividaEquipamento)
     .then(function(resp){
-      res.render('feedbackServidor', {texto:"Equipamento requisitado adicionado com sucesso",voltarUrl:"/equipamento/diretoria"})
+      res.render('feedbackServidor', {texto:"Equipamento requisitado adicionado com sucesso",voltarUrl:"/equipamento/socio"})
     })
     .catch( erro => {
       res.render('error', {error: erro, message: "Erro!"})
     })
-    */
 })
 
 /*

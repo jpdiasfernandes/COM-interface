@@ -1,8 +1,10 @@
 extends layout
 
 block content
-    .w3-container(style="height:100vh;display:flex;justify-content:center;background-color:#36393e")
-        .w3-container(style="width:70%")
+    .w3-container(style="height:100vh;background-color:#36393e")
+        .w3-row 
+            h1 Requisitar Equipamento
+        .w3-row
             form.w3-container(method="POST" action="/equipamento/requisitar")
                 fieldset
                     legend Requisitar Equipamento

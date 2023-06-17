@@ -5,22 +5,41 @@ html
     meta(charset='utf-8')
     link(rel='icon' href='/images/favicon.png')
     link(rel='stylesheet', href='/stylesheets/w3.css')
-  body
-    .w3-sidebar.w3-bar-block(style="width:15%;background-color:#1e2124")
+    link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css")
+  body(style="background-color:#36393e")
+    .w3-sidebar.w3-bar-block(style="background-color:#1e2124;display:none" id="mySidebar")
+      button.w3-bar-item.w3-button.w3-large(onclick="w3_close()" style="color:gray") Fechar &times;
       button.w3-bar-item.w3-button.w3-large(style="color:white") COM
       if nivelAcesso == "diretor" || nivelAcesso == "socio"
-        a(href="/home").w3-bar-item.w3-button(style="color:white") Página Principal
+        a(href="/home" style="color:white").w3-bar-item.w3-button Página Principal
       if nivelAcesso == "diretor"
-        a(href="/equipamento/diretoria").w3-bar-item.w3-button(style="color:white") Equipamentos
+        a(href="/equipamento/diretoria" style="color:white").w3-bar-item.w3-button #[i.fas.fa-tshirt] Equipamentos
       if nivelAcesso == "socio"
-        a(href="/equipamento/socio").w3-bar-item.w3-button(style="color:white") Equipamentos
+        a(href="/equipamento/socio" style="color:white").w3-bar-item.w3-button #[i.fas.fa-tshirt] Equipamentos
       if nivelAcesso == "diretor" || nivelAcesso == "socio"
-        a(href="/equipamento/evento").w3-bar-item.w3-button(style="color:white") Eventos 
+        a(href="/equipamento/evento" style="color:white").w3-bar-item.w3-button #[i.fas.fa-calendar] Eventos 
       if nivelAcesso == "diretor"
-        a(href="/utilizador").w3-bar-item.w3-button(style="color:white") Utilizadores
+        a(href="/utilizador" style="color:white").w3-bar-item.w3-button #[i.fas.fa-users] Utilizadores
       if nivelAcesso == "socio"
-        a(href="/perfil/").w3-bar-item.w3-button(style="color:white") Meu Perfil
+        a(href="/utilizador/perfil" style="color:white").w3-bar-item.w3-button #[i.fas.fa-user] Meu Perfil
       if nivelAcesso == "diretor" || nivelAcesso == "socio"
-        a(href="/autenticacao/logout").w3-bar-item.w3-button(style="color:white") Logout
-    .w3-black(style="margin-left:15%")
-      block content
+        a(href="/autenticacao/logout" style="color:white").w3-bar-item.w3-button #[i.fas.fa-sign-out-alt] Logout
+    .main(id="main" style="background-color:#36393e;color:white")
+      .w3-row(style="background-color:#282b30") 
+        .w3-half.w3-container
+          button(id="openNav" onclick="w3_open()" style="background-color:#282b30").w3-button.w3-xlarge &#9776;
+        .w3-half.w3-container
+      .w3-row
+        block content
+    script.
+      function w3_open() {
+        document.getElementById("main").style.marginLeft = "15%";
+        document.getElementById("mySidebar").style.width = "15%";
+        document.getElementById("mySidebar").style.display = "block";
+        document.getElementById("openNav").style.display = 'none';
+      }
+      function w3_close() {
+        document.getElementById("main").style.marginLeft = "0%";
+        document.getElementById("mySidebar").style.display = "none";
+        document.getElementById("openNav").style.display = "inline-block";
+      }

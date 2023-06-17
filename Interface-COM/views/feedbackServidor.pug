@@ -1,8 +1,9 @@
 extends layout
 
 block content
-    .w3-container(style="height:100vh;display:flex;justify-content:center;background-color:#36393e")
-        .w3-container(style="width:70%")
+    .w3-container(style="height:100vh;background-color:#36393e")
+        .w3-row 
             h3 #{texto}
+        .w3-row
             button.w3-btn.w3-white.w3-margin-right(style="width:100%")  
                 a(href=voltarUrl style="text-decoration:none") Voltar

@@ -1,0 +1,40 @@
+extends layout
+
+block content
+    .w3-container(style="background-color:#36393e")
+        .w3-row 
+            h1 Meu Perfil #[a(href="/utilizador/editar/" + utilizador._id) #[i.fas.fa-edit]] 
+        .w3-row 
+            h2 #[i.fas.fa-user] #{utilizador.username}
+        .w3-row
+            .w3-third.w3-container
+                h4 #[i.fas.fa-mobile-alt] #{utilizador.telMovel}
+            .w3-third.w3-container
+                h4 #[i.fas.fa-phone-alt] #{utilizador.telFixo}
+            .w3-third.w3-container
+                h4 #[i.fas.fa-envelope] #{utilizador.email}
+        .w3-row
+            .w3-third.w3-container
+                h4 #[i.fas.fa-id-card] #{utilizador.nSocio}
+            .w3-third.w3-container
+                h4 #[i.fas.fa-id-card-alt] #{utilizador.nFPO}
+            .w3-third.w3-container
+                h4 #[i.fas.fa-passport] #{utilizador.cc}
+        hr
+        .w3-row
+            .w3-third.w3-container
+                h3 TODO
+            .w3-third.w3-container
+                h3 TODO
+            .w3-third.w3-container
+                h3 Equipamentos Requisitados
+                table.w3-table(style="background-color:#424549")
+                    tr.w3-black 
+                        th Código Equipamento
+                        th Tamanho
+                        th Estado
+                    each dividaEquipamento in dividasEquipamentos
+                        tr.w3-hover-deep-orange
+                            td= dividaEquipamento.codEquipamento
+                            td= dividaEquipamento.tamanho 
+                            td= dividaEquipamento.estado

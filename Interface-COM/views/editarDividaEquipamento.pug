@@ -1,8 +1,10 @@
 extends layout
 
 block content
-    .w3-container(style="height:100vh;display:flex;justify-content:center;background-color:#36393e")
-        .w3-container(style="width:70%")
+    .w3-container(style="height:100vh;background-color:#36393e")
+        .w3-row 
+            h1 Editar Dívida de Equipamento
+        .w3-row
             form.w3-container(method="POST" action="/equipamento/dividaEquipamento/editar")
                 fieldset
                     legend Dívida Equipamento
@@ -10,22 +12,24 @@ block content
                     input.w3-input.w3-round(type="text" name="userID" value=dividaEquipamento.userID readonly)
                     label Código do Equipamento
                     input.w3-input.w3-round(type="text" name="codEquipamento" value=dividaEquipamento.codEquipamento readonly)
+                    label Tamanho
+                    input.w3-input.w3-round(type="text" name="tamanho" value=dividaEquipamento.tamanho readonly)
                     input(type="hidden" name="_id" value=dividaEquipamento._id)
                 fieldset
                     legend Estado
                     select.w3-select(name="estado")
-                        if dividaEquipamento.estado == "pendente"
-                            option(value="pendente" selected) Pendente 
+                        if dividaEquipamento.estado == "entregue"
+                            option(value="entregue" selected) Entregue 
                         else
-                            option(value="pendente") Pendente
-                        if dividaEquipamento.estado == "aprovado"
-                            option(value="aprovado" selected) Aprovado 
+                            option(value="entregue") Entregue
+                        if dividaEquipamento.estado == "não entregue"
+                            option(value="não entregue" selected) Não entregue 
                         else
-                            option(value="aprovado") Aprovado 
-                        if dividaEquipamento.estado == "rejeitado"
-                            option(value="rejeitado" selected) Rejeitado 
+                            option(value="não entregue") Não entregue 
+                        if dividaEquipamento.estado == "pago"
+                            option(value="pago" selected) Pago 
                         else
-                            option(value="rejeitado") Rejeitado
+                            option(value="pago") Pago
 
                 br
 

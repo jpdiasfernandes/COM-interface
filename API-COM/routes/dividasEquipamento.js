@@ -5,7 +5,6 @@ var DividasEquipamento = require('../controllers/dividasEquipamento')
 router.get('/', function(req, res, next) {
   DividasEquipamento.getDividasEquipamento()
     .then(dados => {
-      console.log(dados)
       res.status(200).json(dados)
     })
     .catch(erro => {

@@ -11,7 +11,8 @@ var auth = require('../helpers/auth')
 */
 router.get('/', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
     nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
-    res.render('home', {nivelAcesso:nivelAcesso})
+    idUtilizador = auth.getID(req.cookies.token)
+    res.render('home', {nivelAcesso:nivelAcesso,idUtilizador:idUtilizador})
 })
 
 module.exports = router

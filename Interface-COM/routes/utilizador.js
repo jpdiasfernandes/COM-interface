@@ -33,6 +33,36 @@ router.get('/', auth.verificaAcessoDiretor, function(req, res, next) {
 })
 
 /*
+  descrição: renderiza a página do perfil do utilizador. Esta página contém:
+    - informações do utilizador (com opção para edição de qualquer campo com exceçãod o nível da credencial)
+*/
+router.get('/perfil', auth.verificaAcessoSocio, function(req, res, next) {
+  nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
+  idUtilizador = auth.getID(req.cookies.token)
+  axios.get('http://localhost:7780/user/' + idUtilizador)
+  .then(resp =>{
+      utilizador = resp.data
+      axios.get('http://localhost:7779/dividasEquipamento/')
+      .then(resp =>{
+          dividasEquipamentos = resp.data
+          dividasUtilizador = []
+          for (var divida of dividasEquipamentos){
+            if (divida.userID == idUtilizador){
+              dividasUtilizador.push(divida)
+            } 
+          } 
+          res.render('meuPerfil',{utilizador:utilizador,dividasEquipamentos:dividasUtilizador,nivelAcesso:nivelAcesso})
+      })
+      .catch( erro => {
+          res.render('error', {error: erro, message: "Erro!"})
+      })
+  })
+  .catch( erro => {
+      res.render('error', {error: erro, message: "Erro!"})
+  })
+})
+
+/*
   descrição: realiza o registo de um utilizador. Os dados do utilizador
   são enviados através do req.body. Apenas diretores podem criar novos utilizadores.
 */
@@ -56,10 +86,8 @@ router.post('/adicionar', auth.verificaAcessoDiretor, function(req, res, next) {
   descrição: renderiza a página de edição de um utilizador.
   Após modificar os campos que pretende, o diretor pode cancelar a edição
   e voltar a página de utilizadores ou atualizar os tais valores que modificou do utilizador.
-  Apenas diretores podem aceder a esta página (uma vez que é possível alternar a 
-  credencial do utilizador).
 */
-router.get('/editar/:idUtilizador', auth.verificaAcessoDiretor, function(req, res, next) {
+router.get('/editar/:idUtilizador', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
   axios.get("http://localhost:7780/user/" + req.params.idUtilizador)
     .then(function(resp){
         var utilizador = resp.data
@@ -75,11 +103,15 @@ router.get('/editar/:idUtilizador', auth.verificaAcessoDiretor, function(req, re
   descrição: realiza a edição de um utilizador. Os dados do utilizador
   são enviados através do req.body.
 */
-router.post('/editar', auth.verificaAcessoDiretor, function(req, res, next) {
+router.post('/editar', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
   axios.put('http://localhost:7780/user/' + req.body._id,req.body)
     .then(resp =>{
       nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
-      res.status(200).render('feedbackServidor',{texto:"Utilizador alterado com sucesso",voltarUrl:"/utilizador",nivelAcesso:nivelAcesso})
+      if (nivelAcesso == "diretor"){
+        res.status(200).render('feedbackServidor',{texto:"Utilizador alterado com sucesso",voltarUrl:"/utilizador",nivelAcesso:nivelAcesso})
+      }else{
+        res.status(200).render('feedbackServidor',{texto:"Utilizador alterado com sucesso",voltarUrl:"/utilizador/perfil" ,nivelAcesso:nivelAcesso})
+      }
     })
     .catch(erro =>{
       res.render('error', {error: erro, message: erro})
