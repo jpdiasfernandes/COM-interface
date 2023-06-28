@@ -1,6 +1,21 @@
 <svg fill="none" viewBox="0 0 800 10000" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
     <foreignObject width="100%" height="100%">
         <div xmlns="http://www.w3.org/1999/xhtml">
+            <style>
+                .container {
+                display: flex;
+                width: 100%;
+                height: 300px;
+                background-color: black;
+                color: white;
+                }
+                .delete {
+                    background-color:red;
+                    padding:3px;
+                    width:60px;
+                    text-align:center;
+                }
+            </style>
             <h1 style="font-size:60px" align="center"><img height=28cm src="images/logo.png"> COM</h1>
             <h4 align="center">Plataforma de gestão do Clube de Orientação do Minho. A Orientação é um desporto ao ar livre que exercita a mente e o corpo, onde tu defines o teu próprio caminho entre pontos marcados num mapa!</h4>
             <br>
@@ -275,7 +290,7 @@
                         </li>
                         <li>
                             <div style="display:flex;text-align:center">
-                                <h4 style="background-color:red;padding:3px;width:60px;text-align:center"><b>DELETE</b></h4>
+                                <h4 class="delete"><b>DELETE</b></h4>
                                 <div style="margin-left:5px;text-align:center">/equipamento/:idEquipamento</div>
                             </div>
                         </li>
