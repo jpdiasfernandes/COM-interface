@@ -8,8 +8,6 @@
 
 <br>
 
-<foreignObject width="100%" height="100%">
-
 # Sumário
 
 1. [Definição do Domínio](#dominio)
@@ -266,7 +264,7 @@ Para terminar com a necessidade da criação de novas folhas de forma anual o cl
 
 ## Arquitetura
 
-<a id="apo"></a>
+<a id="api"></a>
 
 ## API COM
 
@@ -343,8 +341,168 @@ A API de dados do sistema COM possui as operações CRUD associadas aos  verbos 
 
 ## Auth COM
 
+O processo de autenticação utilizado foi com JWT (<i>JSON Web Tokens</i>), juntamente com a estratégia de autenticação <b>local</b> da biblioteca <i>passport</i> no contexto do <i>plugin</i> passportLocalMongoose. Isto é, o <i>username</i> e <i>password</i> dos utilizadores são utilizados para realização do processo de <i>login</i> e, no caso de haver sucesso na verificação destes dados, é gerado um <i>token</i> JWT que é enviado ao cliente. A partir deste <i>token</i> as rotas da aplicação cliente são protegidas.
+O servidor de autenticação possui as operações relativas ao processo de criação, autenticação e atualização dos dados dos utilizadores. A seguir são listados os seus <i>endpoints</i>:
+
+<ul style="list-style: none;">
+    <li>
+        <h2><b>/user</b></h2>
+        <ul style="list-style: none;">
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+                    <div style="margin-left:5px;text-align:center">/user</div>
+                </div>
+            </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+                    <div style="margin-left:5px;text-align:center">/user/:id</div>
+                </div>
+            </li>
+             <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
+                    <div style="margin-left:5px;text-align:center">/user/registo</div>
+                </div>
+            </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
+                    <div style="margin-left:5px;text-align:center">/user/login</div>
+                </div>
+            </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:orange;padding:3px;width:60px;text-align:center"><b>PUT</b></h4>
+                    <div style="margin-left:5px;text-align:center">/user/:id</div>
+                </div>
+            </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:red;padding:3px;width:60px;text-align:center"><b>DELETE</b></h4>
+                    <div style="margin-left:5px;text-align:center">/user/:id</div>
+                </div>
+            </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:orange;padding:3px;width:60px;text-align:center"><b>PUT</b></h4>
+                    <div style="margin-left:5px;text-align:center">/user/:id/ativar</div>
+                </div>
+            </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:orange;padding:3px;width:60px;text-align:center"><b>PUT</b></h4>
+                    <div style="margin-left:5px;text-align:center">/user/:id/desativar</div>
+                </div>
+            </li>
+        </ul>
+    </li>
+</ul>
+
 <a id="Interface COM"></a>
 
-## Interface
+## Interface COM
 
-</foreignObject>
+A interface gráfica possui funcionalidades e renderização de páginas mediante o nível (sócio ou diretor) do utilizador. A seguir são listadas as rotas e páginas da aplicação segundo as vistas dos utilizadores.
+
+### Sócios
+
+<ul style="list-style: none;">
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+            <div style="margin-left:5px;text-align:center">/equipamento/socio</div>
+            <br>
+        </div>
+        <p><b>Descrição</b>: renderiza a página de equipamentos na vista do sócio. Esta vista apresenta os equipamentos com a opção de requisitá-los.</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+            <div style="margin-left:5px;text-align:center">/equipamento/requisitar/:idEquipamento</div>
+        </div>
+        <p><b>Descrição</b>: renderiza a página de requisição de um equipamento. Após selecionar o tamanho que pretende, o utilizador pode enfim requisitar o equipamento ou cancelar a operação</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
+            <div style="margin-left:5px;text-align:center">/equipamento/requisitar</div>
+        </div>
+        <p><b>Descrição</b>: requisita um equipamento X de tamanho Y. Os dados são enviados através do <i>req.body</i>.</p>
+    </li>
+</ul>
+
+### Diretores
+
+<ul style="list-style: none;">
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+            <div style="margin-left:5px;text-align:center">/equipamento/diretoria</div>
+            <br>
+        </div>
+        <p><b>Descrição</b>: renderiza a página de equipamentos na vista da diretoria.
+  Esta vista apresenta os equipamentos com as opções de editá-los, criá-los e
+  removê-los, assim como a visualização das dívidas de equipamentos dos utilizadores
+  que fizeram uma requisição. O diretor ainda pode atualizar o estado destas requisições.</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+            <div style="margin-left:5px;text-align:center">/equipamento/editar/:idEquipamento</div>
+        </div>
+        <p><b>Descrição</b>: renderiza a página de edição de um equipamento.
+  Após modificar os campos que pretende, o diretor pode cancelar a edição
+  e voltar a página principal ou atualizar os tais valores que modificou do equipamento.</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
+            <div style="margin-left:5px;text-align:center">/equipamento/editar</div>
+        </div>
+        <p><b>Descrição</b>: atualiza os valores de um equipamento.
+  O equipamento é enviado através do <i>req.body</i> (juntamente
+  com o seu ID).</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+            <div style="margin-left:5px;text-align:center">/equipamento/adicionar</div>
+        </div>
+        <p><b>Descrição</b>: renderiza a página de adição de um equipamento.</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
+            <div style="margin-left:5px;text-align:center">/equipamento/adicionar</div>
+        </div>
+        <p><b>Descrição</b>:  adiciona um novo equipamento
+  O equipamento é enviado através do <i>req.body</i> .</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+            <div style="margin-left:5px;text-align:center">/equipamento/remover/:idEquipamento</div>
+        </div>
+        <p><b>Descrição</b>: remove o equipamento com id  {idEquipamento}.</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+            <div style="margin-left:5px;text-align:center">/equipamento/dividaEquipamento/editar/:idDividaEquipamento</div>
+        </div>
+        <p><b>Descrição</b>: renderiza a página de edição de uma divida de um equipamento.
+  Após modificar o estado da divida, o diretor pode cancelar a edição
+  e voltar a página principal ou atualizar o tal estado que modificou da divida.</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
+            <div style="margin-left:5px;text-align:center">/equipamento/dividaEquipamento/editar</div>
+        </div>
+        <p><b>Descrição</b>: atualiza o estado da dívida de um equipamento.
+  A dívida do equipamento é enviada através do <i>req.body</i> (juntamente
+  com o seu ID)</p>
+    </li>
+</ul>
