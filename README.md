@@ -10,10 +10,10 @@
                 color: white;
                 }
                 .delete {
-                    background-color:red;
-                    padding:3px;
-                    width:60px;
-                    text-align:center;
+                background-color:red;
+                padding:3px;
+                width:60px;
+                text-align:center;
                 }
             </style>
             <h1 style="font-size:60px" align="center"><img height=28cm src="images/logo.png"> COM</h1>
