@@ -269,6 +269,75 @@ Para terminar com a necessidade da criação de novas folhas de forma anual o cl
 
 ## API COM
 
+A API de dados do sistema COM possui as operações CRUD associadas aos  verbos HTTP sobre os seguintes dados:
+
+<ul style="list-style: none;">
+    <li>
+        <h2><b>/equipamento</b></h2>
+        <ul style="list-style: none;">
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+                    <div style="margin-left:5px;text-align:center">/equipamento</div>
+                </div>
+            </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+                    <div style="margin-left:5px;text-align:center">/equipamento/:idEquipamento</div>
+                </div>
+            </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
+                    <div style="margin-left:5px;text-align:center">/equipamento</div>
+                </div>
+            </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:red;padding:3px;width:60px;text-align:center"><b>DELETE</b></h4>
+                    <div style="margin-left:5px;text-align:center">/equipamento/:idEquipamento</div>
+                </div>
+            </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:orange;padding:3px;width:60px;text-align:center"><b>PUT</b></h4>
+                    <div style="margin-left:5px;text-align:center">/equipamento/:idEquipamento</div>
+                </div>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <h2><b>/dividaEquipamento</b></h2>
+        <ul style="list-style: none;">
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+                    <div style="margin-left:5px;text-align:center">/dividaEquipamento</div>
+                </div>
+            </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+                    <div style="margin-left:5px;text-align:center">/dividaEquipamento/:idDividaEquipamento</div>
+                </div>
+            </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
+                    <div style="margin-left:5px;text-align:center">/dividaEquipamento</div>
+                </div>
+            </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:orange;padding:3px;width:60px;text-align:center"><b>PUT</b></h4>
+                    <div style="margin-left:5px;text-align:center">/dividaEquipamento/:idDividaEquipamento</div>
+                </div>
+            </li>
+        </ul>
+    </li>
+</ul>
+
 <a id="auth"></a>
 
 ## Auth COM
