@@ -31,6 +31,15 @@ router.get('/:id', function(req, res) {
     })
 });
 
+router.get('/socio/:id', function(req, res) {
+    User.getUserByNSocio(req.params.id)
+        .then(u => {
+            res.jsonp(u)
+        })
+        .catch(erro => {
+            res.jsonp({error: erro, message: "Erro na obtenção do utilizador " + req.params.id})
+        })
+})
 /*
   descrição: realiza o registo de um utilizador. Os dados do utilizador
   são recebidos através do req.body. O campo req.body.password é utilizado

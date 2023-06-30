@@ -6,6 +6,8 @@ html
     link(rel='icon' href='/images/favicon.png')
     link(rel='stylesheet', href='/stylesheets/w3.css')
     link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css")
+    script(src="/javascripts/jquery-3.6.4.min.js")
+    script(src="/javascripts/helpers.js")
   body(style="background-color:#36393e")
     .w3-sidebar.w3-bar-block(style="background-color:#1e2124;display:none" id="mySidebar")
       button.w3-bar-item.w3-button.w3-large(onclick="w3_close()" style="color:gray") Fechar &times;
@@ -17,7 +19,7 @@ html
       if nivelAcesso == "socio"
         a(href="/equipamento/socio" style="color:white").w3-bar-item.w3-button #[i.fas.fa-tshirt] Equipamentos
       if nivelAcesso == "diretor" || nivelAcesso == "socio"
-        a(href="/equipamento/evento" style="color:white").w3-bar-item.w3-button #[i.fas.fa-calendar] Eventos 
+        a(href="/evento" style="color:white").w3-bar-item.w3-button #[i.fas.fa-calendar] Eventos
       if nivelAcesso == "diretor"
         a(href="/utilizador" style="color:white").w3-bar-item.w3-button #[i.fas.fa-users] Utilizadores
       if nivelAcesso == "socio"

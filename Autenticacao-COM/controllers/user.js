@@ -21,6 +21,16 @@ module.exports.getUser = id => {
             })
 }
 
+module.exports.getUserByNSocio = nSocio => {
+    return User.findOne({nSocio:nSocio})
+            .then(resposta => {
+                return resposta
+            })
+            .catch(erro => {
+                return erro
+            })
+}
+
 module.exports.updateUser = (id, info) => {
     return User.updateOne({_id:id}, info)
             .then(resposta => {

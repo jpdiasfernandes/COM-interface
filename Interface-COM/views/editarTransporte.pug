@@ -1,0 +1,55 @@
+extends layout
+
+block content
+    .w3-container(style="background-color:#36393e")
+        .w3-row
+            .w3-col.m3
+                h1
+            .w3-col.m6.w3-container
+                h1 Adicionar Transporte
+            .w3-col.m3
+                h1
+        .w3-row
+            .w3-col.m3
+                h1
+            .w3-col.m6.w3-container
+                form.w3-container(method="POST" action="/transporte/editar")
+                    fieldset#transporte
+                        input(type="hidden" name="codEvento" value=transporte.codEvento)
+                        input(type="hidden" name="_id" value=transporte._id)
+                        legend Transporte
+                        .w3-row
+                            label Distância
+                        .w3-row
+                            input.w3-input.w3-round(type="number", name="distancia", min="0", step="0.01", value=transporte.distancia)
+                        .w3-row
+                            label Custo
+                        .w3-row.w3-padding-16
+                            input.w3-input.w3-round(type="number", name="custo", min="0", step="0.01", value=transporte.custo)
+                        .w3-row
+                            .w3-col.w3-half.w3-container
+                                a.w3-btn.w3-deep-orange(onclick="addField('text', 'condutores', 'transporte', 'Condutor')") Adicionar Condutores
+                        each condutor, index in transporte.condutores
+                            .w3-row.legend-condutores
+                                legend Condutor
+                            .w3-row.row-condutores
+                                    .w3-col.w3-half
+                                        input.w3-input.w3-round(type="text", name="condutores", value=condutor)
+                                    .w3-col.w3-half.w3-container
+                                         a.w3-btn.w3-red(onclick="removeField('transporte', 'condutores')")="X"
+                        .w3-row.w3-padding-16
+                            .w3-col.w3-half.w3-container
+                                a.w3-btn.w3-deep-orange(onclick="addField('text', 'transportados', 'transporte', 'Transportado')") Adicionar Transportado
+                        each transportado,index in transporte.transportados
+                            .w3-row.legend-transportados
+                                legend Transportado
+                            .w3-row.row-transportados
+                                .w3-col.w3-half
+                                    input.w3-input.w3-round(type="text", name="transportados", value=transportado)
+                                .w3-col.w3-half.w3-container
+                                    a.w3-btn.w3-red(onclick="removeField('transporte', 'transportados')")="X"
+
+                    .w3-row.w3-container.w3-padding-16
+                        button.w3-btn.w3.w3-deep-orange(style="width:100%" type="submit") Adicionar
+    .w3-col.m3
+                h1

@@ -1,0 +1,60 @@
+extends layout
+
+block content
+    .w3-container(style="background-color:#36393e")
+        .w3-row
+            h1 Transporte #[i.fas.fa-car-side]
+        .w3-row
+            .w3-col.m3
+                h1
+            .w3-col.m6
+                .w3-row
+                    table.w3-table(style="background-color:#424549")
+                        tr.w3-deep-orange
+                            th
+                            th
+                        tr
+                            td
+                                abbr(title="Distância" style="text-decoration:none")
+                                    h2 Dist. #[i.fas.fa-road]
+                            td
+                                h2.w3-center #{transporte.distancia} km
+                        tr
+                            td
+                                abbr(title="Custo" style="text-decoration:none")
+                                    h2 Custo #[i.fas.fa-euro-sign]
+                            td
+                                h2.w3-center #{transporte.custo} €
+                        tr
+                            td
+                                abbr(title="Condutores" style="text-decoration:none")
+                                    h2 Cond. #[i.fas.fa-dharmachakra]
+                            td
+                                ul.w3-ul.w3-center
+                                    each condutor in condutores
+                                        li #[h2 #{condutor.nSocio} | #{condutor.nome} ]
+                        tr
+                            td
+                                abbr(title="Transportados" style="text-decoration:none")
+                                    h2 Transp.  #[i.fas.fa-user]
+                            td
+                                ul.w3-ul.w3-center
+                                    each transportado in transportados
+                                        li #[h2 #{transportado.nSocio} | #{transportado.nome} ]
+
+
+            .w3-col.m3
+                h1
+
+        .w3-row.w3-container.w3-padding-16
+            .w3-col.m3
+                h1
+            .w3-col.m3.w3-container
+                button.w3-btn.w3-blue.w3-margin-right(style="width:100%")
+                    a(href="editar/" + transporte._id style="text-decoration:none; display:block") Editar
+            .w3-col.m3.w3-container
+                button.w3-btn.w3-red.w3-margin-right(style="width:100%")
+                    a(href="remover/" + transporte._id style="text-decoration:none; display:block") Remover
+            .w3-col.m3
+                h1
+

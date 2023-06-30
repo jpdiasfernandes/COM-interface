@@ -1,0 +1,43 @@
+extends layout
+
+block content
+    .w3-container(style="background-color:#36393e")
+        .w3-row
+            h1 Evento
+            ul.w3-ul.w3-hoverable(style="background-color:#424549")
+                li.w3-hover-deep-orange Nome: #{evento.nome}
+                li.w3-hover-deep-orange Descrição: #{evento.descricao}
+
+        .w3-row
+            .w3-col.m3
+                h1
+            .w3-col.m6.w3-container
+                h1 Inscritos
+                table.w3-table(style="background-color:#424549")
+                    tr.w3-black
+                        th Nome
+                        th FPO
+                        th
+                    each inscrito in inscritos
+                        tr.w3-hover-deep-orange
+                            td= inscrito.nome
+                            td= inscrito.nFPO
+                            td
+                                if myUser._id == inscrito._id
+                                    button.w3-btn.w3-red.w3-margin-right(style="width:100%")
+                                        a(href="/inscrito/remover?evento=" + evento._id + "&socio=" + inscrito.nSocio  style="text-decoration:none") Desinscrever
+
+            .w3-col.m3
+                h1
+
+        .w3-row.w3-padding-16
+            .w3-col.m3
+                h1
+            .w3-col.m6.w3-container
+                form.w3-container(method="POST" action="/inscrito")
+                    input(type="hidden" name="codEvento" value=evento._id)
+                    input(type="hidden" name="userID" value=myUser.nSocio)
+                    button.w3-btn.w3.w3-deep-orange.w3-margin-right(style="width:100%" type="submit") Inscrever
+
+            .w3-col.m3
+                h1

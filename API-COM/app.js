@@ -18,7 +18,8 @@ var dividasEquipamentoRouter = require('./routes/dividasEquipamento');
 var eventoRouter = require('./routes/evento');
 var contabilidadeRouter = require('./routes/contabilidade');
 var tamanhoEquipamentoRouter = require('./routes/tamanhoEquipamento');
-
+var inscritoRouter = require('./routes/inscrito');
+var transporteRouter = require('./routes/transporte');
 var app = express();
 
 app.use(logger('dev'));
@@ -32,6 +33,8 @@ app.use('/dividasEquipamento', dividasEquipamentoRouter);
 app.use('/tamanhoEquipamento', tamanhoEquipamentoRouter);
 app.use('/evento', eventoRouter);
 app.use('/contabilidade',contabilidadeRouter)
+app.use('/inscrito',inscritoRouter)
+app.use('/transporte',transporteRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

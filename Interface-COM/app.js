@@ -8,6 +8,9 @@ var homeRouter = require('./routes/home');
 var equipamentoRouter = require('./routes/equipamento');
 var autenticacaoRouter = require('./routes/autenticacao');
 var utilizadorRouter = require('./routes/utilizador');
+var eventoRouter = require('./routes/evento');
+var inscritoRouter = require('./routes/inscrito');
+var transporteRouter = require('./routes/transporte');
 
 var app = express();
 
@@ -24,6 +27,9 @@ app.use('/home', homeRouter);
 app.use('/equipamento', equipamentoRouter);
 app.use('/autenticacao', autenticacaoRouter);
 app.use('/utilizador', utilizadorRouter);
+app.use('/evento', eventoRouter);
+app.use('/inscrito', inscritoRouter);
+app.use('/transporte', transporteRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
