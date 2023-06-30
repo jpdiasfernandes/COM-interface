@@ -36,3 +36,23 @@ module.exports.getApoioKms = () => {
             return erro
         })
 }
+
+module.exports.getApoiosFromEvento = (codEvento) => {
+    return ApoioKm.find({codEvento : codEvento})
+        .then(apoioKms => {
+            return apoioKms
+        })
+        .catch(erro => {
+            return erro
+        })
+}
+
+module.exports.removeApoio = (id) => {
+    return ApoioKm.deleteOne({_id : id})
+        .then(apoioKms => {
+            return apoioKms
+        })
+        .catch(erro => {
+            return erro
+        })
+}

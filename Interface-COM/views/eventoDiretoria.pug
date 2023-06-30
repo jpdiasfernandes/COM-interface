@@ -17,12 +17,13 @@ block content
                         th FPO
                         th
                     each inscrito in inscritos
-                        tr.w3-hover-deep-orange
-                            td= inscrito.nome
-                            td= inscrito.nFPO
+                        tr.w3-hover-deep-orange(onclick="link()")
+                            td
+                                a(href="/inscrito/" + inscrito._id style="text-decoration:none")= usersMap.get(inscrito.userID).nome
+                            td= usersMap.get(inscrito.userID).nFPO
                             td
                                 button.w3-btn.w3-red.w3-margin-right(style="width:100%")
-                                    a(href="/inscrito/remover?evento=" + evento._id + "&socio=" + inscrito.nSocio  style="text-decoration:none") Desinscrever
+                                    a(href="/inscrito/remover?evento=" + evento._id + "&socio=" + inscrito.userID  style="text-decoration:none") Desinscrever
 
                 form.w3-container(method="POST" action="/inscrito")
                     fieldset
@@ -30,6 +31,8 @@ block content
                         input(type="hidden" name="codEvento" value=evento._id)
                         label Nº Sócio
                         input.w3-input.w3-round(type="text" name="userID")
+                        label Despesa Adicional
+                        input.w3-input.w3-round(type="number" name="despesaExtra" min="0")
                         label Descrição adicional
                         input.w3-input.w3-round(type="text" name="descricao")
                     button.w3-btn.w3-deep-orange(style="width:100%" type="submit") Inscrever
@@ -58,5 +61,34 @@ block content
 
 
             .w3-third.w3-container
-                h1 ApoioKm
-                table.w3-table(style="background-color:#424549")
+                .w3-row.w3-container
+                    h1 ApoioKm
+                .w3-row.w3-container
+                    table.w3-table(style="background-color:#424549")
+                        tr.w3-black
+                            th Distância
+                            th Nº Atletas
+                            th Atleta
+                            th
+
+                        each apoio in apoios
+                            tr.w3-hover-deep-orange(onclick="link()")
+                                td
+                                    a(href="/apoioKm/" + apoio._id style="text-decoration:none; display:block") #{apoio.distancia}
+                                td= apoio.atletas
+                                td= usersMap.get(apoio.userID).nome
+                                td
+                                    button.w3-btn.w3-red.w3-margin-right(style="width:100%")
+                                        a(href="/apoioKm/remover/" + apoio._id  style="text-decoration:none") Remover
+                .w3-row
+                    form.w3-container(method="POST" action="/apoioKm")
+                        fieldset
+                            legend Inscrever
+                            input(type="hidden" name="codEvento" value=evento._id)
+                            label Nº Sócio
+                            input.w3-input.w3-round(type="text" name="userID")
+                            label Nº Atletas
+                            input.w3-input.w3-round(type="number" name="atletas" min="1")
+                            label Distância
+                            input.w3-input.w3-round(type="number" name="distancia" min="0")
+                        button.w3-btn.w3-deep-orange(style="width:100%" type="submit") Adicionar

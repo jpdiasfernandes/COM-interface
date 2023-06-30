@@ -1,0 +1,49 @@
+extends layout
+
+block content
+    .w3-container(style="background-color:#36393e")
+        .w3-row
+            h1 ApoioKm #[i.fas.fa-road] #[i.fas.fa-euro-sign]
+        .w3-row
+            .w3-col.m3
+                h1
+            .w3-col.m6
+                .w3-row
+                    table.w3-table(style="background-color:#424549")
+                        tr.w3-deep-orange
+                            th
+                            th
+                        tr
+                            td
+                                abbr(title="Nº Sócio" style="text-decoration:none")
+                                    h2 Sócio #[i.fas.fa-road]
+                            td
+                                h2.w3-center #{socio.nSocio} | #{socio.nome}
+                        tr
+                            td
+                                abbr(title="Nº Atletas" style="text-decoration:none")
+                                    h2 Atletas #[i.fas.fa-people]
+                            td
+                                h2.w3-center #{apoio.atletas}
+                        tr
+                            td
+                                abbr(title="Distância" style="text-decoration:none")
+                                    h2 Dist. #[i.fas.fa-road]
+                            td
+                                h2.w3-center #{apoio.distancia} km
+
+            .w3-col.m3
+                h1
+
+        .w3-row.w3-container.w3-padding-16
+            .w3-col.m3
+                h1
+            .w3-col.m3.w3-container
+                button.w3-btn.w3-blue.w3-margin-right(style="width:100%")
+                    a(href="editar/" + apoio._id style="text-decoration:none; display:block") Editar
+            .w3-col.m3.w3-container
+                button.w3-btn.w3-red.w3-margin-right(style="width:100%")
+                    a(href="remover/" + apoio._id style="text-decoration:none; display:block") Remover
+            .w3-col.m3
+                h1
+

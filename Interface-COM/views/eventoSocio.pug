@@ -19,13 +19,14 @@ block content
                         th FPO
                         th
                     each inscrito in inscritos
+                        - var user = usersMap.get(inscrito.userID)
                         tr.w3-hover-deep-orange
-                            td= inscrito.nome
-                            td= inscrito.nFPO
+                            td= user.nome
+                            td= user.nFPO
                             td
-                                if myUser._id == inscrito._id
+                                if myUser._id == user._id
                                     button.w3-btn.w3-red.w3-margin-right(style="width:100%")
-                                        a(href="/inscrito/remover?evento=" + evento._id + "&socio=" + inscrito.nSocio  style="text-decoration:none") Desinscrever
+                                        a(href="/inscrito/remover?evento=" + evento._id + "&socio=" + user.nSocio  style="text-decoration:none") Desinscrever
 
             .w3-col.m3
                 h1

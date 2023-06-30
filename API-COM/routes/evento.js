@@ -33,4 +33,14 @@ router.get('/:idEvento', function(req, res, next) {
         })
 })
 
+router.delete('/:idEvento', function(req, res, next) {
+    Evento.removeEvento(req.params.idEvento)
+        .then(dados => {
+            res.status(200).json(dados)
+        })
+        .catch(error => {
+            res.status(204).json({error:error,mensagem:"Erro na remoção do Evento"})
+        })
+})
+
 module.exports = router;

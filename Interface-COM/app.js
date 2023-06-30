@@ -11,6 +11,7 @@ var utilizadorRouter = require('./routes/utilizador');
 var eventoRouter = require('./routes/evento');
 var inscritoRouter = require('./routes/inscrito');
 var transporteRouter = require('./routes/transporte');
+var apoioKmRouter = require('./routes/apoioKm');
 
 var app = express();
 
@@ -30,6 +31,7 @@ app.use('/utilizador', utilizadorRouter);
 app.use('/evento', eventoRouter);
 app.use('/inscrito', inscritoRouter);
 app.use('/transporte', transporteRouter);
+app.use('/apoioKm', apoioKmRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
