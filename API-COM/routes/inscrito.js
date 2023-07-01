@@ -66,6 +66,25 @@ router.delete('/', function(req, res, next) {
     }
 )
 
+router.put('/:idInscrito', function(req, res, next) {
+    Inscrito.updateInscrito(req.params.idInscrito, req.body)
+        .then(dados => {
+            res.status(200).json(dados)
+        })
+        .catch(erro => {
+            res.status(204).json({error: error, mensagem: "Erro na atualização do Inscrito"})
+        })
+})
+router.delete('/:idInscrito', function(req, res, next) {
+    Inscrito.deleteInscrito(req.params.idInscrito)
+        .then(dados => {
+            res.status(200).json(dados)
+        })
+        .catch(erro => {
+            res.status(204).json({error: error, mensagem: "Erro na remoção do Inscrito"})
+        })
+})
+
 
 
 module.exports = router;
