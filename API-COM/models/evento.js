@@ -7,7 +7,9 @@ var inscrito = require('./inscrito')
 
 var eventoSchema = new mongoose.Schema({
     nome:String,
-    descricao: String
+    descricao: String,
+    dataInicio: Date,
+    dataFim: Date,
 })
 
 module.exports = mongoose.model('evento', eventoSchema)

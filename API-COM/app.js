@@ -21,6 +21,7 @@ var tamanhoEquipamentoRouter = require('./routes/tamanhoEquipamento');
 var inscritoRouter = require('./routes/inscrito');
 var transporteRouter = require('./routes/transporte');
 var apoioKmRouter = require('./routes/apoioKm');
+var dividaEventoRouter = require('./routes/dividaEvento');
 var app = express();
 
 app.use(logger('dev'));
@@ -37,6 +38,7 @@ app.use('/contabilidade',contabilidadeRouter);
 app.use('/inscrito',inscritoRouter);
 app.use('/transporte',transporteRouter);
 app.use('/apoioKm', apoioKmRouter);
+app.use('/dividaEvento', dividaEventoRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

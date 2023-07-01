@@ -10,7 +10,7 @@ module.exports.addInscrito = async function(inscrito) {
 
 
 module.exports.getInscrito = function(id, userID) {
-    return Inscrito.findOne({ userID: userID, codEvento: id})
+    return Inscrito.find({ userID: userID, codEvento: id})
         .then(inscrito => {
             return inscrito
         })
