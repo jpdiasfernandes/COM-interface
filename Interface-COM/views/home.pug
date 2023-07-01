@@ -1,5 +1,22 @@
 extends layout
 
 block content
-    .w3-container(style="height:100vh;background-color:#36393e")
-        h1 Home
+    .w3-container(style="height:100%;background-color:#36393e;display:flex;flex-direction:column;align-items:center;")
+        br
+        .w3-panel
+            .span(style="font-size:150px;line-height:0.6em;opacity:0.2") ❝
+            p.w3-large(style="margin-top:-40px") #[i A Orientação é um desporto ao ar livre que exercita a mente e o corpo, onde tu defines o teu próprio caminho entre pontos marcados num mapa!]
+        .w3-card-4.w3-margin(style="width:100%")
+            .w3-display-container.w3-text-white
+                img(src="https://raw.githubusercontent.com/LittleLevi05/Trabalho-RPCW/main/images/banner.png" alt="Lights" style="width:100%")
+                .w3-xlarge.w3-display-bottomleft.w3-padding Clube de Orientação do Minho
+            .w3-row
+                .w3-third.w3-center
+                    h3 Equipamentos
+                    a(href="/equipamento" style="color:white") #[i.fas.fa-tshirt(style="font-size:25px")]
+                .w3-third.w3-center
+                    h3 Eventos
+                    a(href="/evento" style="color:white") #[i.fas.fa-calendar(style="font-size:25px")]
+                .w3-third.w3-center
+                    h3 Notificações
+                    a(href="/notificacao" style="color:white") #[i.fas.fa-bell(style="font-size:25px")]

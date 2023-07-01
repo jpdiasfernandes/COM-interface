@@ -1,0 +1,15 @@
+extends layout
+
+block content
+    .w3-container(style="height:100%;background-color:#36393e")
+        .w3-row 
+            h1 Notificação
+        .w3-row
+            fieldset
+                legend Descrição
+                b Título
+                h1= notificacao.titulo
+                b Mensagem
+                h3= notificacao.mensagem
+                b Data
+                h5= notificacao.data.substring(0,10)

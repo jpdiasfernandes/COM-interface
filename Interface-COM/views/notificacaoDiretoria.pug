@@ -26,8 +26,8 @@ block content
                     
                     each notificacao in notificacoes
                         tr.w3-hover-deep-orange
-                            td= notificacao.titulo
-                            td= notificacao.mensagem
+                            td #[a(href="/notificacao/"+notificacao._id style="text-decoration:none") #{notificacao.titulo}]
+                            td #{notificacao.mensagem.substring(0,14)} ...
                             td
                                 button.w3-btn.w3-red.w3-margin-right  
                                     a(href="/notificacao/remover/"+notificacao._id style="text-decoration:none") Remover 

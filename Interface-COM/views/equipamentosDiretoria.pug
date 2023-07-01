@@ -15,7 +15,7 @@ block content
                     
                     each equipamento in equipamentos
                         tr.w3-hover-deep-orange
-                            td= equipamento.nome
+                            td #[a(href="/equipamento/"+equipamento._id style="text-decoration:none") #{equipamento.nome}]
                             td= equipamento.custo
                             td
                                 table.w3-table.w3-white

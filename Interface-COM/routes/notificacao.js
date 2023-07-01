@@ -91,4 +91,18 @@ router.get('/remover/:idNotificacao', auth.verificaAcessoDiretor, function(req, 
       })
 })
 
+/*
+  descrição: renderiza a página da notificação com id <idNotificacao>
+*/
+router.get('/:idNotificacao', auth.verificaAcessoDiretor, function(req, res, next) {
+  axios.get("http://localhost:7779/notificacao/"+req.params.idNotificacao)
+    .then(function(resp){
+        var notificacao = resp.data
+        res.render('notificacao', {notificacao:notificacao})
+    })
+    .catch( erro => {
+      res.render('error', {error: erro, message: "Erro!"})
+    })
+})
+
 module.exports = router;
