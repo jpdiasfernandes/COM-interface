@@ -8,6 +8,12 @@ var jwt = require('jsonwebtoken')
 function verificaAcessoDiretor(req, res, next){
     var token = req.query.token || req.body.token || req.cookies.token 
     if(token){
+
+        // verificação de se o token está na blacklist
+        if (global.token_blackList.includes(token)){
+            res.status(401).jsonp({error: "Token não é mais válido"})
+        }
+
         jwt.verify(token, "com", function(e, payload){
         if(e){
             res.status(401).jsonp({error: e})
@@ -34,6 +40,12 @@ function verificaAcessoDiretor(req, res, next){
 function verificaAcessoSocio(req, res, next){
     var token = req.query.token || req.body.token || req.cookies.token 
     if(token){
+
+        // verificação de se o token está na blacklist
+        if (global.token_blackList.includes(token)){
+            res.status(401).jsonp({error: "Token não é mais válido"})
+        }
+
         jwt.verify(token, "com", function(e, payload){
         if(e){
             res.status(401).jsonp({error: e})
@@ -58,6 +70,12 @@ function verificaAcessoSocio(req, res, next){
 function verificaAcessoSocioOuDiretor(req, res, next){
     var token = req.query.token || req.body.token || req.cookies.token 
     if(token){
+        
+        // verificação de se o token está na blacklist
+        if (global.token_blackList.includes(token)){
+            res.status(401).jsonp({error: "Token não é mais válido"})
+        }
+
         jwt.verify(token, "com", function(e, payload){
         if(e){
             res.status(401).jsonp({error: e})

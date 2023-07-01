@@ -16,6 +16,8 @@ var router = express.Router()
 var axios = require('axios')
 var auth = require('../helpers/auth')
 
+var token_blackList = []
+
 /*
   descrição: renderiza a página de login do utilizador
 */
@@ -43,18 +45,11 @@ router.post('/login', function(req, res, next) {
 
 /*
   descrição: realiza o logout de um utilizador. O logout corresponde
-  a desativação do status do utilizador no authserver e na limpagem
-  do cookie <token>
+  a inserção do token numa "blacklist"
 */
 router.get('/logout', function(req, res, next) {
-  userID = auth.getID(req.cookies.token)
-  axios.put('http://localhost:7780/user/'+userID+'/desativar')
-    .then(resp =>{
-      res.cookie('token','').redirect('/autenticacao/login')
-    })
-    .catch(erro =>{
-        res.render('error', {error: erro, message: erro})
-    })
+  global.token_blackList.push(req.cookies.token)
+  res.render('login',{user:null})
 })
 
 module.exports = router;
