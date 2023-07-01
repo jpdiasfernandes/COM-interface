@@ -9,39 +9,92 @@ html
     script(src="/javascripts/jquery-3.6.4.min.js")
     script(src="/javascripts/helpers.js")
   body(style="background-color:#36393e")
-    .w3-sidebar.w3-bar-block(style="background-color:#1e2124;display:none" id="mySidebar")
-      button.w3-bar-item.w3-button.w3-large(onclick="w3_close()" style="color:gray") Fechar &times;
-      button.w3-bar-item.w3-button.w3-large(style="color:white") COM
-      if nivelAcesso == "diretor" || nivelAcesso == "socio"
-        a(href="/home" style="color:white").w3-bar-item.w3-button Página Principal
-      if nivelAcesso == "diretor"
-        a(href="/equipamento/diretoria" style="color:white").w3-bar-item.w3-button #[i.fas.fa-tshirt] Equipamentos
-      if nivelAcesso == "socio"
-        a(href="/equipamento/socio" style="color:white").w3-bar-item.w3-button #[i.fas.fa-tshirt] Equipamentos
-      if nivelAcesso == "diretor" || nivelAcesso == "socio"
-        a(href="/evento" style="color:white").w3-bar-item.w3-button #[i.fas.fa-calendar] Eventos
-      if nivelAcesso == "diretor"
-        a(href="/utilizador" style="color:white").w3-bar-item.w3-button #[i.fas.fa-users] Utilizadores
-      if nivelAcesso == "socio"
-        a(href="/utilizador/perfil" style="color:white").w3-bar-item.w3-button #[i.fas.fa-user] Meu Perfil
-      if nivelAcesso == "diretor" || nivelAcesso == "socio"
-        a(href="/autenticacao/logout" style="color:white").w3-bar-item.w3-button #[i.fas.fa-sign-out-alt] Logout
-    .main(id="main" style="background-color:#36393e;color:white")
-      .w3-row(style="background-color:#282b30") 
-        .w3-half.w3-container
-          button(id="openNav" onclick="w3_open()" style="background-color:#282b30").w3-button.w3-xlarge &#9776;
-        .w3-half.w3-container
+    .w3-sidebar.w3-bar-block(style="background-color:#1e2124;width:15%;display:flex;flex-direction:column;align-items:center;padding:5px" id="mySidebar")
+      button.w3-bar-item.w3-button.w3-large(style="color:white" id="com") COM
+      if user
+        if user.nivelAcesso == "diretor" || user.nivelAcesso == "socio"
+          a(href="/home" style="color:white").w3-bar-item.w3-button #[i.fas.fa-home] #[span(id="home") Página Principal]
+        span(style="background-color:#2E2E2E;border-radius:10px;padding:3px")
+          if user.nivelAcesso == "diretor" || user.nivelAcesso == "socio"
+            a(href="/equipamento/" style="color:white").w3-bar-item.w3-button #[i.fas.fa-tshirt] #[span(id="equipamentos") Equipamentos]
+          if user.nivelAcesso == "diretor" || user.nivelAcesso == "socio"
+            a(href="/evento" style="color:white").w3-bar-item.w3-button #[i.fas.fa-calendar] #[span(id="eventos") Eventos]
+          if user.nivelAcesso == "diretor"
+            a(href="/utilizador" style="color:white").w3-bar-item.w3-button #[i.fas.fa-users] #[span(id="utilizadores") utilizadores]
+          if user.nivelAcesso == "socio"
+            a(href="/utilizador/perfil" style="color:white").w3-bar-item.w3-button #[i.fas.fa-user] #[span(id="perfil") Perfil]
+          if user.nivelAcesso == "diretor" || user.nivelAcesso == "socio"
+            a(href="/notificacao" style="color:white").w3-bar-item.w3-button #[span.i.fas.fa-bell] #[span(id="notificacoes") Notificações]
+        if user.nivelAcesso == "diretor" || user.nivelAcesso == "socio"
+          a(href="/autenticacao/logout" style="color:white").w3-bar-item.w3-button #[i.fas.fa-sign-out-alt] #[span(id="logout") Logout]
+      button.w3-bar-item.w3-button.w3-large(onclick="w3_open()" style="color:gray;display:none" id="open") #[span.i.fas.fa-chevron-right]
+      button.w3-bar-item.w3-button.w3-large(onclick="w3_close()" style="color:gray" id="close") #[span.i.fas.fa-chevron-left]
+    .main(id="main" style="background-color:#36393e;color:white;margin-left:15%")
+      .w3-row(style="background-color:#282b30;") 
+        .w3-half.w3-container(style="text-align:left;")
+            span(style="display:flex;flex-direction:row;text-align:center;padding:5px") 
+              img(style="width:8%;height:8%;object-fit:contain" src="https://raw.githubusercontent.com/LittleLevi05/Trabalho-RPCW/main/images/logo.png") 
+              h4 Clube de Orientação do Minho
+        .w3-half.w3-container(style="text-align:right")
+          if user
+            h4 #[i.fas.fa-user] #{user.username} #[span(style="background-color:#1C1C1C;padding:5px;border-radius:5px;margin-right:5px") #{user.nivelAcesso}] #[a(href="/notificacao" style="color:white").w3-bar-item.w3-button #[span.i.fas.fa-bell]]
       .w3-row
         block content
     script.
       function w3_open() {
         document.getElementById("main").style.marginLeft = "15%";
         document.getElementById("mySidebar").style.width = "15%";
-        document.getElementById("mySidebar").style.display = "block";
-        document.getElementById("openNav").style.display = 'none';
+        document.getElementById("mySidebar").style.display = "flex";
+        document.getElementById("open").style.display = "none";
+        document.getElementById("close").style.display = "inline-block";
+
+        if (document.getElementById("home")){
+          document.getElementById("home").style.display = "inline-block";
+        }
+        if (document.getElementById("equipamentos")){
+          document.getElementById("equipamentos").style.display = "inline-block";
+        }
+        if (document.getElementById("eventos")){
+          document.getElementById("eventos").style.display = "inline-block";
+        }
+        if (document.getElementById("utilizadores")){
+          document.getElementById("utilizadores").style.display = "inline-block";
+        }
+        if (document.getElementById("perfil")){
+          document.getElementById("perfil").style.display = "inline-block";
+        }
+        if (document.getElementById("notificacoes")){
+          document.getElementById("notificacoes").style.display = "inline-block";
+        }
+        if (document.getElementById("logout")){
+          document.getElementById("logout").style.display = "inline-block";
+        }
       }
       function w3_close() {
-        document.getElementById("main").style.marginLeft = "0%";
-        document.getElementById("mySidebar").style.display = "none";
-        document.getElementById("openNav").style.display = "inline-block";
+        document.getElementById("main").style.marginLeft = "5%";
+        document.getElementById("mySidebar").style.width = "5%";
+        document.getElementById("open").style.display = "inline-block";
+        document.getElementById("close").style.display = "none";
+
+        if (document.getElementById("home")){
+          document.getElementById("home").style.display = "none";
+        }
+        if (document.getElementById("equipamentos")){
+          document.getElementById("equipamentos").style.display = "none";
+        }
+        if (document.getElementById("eventos")){
+          document.getElementById("eventos").style.display = "none";
+        }
+        if (document.getElementById("utilizadores")){
+          document.getElementById("utilizadores").style.display = "none";
+        }
+        if (document.getElementById("perfil")){
+          document.getElementById("perfil").style.display = "none";
+        }
+        if (document.getElementById("notificacoes")){
+          document.getElementById("notificacoes").style.display = "none";
+        }
+        if (document.getElementById("logout")){
+          document.getElementById("logout").style.display = "none";
+        }
       }

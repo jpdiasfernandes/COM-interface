@@ -104,10 +104,29 @@ function getID(token){
     })
 }
 
+/*
+  descrição: retorna o objeto <user> (contém ID, username, e nivel de acesso)
+*/
+function getUser(token){
+    return jwt.verify(token, "com", function(e, payload){
+        if(e){
+            return null
+        }
+        else{
+            return {
+                id: payload.id,
+                username: payload.username,
+                nivelAcesso: payload.nivel
+            }
+        }
+    })
+}
+
 module.exports = {
     verificaAcessoDiretor,
     verificaAcessoSocio,
     verificaAcessoSocioOuDiretor,
     getNivelDeAcesso,
-    getID
+    getID,
+    getUser
 }

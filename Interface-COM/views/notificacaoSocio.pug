@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  script.
+      function formatDateTime(dateTimeString) {
+        const dateTime = new Date(dateTimeString);
+        const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+        const timeOptions = { hour: 'numeric', minute: 'numeric', second: 'numeric' };
+
+        const formattedDate = dateTime.toLocaleDateString(undefined, dateOptions);
+        const formattedTime = dateTime.toLocaleTimeString(undefined, timeOptions);
+        console.log(formattedDate)
+        return formattedDate + ' ' + formattedTime;
+      }
+  .w3-container(style="background-color:#36393e")
+    .w3-row
+      h1 Notificações
+    .w3-row
+      each notificacao in notificacoes
+        .w3-card-4
+          header.w3-container.w3-deep-orange
+            h2= notificacao.titulo
+          .w3-container
+            p= notificacao.mensagem
+          footer.w3-container(style="display:flex;flex-direction:row")
+            h5= notificacao.data.substring(12,16) 
+            h5(style="margin-left:4px") ,
+            h5(style="margin-left:4px")= notificacao.data.substring(0,10)
+        br

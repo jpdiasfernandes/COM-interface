@@ -1,0 +1,21 @@
+extends layout
+
+block content
+    .w3-container(style="height:100vh;background-color:#36393e")
+        .w3-row 
+            h1 Editar Notificação
+        .w3-row
+            form.w3-container(method="POST" action="/notificacao/editar")
+                fieldset
+                    legend Notificação
+                    label Título
+                    input.w3-input.w3-round(type="text" name="titulo" value=notificacao.titulo)
+                    label Mensagem
+                    input.w3-input.w3-round(type="text" name="mensagem" value=notificacao.mensagem)
+                    input(type="hidden" name="_id" value=notificacao._id)
+                br
+                .w3-row(style="width:100%") 
+                    .w3-half.w3-container
+                        a(href="/notificacao/" style="text-decoration:none;width:100%").w3-btn.w3-white.w3-margin-right Cancelar
+                    .w3-half.w3-container
+                        button.w3-btn.w3.w3-deep-orange.w3-margin-right(style="width:100%" type="submit") Atualizar
