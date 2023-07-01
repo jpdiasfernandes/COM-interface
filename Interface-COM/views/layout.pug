@@ -9,12 +9,12 @@ html
     script(src="/javascripts/jquery-3.6.4.min.js")
     script(src="/javascripts/helpers.js")
   body(style="background-color:#36393e")
-    .w3-sidebar.w3-bar-block(style="background-color:#1e2124;width:15%;display:flex;flex-direction:column;align-items:center;padding:5px" id="mySidebar")
-      button.w3-bar-item.w3-button.w3-large(style="color:white" id="com") COM
+    .w3-sidebar.w3-bar-block(style="background-image: radial-gradient(ellipse 100% 200% at 100% 140%, #171A1C 90%, #1B1E21 90%);width:15%;display:flex;flex-direction:column;align-items:center;padding:5px" id="mySidebar")
+      button.w3-bar-item.w3-button.w3-large(style="color:white;background-color:transparent" id="com") COM
       if user
         if user.nivelAcesso == "diretor" || user.nivelAcesso == "socio"
-          a(href="/home" style="color:white").w3-bar-item.w3-button #[i.fas.fa-home] #[span(id="home") Página Principal]
-        span(style="background-color:#2E2E2E;border-radius:10px;padding:3px")
+          a(href="/home" style="color:white;background-color:transparent").w3-bar-item.w3-button #[i.fas.fa-home] #[span(id="home") Página Principal]
+        span(style="background-color: rgba(46, 46, 46, 0.23);border-radius:12px;padding:3px")
           if user.nivelAcesso == "diretor" || user.nivelAcesso == "socio"
             a(href="/equipamento/" style="color:white").w3-bar-item.w3-button #[i.fas.fa-tshirt] #[span(id="equipamentos") Equipamentos]
           if user.nivelAcesso == "diretor" || user.nivelAcesso == "socio"
@@ -26,9 +26,9 @@ html
           if user.nivelAcesso == "diretor" || user.nivelAcesso == "socio"
             a(href="/notificacao" style="color:white").w3-bar-item.w3-button #[span.i.fas.fa-bell] #[span(id="notificacoes") Notificações]
         if user.nivelAcesso == "diretor" || user.nivelAcesso == "socio"
-          a(href="/autenticacao/logout" style="color:white").w3-bar-item.w3-button #[i.fas.fa-sign-out-alt] #[span(id="logout") Logout]
-      button.w3-bar-item.w3-button.w3-large(onclick="w3_open()" style="color:gray;display:none" id="open") #[span.i.fas.fa-chevron-right]
-      button.w3-bar-item.w3-button.w3-large(onclick="w3_close()" style="color:gray" id="close") #[span.i.fas.fa-chevron-left]
+          a(href="/autenticacao/logout" style="color:white;background-color:transparent").w3-bar-item.w3-button #[i.fas.fa-sign-out-alt] #[span(id="logout") Logout]
+      button.w3-bar-item.w3-button.w3-large(onclick="w3_open()" style="color:gray;display:none;background-color:transparent" id="open") #[span.i.fas.fa-chevron-right]
+      button.w3-bar-item.w3-button.w3-large(onclick="w3_close()" style="color:gray;background-color:transparent" id="close") #[span.i.fas.fa-chevron-left]
     .main(id="main" style="background-color:#36393e;color:white;margin-left:15%")
       .w3-row(style="background-color:#282b30;") 
         .w3-half.w3-container(style="text-align:left;")
