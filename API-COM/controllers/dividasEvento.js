@@ -57,5 +57,85 @@ module.exports.getDividasUser = (id) => {
         })
 }
 
+module.exports.deleteDivida = (id) => {
+    return Divida.deleteOne({_id:id})
+        .then(divida => {
+            return divida
+        })
+        .catch(erro => {
+            return erro
+        })
+}
+
+module.exports.getDividasByInscrito = (id) => {
+    return Divida.find({codInscrito: id})
+        .then(dividas => {
+            return dividas
+        })
+        .catch(erro => {
+            return erro
+        })
+}
+
+module.exports.getDividasByTransporte = (id) => {
+    return Divida.find({codTransporte: id})
+        .then(dividas => {
+            return dividas
+        })
+        .catch(erro => {
+            return erro
+        })
+}
+
+module.exports.deleteDividaByInscrito = (id) => {
+    return Divida.deleteMany({codInscrito: id})
+        .then(resp => {
+            return resp
+        })
+        .catch(erro => {
+            return erro
+        })
+}
+
+module.exports.deleteDividaByTransporte = (id) => {
+    return Divida.deleteMany({codTransporte: id})
+        .then(resp => {
+            return resp
+        })
+        .catch(erro => {
+            return erro
+        })
+}
+
+module.exports.updateDivida = (id, divida) => {
+    return Divida.updateOne({_id:id}, divida)
+        .then(resp => {
+            return resp
+        })
+        .catch(erro => {
+            return erro
+        })
+}
+
+module.exports.deleteDividaByTransporteUser = (id, userID) => {
+    return Divida.deleteOne({codTransporte: id, userID: userID})
+        .then(resp => {
+            return resp
+        })
+        .catch(erro => {
+            return erro
+        })
+}
+
+module.exports.getDividyByTransporteUser = (id, userID) => {
+    return Divida.findOne({codTransporte: id, userID: userID})
+        .then(resp => {
+            return resp
+        })
+        .catch(erro => {
+            return erro
+        })
+}
+
 
 

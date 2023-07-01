@@ -8,9 +8,13 @@ block content
                 tr.w3-black
                     th Nome
                     th Descrição
+                    th Data início
+                    th Data fim
 
                 each evento in eventos
                     tr.w3-hover-deep-orange(onclick="link()")
                         td
                             a(href="/evento/" + evento._id style="text-decoration:none")=evento.nome
                         td= evento.descricao
+                        td= evento.dataInicio
+                        td= evento.dataFim

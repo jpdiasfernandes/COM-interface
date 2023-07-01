@@ -13,21 +13,38 @@ var router = express.Router();
 var axios = require('axios')
 var auth = require('../helpers/auth')
 
-router.post('/', auth.verificaAcessoDiretor, function(req, res, next) {
-    axios.post('http://localhost:7779/inscrito', req.body)
-        .then(resp =>{
-            var nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
-            res.redirect('/evento/' + req.body.codEvento)
-        })
-        .catch( erro => {
-            res.render('error', {error: erro, message: "Erro!"})
-        })
+router.post('/', auth.verificaAcessoDiretor, async function(req, res, next) {
+    try {
+        var transporteRep = await axios.post('http://localhost:7779/transporte', req.body)
+        var transporte = transporteRep.data
+
+        if (req.body.custo) {
+            for (const transportado of req.body.transportados) {
+                var divida = {
+                    codEvento: req.body.codEvento,
+                    codTransporte: transporte._id,
+                    userID: transportado,
+                    valor: req.body.custo
+                }
+                var resp = await axios.post('http://localhost:7779/dividaEvento', divida)
+                console.log(resp.data)
+            }
+        }
+
+        res.redirect('/evento/' + req.body.codEvento)
+    } catch(erro) {
+        res.render('error', {error: erro, message: "Erro!"})
+    }
 })
 
 router.get('/remover/:idTransporte', auth.verificaAcessoDiretor, async function(req, res, next) {
     try {
         var transporte = await axios.get('http://localhost:7779/transporte/' + req.params.idTransporte)
+
+        await axios.delete('http://localhost:7779/dividaEvento?transporte=' + req.params.idTransporte)
+
         var deleted = await axios.delete('http://localhost:7779/transporte/' + req.params.idTransporte)
+
         res.redirect('/evento/' + transporte.data.codEvento)
     } catch (erro) {
         res.render('error', {error: erro, message: "Erro!"})
@@ -39,19 +56,58 @@ router.get('/adicionar/:idEvento', auth.verificaAcessoDiretor, function(req, res
     res.render('adicionarTransporte', {codEvento: req.params.idEvento, nivelAcesso: nivelAcesso})
 })
 
-router.post('/adicionar', auth.verificaAcessoDiretor, function(req, res, next) {
-    axios.post('http://localhost:7779/transporte', req.body)
-        .then(resp =>{
-            var nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
-            res.redirect('/evento/' + req.body.codEvento)
-        })
-        .catch( erro => {
-            res.render('error', {error: erro, message: "Erro!"})
-        })
-})
-
 router.post('/editar', auth.verificaAcessoDiretor, async function(req,res,next) {
     try {
+        var transporteRep = await axios.get('http://localhost:7779/transporte/' + req.body._id)
+        var transporte = transporteRep.data
+
+        if (!Array.isArray(req.body.transportados)) {
+            req.body.transportados = [req.body.transportados]
+        }
+        console.log(req.body.transportados)
+        var novosTransportados = req.body.transportados.filter(x => !transporte.transportados.includes(x))
+        var transportadosRemovidos = transporte.transportados.filter(x => !req.body.transportados.includes(x))
+        var transportadosMantidos = transporte.transportados.filter(x => req.body.transportados.includes(x))
+
+        for (const transportado of novosTransportados) {
+            var divida = {
+                codEvento: req.body.codEvento,
+                codTransporte: transporte._id,
+                userID: transportado,
+                valor: req.body.custo
+            }
+
+            var resp = await axios.post('http://localhost:7779/dividaEvento', divida)
+        }
+
+        for (const transportado of transportadosRemovidos) {
+            await axios.delete('http://localhost:7779/dividaEvento?transporte=' + transporte._id + '&user=' + transportado)
+        }
+
+        var dividasEventoRep = await axios.get('http://localhost:7779/dividaEvento?transporte=' + req.body._id)
+        var dividasEvento = dividasEventoRep.data
+
+        for (const transportado of transportadosMantidos) {
+            var dividaRep = await axios.get('http://localhost:7779/dividaEvento?transporte=' + transporte._id + '&user=' + transportado)
+            var divida = dividaRep.data
+
+            // Se já não houver custo, apagar as dívidas
+            if (!req.body.custo) {
+                for (const divida of dividasEvento) {
+                    await axios.delete('http://localhost:7779/dividaEvento/' + divida._id)
+                }
+            } else if(req.body.custo != transporte.custo) {
+                // Se o custo foi alterado atualizar as dívidas
+                var dividaPut = {
+                    codEvento: req.body.codEvento,
+                    codTransporte: req.body._id,
+                    userID: divida.userID,
+                    valor: req.body.custo
+                }
+                await axios.put('http://localhost:7779/dividaEvento/' + divida._id, dividaPut)
+            }
+        }
+
         await axios.put('http://localhost:7779/transporte/' + req.body._id, req.body)
         res.redirect('/transporte/' + req.body._id)
     } catch(erro) {
@@ -63,6 +119,9 @@ router.get('/remover/:idTransporte', auth.verificaAcessoDiretor, async function(
     try {
         var transporteRep = await axios.get('http://localhost:7779/transporte/' + req.params.idTransporte)
         var transporte = transporteRep.data
+
+        await axios.delete('http://localhost:7779/dividaEvento?transporte=' + req.params.idTransporte)
+
         await axios.delete('http://localhost:7779/transporte/' + req.params.idTransporte)
         res.redirect('/evento/' + transporte.codEvento)
     } catch (erro) {
