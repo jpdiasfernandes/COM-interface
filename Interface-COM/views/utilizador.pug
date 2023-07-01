@@ -1,0 +1,15 @@
+extends layout
+
+block content
+    .w3-container(style="height:100%;background-color:#36393e")
+        .w3-row 
+            h1 Utilizador
+        .w3-row
+            fieldset
+                legend Descrição
+                b Username
+                h1= utilizador.username
+                b Nº Sócio
+                h3= utilizador.nSocio
+                b nª FPO
+                h3= utilizador.nFPO

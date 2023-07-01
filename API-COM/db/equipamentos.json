@@ -1,274 +1,638 @@
 [
-    {
-      "codEquipamento": "EQ001",
-      "tipo": "Computador",
-      "custo": 1500,
-      "desconto": 100,
-      "stock": [
-        {
-          "tamanho": "X",
-          "quantidade": 10
-        },
-        {
-          "tamanho": "Grande",
-          "quantidade": 5
-        }
-      ]
-    },
-    {
-      "codEquipamento": "EQ002",
-      "tipo": "Impressora",
-      "custo": 500,
-      "desconto": 50,
-      "stock": [
-        {
-          "tamanho": "XS",
-          "quantidade": 20
-        }
-      ]
-    },
-    {
-      "codEquipamento": "EQ003",
-      "tipo": "Monitor",
-      "custo": 300,
-      "desconto": 20,
-      "stock": [
-        {
-          "tamanho": "L",
-          "quantidade": 15
-        },
-        {
-          "tamanho": "M",
-          "quantidade": 10
-        }
-      ]
-    },
-    {
-      "codEquipamento": "EQ004",
-      "tipo": "Teclado",
-      "custo": 50,
-      "desconto": 0,
-      "stock": [
-        {
-          "tamanho": "L",
-          "quantidade": 30
-        }
-      ]
-    },
-    {
-      "codEquipamento": "EQ005",
-      "tipo": "Mouse",
-      "custo": 30,
-      "desconto": 5,
-      "stock": [
-        {
-          "tamanho": "XS",
-          "quantidade": 25
-        },
-        {
-          "tamanho": "X",
-          "quantidade": 20
-        }
-      ]
-    },
-    {
-      "codEquipamento": "EQ006",
-      "tipo": "Headset",
-      "custo": 100,
-      "desconto": 10,
-      "stock": [
-        {
-          "tamanho": "XL",
-          "quantidade": 12
-        }
-      ]
-    },
-    {
-      "codEquipamento": "EQ007",
-      "tipo": "Roteador",
-      "custo": 200,
-      "desconto": 25,
-      "stock": [
-        {
-          "tamanho": "L",
-          "quantidade": 8
-        }
-      ]
-    },
-    {
-      "codEquipamento": "EQ008",
-      "tipo": "Switch",
-      "custo": 150,
-      "desconto": 15,
-      "stock": [
-        {
-          "tamanho": "L",
-          "quantidade": 15
-        },
-        {
-          "tamanho": "M",
-          "quantidade": 10
-        }
-      ]
-    },
-    {
-      "codEquipamento": "EQ009",
-      "tipo": "Câmera",
-      "custo": 400,
-      "desconto": 50,
-      "stock": [
-        {
-          "tamanho": "L",
-          "quantidade": 5
-        }
-      ]
-    },
-    {
-      "codEquipamento": "EQ010",
-      "tipo": "Projetor",
-      "custo": 800,
-      "desconto": 75,
-      "stock": [
-        {
-          "tamanho": "L",
-          "quantidade": 3
-        }
-      ]
-    },
-    {
-      "codEquipamento": "EQ011",
-      "tipo": "Scanner",
-      "custo": 150,
-      "desconto": 0,
-      "stock": [
-        {
-          "tamanho": "XS",
-          "quantidade": 10
-        },
-        {
-          "tamanho": "M",
-          "quantidade": 8
-        }
-      ]
-    },
-    {
-      "codEquipamento": "EQ012",
-      "tipo": "Telefone",
-      "custo": 80,
-      "desconto": 5,
-      "stock": [
-        {
-          "tamanho": "M",
-          "quantidade": 25
-        }
-      ]
-    },
-    {
-      "codEquipamento": "EQ013",
-      "tipo": "Caixa de Som",
-      "custo": 120,
-      "desconto": 10,
-      "stock": [
-        {
-          "tamanho": "L",
-          "quantidade": 15
-        },
-        {
-          "tamanho": "XS",
-          "quantidade": 12
-        }
-      ]
-    },
-    {
-      "codEquipamento": "EQ014",
-      "tipo": "Impressora 3D",
-      "custo": 2000,
-      "desconto": 150,
-      "stock": [
-        {
-          "tamanho": "S",
-          "quantidade": 4
-        }
-      ]
-    },
-    {
-      "codEquipamento": "EQ015",
-      "tipo": "Tablet",
-      "custo": 600,
-      "desconto": 50,
-      "stock": [
-        {
-          "tamanho": "L",
-          "quantidade": 8
-        },
-        {
-          "tamanho": "XL",
-          "quantidade": 5
-        }
-      ]
-    },
-    {
-      "codEquipamento": "EQ016",
-      "tipo": "Smartphone",
-      "custo": 900,
-      "desconto": 100,
-      "stock": [
-        {
-          "tamanho": "XL",
-          "quantidade": 15
-        }
-      ]
-    },
-    {
-      "codEquipamento": "EQ017",
-      "tipo": "Câmera de Segurança",
-      "custo": 250,
-      "desconto": 20,
-      "stock": [
-        {
-          "tamanho": "L",
-          "quantidade": 10
-        },
-        {
-          "tamanho": "X",
-          "quantidade": 8
-        }
-      ]
-    },
-    {
-      "codEquipamento": "EQ018",
-      "tipo": "No-Break",
-      "custo": 300,
-      "desconto": 25,
-      "stock": [
-        {
-          "tamanho": "X",
-          "quantidade": 10
-        }
-      ]
-    },
-    {
-      "codEquipamento": "EQ019",
-      "tipo": "Caixa Registradora",
-      "custo": 150,
-      "desconto": 0,
-      "stock": [
-        {
-          "tamanho": "M",
-          "quantidade": 5
-        }
-      ]
-    },
-    {
-      "codEquipamento": "EQ020",
-      "tipo": "Estabilizador",
-      "custo": 80,
-      "desconto": 10,
-      "stock": [
-        {
-          "tamanho": "XL",
-          "quantidade": 15
-        }
-      ]
-    }
-  ]  
+  {
+    "nome": "Bússola de orientação",
+    "tipo": "Bússola",
+    "custo": 29.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "M",
+        "quantidade": 10
+      }
+    ]
+  },
+  {
+    "nome": "Mapa de orientação",
+    "tipo": "Mapa",
+    "custo": 9.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "L",
+        "quantidade": 5
+      }
+    ]
+  },
+  {
+    "nome": "Lanterna de cabeça",
+    "tipo": "Lanterna",
+    "custo": 19.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "S",
+        "quantidade": 8
+      },
+      {
+        "tamanho": "M",
+        "quantidade": 12
+      }
+    ]
+  },
+  {
+    "nome": "Pasta de orientação",
+    "tipo": "Pasta",
+    "custo": 7.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "L",
+        "quantidade": 10
+      }
+    ]
+  },
+  {
+    "nome": "Relógio de pulso",
+    "tipo": "Relógio",
+    "custo": 39.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "M",
+        "quantidade": 15
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 8
+      }
+    ]
+  },
+  {
+    "nome": "Binóculos de visão noturna",
+    "tipo": "Binóculos",
+    "custo": 89.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "S",
+        "quantidade": 5
+      },
+      {
+        "tamanho": "M",
+        "quantidade": 3
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 2
+      }
+    ]
+  },
+  {
+    "nome": "Camiseta de orientação",
+    "tipo": "Camiseta",
+    "custo": 14.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "M",
+        "quantidade": 20
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 15
+      },
+      {
+        "tamanho": "XL",
+        "quantidade": 10
+      }
+    ]
+  },
+  {
+    "nome": "Calças de orientação",
+    "tipo": "Calças",
+    "custo": 24.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "S",
+        "quantidade": 12
+      },
+      {
+        "tamanho": "M",
+        "quantidade": 8
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 5
+      }
+    ]
+  },
+  {
+    "nome": "Saco de dormir para acampamento",
+    "tipo": "Saco de dormir",
+    "custo": 49.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "M",
+        "quantidade": 6
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 4
+      },
+      {
+        "tamanho": "XL",
+        "quantidade": 2
+      }
+    ]
+  },
+  {
+    "nome": "Mochila de trekking",
+    "tipo": "Mochila",
+    "custo": 79.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "M",
+        "quantidade": 8
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 5
+      },
+      {
+        "tamanho": "XL",
+        "quantidade": 3
+      }
+    ]
+  },
+  {
+    "nome": "Capa de chuva",
+    "tipo": "Capa",
+    "custo": 12.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "S",
+        "quantidade": 10
+      },
+      {
+        "tamanho": "M",
+        "quantidade": 6
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 4
+      }
+    ]
+  },
+  {
+    "nome": "Protetor solar",
+    "tipo": "Protetor",
+    "custo": 9.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "M",
+        "quantidade": 20
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 15
+      },
+      {
+        "tamanho": "XL",
+        "quantidade": 10
+      }
+    ]
+  },
+  {
+    "nome": "Garrafa de água",
+    "tipo": "Garrafa",
+    "custo": 5.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "S",
+        "quantidade": 20
+      },
+      {
+        "tamanho": "M",
+        "quantidade": 15
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 10
+      }
+    ]
+  },
+  {
+    "nome": "Corda de escalada",
+    "tipo": "Corda",
+    "custo": 39.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "M",
+        "quantidade": 10
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 5
+      },
+      {
+        "tamanho": "XL",
+        "quantidade": 3
+      }
+    ]
+  },
+  {
+    "nome": "Óculos de proteção",
+    "tipo": "Óculos",
+    "custo": 14.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "M",
+        "quantidade": 15
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 8
+      }
+    ]
+  },
+  {
+    "nome": "Compasso de orientação",
+    "tipo": "Compasso",
+    "custo": 19.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "S",
+        "quantidade": 8
+      },
+      {
+        "tamanho": "M",
+        "quantidade": 12
+      }
+    ]
+  },
+  {
+    "nome": "Boné de proteção solar",
+    "tipo": "Boné",
+    "custo": 9.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "L",
+        "quantidade": 10
+      }
+    ]
+  },
+  {
+    "nome": "Luvas de orientação",
+    "tipo": "Luvas",
+    "custo": 14.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "M",
+        "quantidade": 20
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 15
+      },
+      {
+        "tamanho": "XL",
+        "quantidade": 10
+      }
+    ]
+  },
+  {
+    "nome": "Apito de emergência",
+    "tipo": "Apito",
+    "custo": 4.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "S",
+        "quantidade": 15
+      },
+      {
+        "tamanho": "M",
+        "quantidade": 10
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 5
+      }
+    ]
+  },
+  {
+    "nome": "Canivete multifuncional",
+    "tipo": "Canivete",
+    "custo": 24.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "M",
+        "quantidade": 8
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 5
+      },
+      {
+        "tamanho": "XL",
+        "quantidade": 3
+      }
+    ]
+  },
+  {
+    "nome": "Máscara de proteção",
+    "tipo": "Máscara",
+    "custo": 6.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "S",
+        "quantidade": 10
+      },
+      {
+        "tamanho": "M",
+        "quantidade": 6
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 4
+      }
+    ]
+  },
+  {
+    "nome": "Manta térmica",
+    "tipo": "Manta",
+    "custo": 11.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "M",
+        "quantidade": 15
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 8
+      }
+    ]
+  },
+  {
+    "nome": "Bastão de caminhada",
+    "tipo": "Bastão",
+    "custo": 29.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "S",
+        "quantidade": 8
+      },
+      {
+        "tamanho": "M",
+        "quantidade": 12
+      }
+    ]
+  },
+  {
+    "nome": "Bolsa de hidratação",
+    "tipo": "Bolsa",
+    "custo": 19.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "L",
+        "quantidade": 10
+      }
+    ]
+  },
+  {
+    "nome": "Meias de orientação",
+    "tipo": "Meias",
+    "custo": 7.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "M",
+        "quantidade": 20
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 15
+      },
+      {
+        "tamanho": "XL",
+        "quantidade": 10
+      }
+    ]
+  },
+  {
+    "nome": "Óleo repelente de insetos",
+    "tipo": "Óleo",
+    "custo": 8.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "M",
+        "quantidade": 20
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 15
+      },
+      {
+        "tamanho": "XL",
+        "quantidade": 10
+      }
+    ]
+  },
+  {
+    "nome": "Bandana multifuncional",
+    "tipo": "Bandana",
+    "custo": 6.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "S",
+        "quantidade": 20
+      },
+      {
+        "tamanho": "M",
+        "quantidade": 15
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 10
+      }
+    ]
+  },
+  {
+    "nome": "Kit de primeiros socorros",
+    "tipo": "Kit",
+    "custo": 29.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "M",
+        "quantidade": 10
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 5
+      },
+      {
+        "tamanho": "XL",
+        "quantidade": 3
+      }
+    ]
+  },
+  {
+    "nome": "Mochila de hidratação 2",
+    "tipo": "Mochila",
+    "custo": 39.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "M",
+        "quantidade": 8
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 5
+      }
+    ]
+  },
+  {
+    "nome": "Lanterna de cabeça 2",
+    "tipo": "Lanterna",
+    "custo": 24.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "M",
+        "quantidade": 12
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 8
+      }
+    ]
+  },
+  {
+    "nome": "Camiseta de orientação 2",
+    "tipo": "Camiseta",
+    "custo": 19.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "S",
+        "quantidade": 10
+      },
+      {
+        "tamanho": "M",
+        "quantidade": 6
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 4
+      }
+    ]
+  },
+  {
+    "nome": "Calças de orientação 2",
+    "tipo": "Calças",
+    "custo": 29.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "M",
+        "quantidade": 15
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 8
+      }
+    ]
+  },
+  {
+    "nome": "Relógio com bússola 2",
+    "tipo": "Relógio",
+    "custo": 49.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "M",
+        "quantidade": 10
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 5
+      }
+    ]
+  },
+  {
+    "nome": "Boné de orientação 2",
+    "tipo": "Boné",
+    "custo": 14.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "M",
+        "quantidade": 20
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 15
+      },
+      {
+        "tamanho": "XL",
+        "quantidade": 10
+      }
+    ]
+  },
+  {
+    "nome": "Calçados de trilha 2",
+    "tipo": "Calçados",
+    "custo": 79.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "M",
+        "quantidade": 8
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 5
+      },
+      {
+        "tamanho": "XL",
+        "quantidade": 3
+      }
+    ]
+  },
+  {
+    "nome": "Bússola de pulso 2",
+    "tipo": "Bússola",
+    "custo": 19.99,
+    "desconto": 0,
+    "stock": [
+      {
+        "tamanho": "M",
+        "quantidade": 10
+      },
+      {
+        "tamanho": "L",
+        "quantidade": 5
+      }
+    ]
+  }
+]

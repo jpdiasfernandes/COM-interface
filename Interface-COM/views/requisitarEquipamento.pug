@@ -8,8 +8,8 @@ block content
             form.w3-container(method="POST" action="/equipamento/requisitar")
                 fieldset
                     legend Requisitar Equipamento
-                    label Código
-                    input.w3-input.w3-round(type="text" name="codEquipamento" value=equipamento.codEquipamento readonly)
+                    label Nome
+                    input.w3-input.w3-round(type="text" name="nome" value=equipamento.nome readonly)
                     label Tipo
                     input.w3-input.w3-round(type="text" name="tipo" value=equipamento.tipo readonly)
                     label Custo

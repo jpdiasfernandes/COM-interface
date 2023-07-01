@@ -5,7 +5,8 @@
   Estas rotas envolvem:
     - listagem dos utilizadores (tanto sócios como diretores);
     - registo de um utilizador (tanto sócio como diretor);
-    - edição de um utilizador.
+    - edição de um utilizador;
+    - visualização de um utilizador.
 */
 
 var express = require('express');
@@ -115,6 +116,20 @@ router.post('/editar', auth.verificaAcessoSocioOuDiretor, function(req, res, nex
     })
     .catch(erro =>{
       res.render('error', {error: erro, message: erro})
+    })
+})
+
+/*
+  descrição: renderiza a página de visualização dos dados de um utilizador (tanto para o diretor como para o sócio)
+*/
+router.get('/:idUtilizador', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
+  axios.get("http://localhost:7780/user/" + req.params.idUtilizador)
+    .then(function(resp){
+        var utilizador = resp.data
+        res.render('utilizador', {utilizador:utilizador})
+    })
+    .catch( erro => {
+      res.render('error', {error: erro, message: "Erro!"})
     })
 })
 

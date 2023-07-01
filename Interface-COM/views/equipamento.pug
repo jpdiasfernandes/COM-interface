@@ -1,0 +1,26 @@
+extends layout
+
+block content
+    .w3-container(style="height:100%;background-color:#36393e")
+        .w3-row 
+            h1 Equipamento
+        .w3-row
+            fieldset
+                legend Descrição
+                b Nome
+                h1= equipamento.nome
+                b Tipo
+                h3= equipamento.tipo
+                b Custo
+                h3= equipamento.custo
+            fieldset
+                legend Stock
+                table.w3-table.w3-white
+                    tr.w3-black 
+                        th Tamanho
+                        th Quantidade
+
+                    each stock in equipamento.stock
+                        tr.w3-hover-deep-orange
+                            td= stock.tamanho
+                            td= stock.quantidade

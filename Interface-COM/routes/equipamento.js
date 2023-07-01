@@ -121,7 +121,7 @@ router.get('/adicionar', auth.verificaAcessoDiretor,function(req, res, next) {
 router.post('/editar', auth.verificaAcessoDiretor,function(req, res, next) {
   
   equipamento = {}
-  equipamento["codEquipamento"] = req.body.codEquipamento
+  equipamento["nome"] = req.body.nome
   equipamento["tipo"] = req.body.tipo
   equipamento["custo"] = req.body.custo 
   equipamento["_id"] = req.body._id
@@ -150,7 +150,7 @@ router.post('/editar', auth.verificaAcessoDiretor,function(req, res, next) {
 router.post('/adicionar', auth.verificaAcessoDiretor,function(req, res, next) {
   console.log(req.body)
   equipamento = {}
-  equipamento["codEquipamento"] = req.body.codEquipamento
+  equipamento["nome"] = req.body.nome
   equipamento["tipo"] = req.body.tipo
   equipamento["custo"] = req.body.custo 
   equipamento["stock"] = []
@@ -178,7 +178,7 @@ router.post('/adicionar', auth.verificaAcessoDiretor,function(req, res, next) {
 router.post('/requisitar', auth.verificaAcessoSocio,function(req, res, next) {
   idUtilizador = auth.getID(req.cookies.token)
   var dividaEquipamento = {
-    codEquipamento:req.body.codEquipamento,
+    codEquipamento:req.body._id,
     userID:idUtilizador,
     estado:"não entregue",
     tamanho:req.body.tamanho
@@ -223,6 +223,20 @@ router.post('/dividaEquipamento/editar', auth.verificaAcessoDiretor,function(req
       res.render('error', {error: erro, message: "Erro!"})
     })
 
+})
+
+/*
+  descrição: renderiza a página de visualização de um equipamento (tanto para o diretor como para o sócio)
+*/
+router.get('/:idEquipamento', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
+  axios.get("http://localhost:7779/equipamento/" + req.params.idEquipamento)
+    .then(function(resp){
+        var equipamento = resp.data
+        res.render('equipamento', {equipamento:equipamento})
+    })
+    .catch( erro => {
+      res.render('error', {error: erro, message: "Erro!"})
+    })
 })
 
 module.exports = router;

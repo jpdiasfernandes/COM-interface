@@ -6,7 +6,7 @@ var stockSchema = new mongoose.Schema({
 })
 
 var equipamentoSchema = new mongoose.Schema({
-    codEquipamento:String,
+    nome:String,
     tipo:String,
     custo:Number,
     desconto:Number,

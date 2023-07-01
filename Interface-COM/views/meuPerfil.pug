@@ -35,6 +35,6 @@ block content
                         th Estado
                     each dividaEquipamento in dividasEquipamentos
                         tr.w3-hover-deep-orange
-                            td= dividaEquipamento.codEquipamento
+                            td #[a(href="/equipamento/"+dividaEquipamento.codEquipamento style="text-decoration:none") #{dividaEquipamento.codEquipamento.substring(0,6)} ...]
                             td= dividaEquipamento.tamanho 
                             td= dividaEquipamento.estado

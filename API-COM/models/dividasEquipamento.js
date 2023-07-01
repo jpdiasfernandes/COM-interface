@@ -1,7 +1,7 @@
 var mongoose = require('mongoose')
 
 var dividaEquipamentoSchema = new mongoose.Schema({
-    codEquipamento:String,
+    codEquipamento:{type: mongoose.Schema.Types.ObjectId, ref: 'equipamento'},
     userID:String,
     estado:String,
     tamanho:String
