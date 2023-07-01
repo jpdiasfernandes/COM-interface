@@ -7,6 +7,8 @@ block content
             ul.w3-ul.w3-hoverable(style="background-color:#424549")
                 li.w3-hover-deep-orange Nome: #{evento.nome}
                 li.w3-hover-deep-orange Descrição: #{evento.descricao}
+                li.w3-hover-deep-orange Data Início: #{evento.dataInicio}
+                li.w3-hover-deep-orange Data Fim: #{evento.dataFim}
 
         .w3-row
             .w3-third.w3-container
@@ -23,7 +25,7 @@ block content
                             td= usersMap.get(inscrito.userID).nFPO
                             td
                                 button.w3-btn.w3-red.w3-margin-right(style="width:100%")
-                                    a(href="/inscrito/remover?evento=" + evento._id + "&socio=" + inscrito.userID  style="text-decoration:none") Desinscrever
+                                    a(href="/inscrito/remover/" + inscrito._id  style="text-decoration:none") Desinscrever
 
                 form.w3-container(method="POST" action="/inscrito")
                     fieldset
@@ -81,7 +83,7 @@ block content
                 .w3-row
                     form.w3-container(method="POST" action="/apoioKm")
                         fieldset
-                            legend Inscrever
+                            legend Adicionar Apoio
                             input(type="hidden" name="codEvento" value=evento._id)
                             label Nº Sócio
                             input.w3-input.w3-round(type="text" name="userID")

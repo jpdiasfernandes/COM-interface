@@ -22,7 +22,11 @@ router.get('/', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
         .then(resp =>{
             eventos = resp.data
             nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
-            res.render('eventos',{eventos:eventos,nivelAcesso:nivelAcesso})
+            if (nivelAcesso == "diretor") {
+                res.render('eventosDiretoria',{eventos:eventos,nivelAcesso:nivelAcesso})
+            } else if (nivelAcesso == "socio") {
+                res.render('eventosSocio',{eventos:eventos,nivelAcesso:nivelAcesso})
+            }
         })
         .catch( erro => {
             res.render('error', {error: erro, message: "Erro!"})
@@ -57,6 +61,8 @@ router.get('/:idEvento', auth.verificaAcessoSocioOuDiretor, async function(req, 
 
 
             var usersMap = await users.mapSocioUser([inscritos, transportes, apoios])
+            console.log(transportes)
+            console.log(usersMap)
             //var apoioUsersMap = new Map()
 
             //for (const apoio of apoios) {
@@ -74,6 +80,17 @@ router.get('/:idEvento', auth.verificaAcessoSocioOuDiretor, async function(req, 
             var usersMap = await users.mapSocioUser([inscritos])
             res.render('eventoSocio',{evento:evento,nivelAcesso:nivelAcesso, inscritos: inscritos, myUser:myUser, usersMap: usersMap})
         }
+    } catch (error) {
+        res.render('error', {error: error, message: "Erro!"})
+    }
+})
+
+router.post('/', auth.verificaAcessoDiretor, async function(req, res, next) {
+    try {
+        var evento = req.body
+        var eventoResp = await axios.post('http://localhost:7779/evento', evento)
+        var evento = eventoResp.data
+        res.redirect('/evento')
     } catch (error) {
         res.render('error', {error: error, message: "Erro!"})
     }

@@ -14,24 +14,27 @@ var router = express.Router();
 var axios = require('axios')
 var auth = require('../helpers/auth')
 var users = require('../helpers/users')
-router.get('/remover', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
-    if (req.query.evento && req.query.socio) {
-        axios.delete('http://localhost:7779/inscrito?evento=' + req.query.evento + '&socio=' + req.query.socio)
-            .then(resp =>{
-                res.redirect('/evento/' + req.query.evento)
-            })
-            .catch( erro => {
-                res.render('error', {error: erro, message: "Erro!"})
-            })
-    } else {
-        res.render('error', {error: erro, message: "Erro!"})
-    }
-})
+//router.get('/remover', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
+//    if (req.query.evento && req.query.socio) {
+//        axios.delete('http://localhost:7779/inscrito?evento=' + req.query.evento + '&socio=' + req.query.socio)
+//            .then(resp =>{
+//                res.redirect('/evento/' + req.query.evento)
+//            })
+//            .catch( erro => {
+//                res.render('error', {error: erro, message: "Erro!"})
+//            })
+//    } else {
+//        res.render('error', {error: erro, message: "Erro!"})
+//    }
+//})
 
 router.get('/remover/:idInscrito', auth.verificaAcessoSocioOuDiretor, async function(req, res, next) {
     try {
         var inscritoRep = await axios.get('http://localhost:7779/inscrito/' + req.params.idInscrito)
         var inscrito = inscritoRep.data
+
+        await axios.delete('http://localhost:7779/dividaEvento?inscrito=' + req.params.idInscrito)
+
         await axios.delete('http://localhost:7779/inscrito/' + req.params.idInscrito)
         res.redirect('/evento/' + inscrito.codEvento)
     } catch (erro) {
@@ -50,15 +53,35 @@ router.get('/:idInscrito', auth.verificaAcessoDiretor, async function(req, res, 
        res.render('error', {error: erro, message: "Erro!"})
    }
 })
-router.post('/', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
-    axios.post('http://localhost:7779/inscrito', req.body)
-        .then(resp =>{
-            var nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
-            res.redirect('/evento/' + req.body.codEvento)
-        })
-        .catch( erro => {
-            res.render('error', {error: erro, message: "Erro!"})
-        })
+router.post('/', auth.verificaAcessoSocioOuDiretor, async function(req, res, next) {
+    try {
+        var inscritosRep = await axios.get('http://localhost:7779/inscrito?evento=' + req.body.codEvento + '&user=' + req.body.userID)
+        var inscritos = inscritosRep.data
+        // Só inscrever se não houver nenhuma inscrição com o mesmo evento e sócio
+        if (inscritos.length == 0) {
+            var inscritoRep =  await axios.post('http://localhost:7779/inscrito', req.body)
+            var inscrito = inscritoRep.data
+
+            console.log(inscritos)
+
+            // Se houver um despesaExtra da inscrição é necessário criar uma divida
+            if (req.body.despesaExtra) {
+                var divida = {
+                    codEvento: req.body.codEvento,
+                    codInscrito: inscrito._id,
+                    userID: req.body.userID,
+                    valor: req.body.despesaExtra
+                }
+                var resp = await axios.post('http://localhost:7779/dividaEvento', divida)
+                console.log(resp.data)
+            }
+        }
+
+        res.redirect('/evento/' + req.body.codEvento)
+    } catch(erro) {
+        res.render('error', {error: erro, message: "Erro!"})
+    }
+
 })
 
 router.get('/editar/:idInscrito', auth.verificaAcessoDiretor, async function(req, res, next) {
@@ -71,16 +94,37 @@ router.get('/editar/:idInscrito', auth.verificaAcessoDiretor, async function(req
     } catch (erro) {
         res.render('error', {error: erro, message: "Erro!"})
     }
-
 })
-router.post('/editar', auth.verificaAcessoDiretor, function(req, res, next) {
-    axios.put('http://localhost:7779/inscrito/' + req.body._id, req.body)
-        .then(resp => {
-            res.redirect('/inscrito/' + req.body._id)
-        })
-        .catch(erro => {
-            res.render('error', {error: erro, message: "Erro!"})
-        })
+router.post('/editar', auth.verificaAcessoDiretor, async function(req, res, next) {
+    try {
+        var inscritoRep = await axios.get('http://localhost:7779/inscrito/' + req.body._id)
+        var inscrito = inscritoRep.data
+
+        // Se houver um despesaExtra da inscrição é necessário criar uma divida
+        var dividaEventoRep = await axios.get('http://localhost:7779/dividaEvento?inscrito=' + req.body._id)
+        var dividaEvento = dividaEventoRep.data
+        // Já houve uma inscrição com despesaExtra e houve a criação de uma dividaEvento com o id da inscrição
+        if (inscrito.despesaExtra && dividaEvento.length == 1) {
+            // Se já não houver despesa apagar a dívida
+            if (!req.body.despesaExtra) {
+                await axios.delete('http://localhost:7779/dividaEvento/' + dividaEvento[0]._id)
+            } else if(req.body.despesaExtra != inscrito.despesaExtra) {
+                // Se a despesa foi alterada atualizar a dívida
+                var divida = {
+                    codEvento: req.body.codEvento,
+                    codInscrito: req.body._id,
+                    userID: req.body.userID,
+                    valor: req.body.despesaExtra
+                }
+                await axios.put('http://localhost:7779/dividaEvento/' + dividaEvento[0]._id, divida)
+            }
+        }
+
+        axios.put('http://localhost:7779/inscrito/' + req.body._id, req.body)
+        res.redirect('/inscrito/' + req.body._id)
+    } catch(erro) {
+        res.render('error', {error: erro, message: "Erro!"})
+    }
 })
 
 module.exports = router

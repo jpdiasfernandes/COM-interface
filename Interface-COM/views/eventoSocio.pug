@@ -7,8 +7,10 @@ block content
             ul.w3-ul.w3-hoverable(style="background-color:#424549")
                 li.w3-hover-deep-orange Nome: #{evento.nome}
                 li.w3-hover-deep-orange Descrição: #{evento.descricao}
+                li.w3-hover-deep-orange Data Início: #{evento.dataInicio}
+                li.w3-hover-deep-orange Data Fim: #{evento.dataFim}
 
-        .w3-row
+    .w3-row
             .w3-col.m3
                 h1
             .w3-col.m6.w3-container
@@ -26,7 +28,7 @@ block content
                             td
                                 if myUser._id == user._id
                                     button.w3-btn.w3-red.w3-margin-right(style="width:100%")
-                                        a(href="/inscrito/remover?evento=" + evento._id + "&socio=" + user.nSocio  style="text-decoration:none") Desinscrever
+                                        a(href="/inscrito/remover/" + inscrito._id  style="text-decoration:none") Desinscrever
 
             .w3-col.m3
                 h1
