@@ -5,12 +5,11 @@ block content
         .w3-row 
             h1 Login
         .w3-row
-            form.w3-container(method="POST" action="/autenticacao/login")
-                fieldset
-                    legend Login
-                    label Username
-                    input.w3-input.w3-round(type="text" name="username")
-                    label Senha
-                    input.w3-input.w3-round(type="password" name="password")
-                br 
-                button.w3-btn.w3.w3-deep-orange.w3-margin-right(style="width:100%" type="submit") Login
+            .w3-half.w3-container
+                form.w3-container(method="POST" action="/autenticacao/login")
+                    fieldset
+                        legend Login
+                        input.w3-input.w3-round(type="text" name="username" placeholder="username" style="margin-bottom:6px;background-color:#282b30;color:white;border:none")
+                        input.w3-input.w3-round(type="password" name="password" placeholder="password" style="background-color:#282b30;color:white;border:none")
+                    br 
+                    button.w3-btn.w3.w3-deep-orange.w3-margin-right(style="width:100%" type="submit") Login

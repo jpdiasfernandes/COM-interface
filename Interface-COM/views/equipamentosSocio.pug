@@ -5,7 +5,33 @@ block content
         .w3-row 
             h1 Equipamentos
         .w3-row
-            table.w3-table(style="background-color:#424549")
+            span(style="display:flex;flex-direction:row;margin-top:6px")
+                form(method="POST" action="/equipamento/filtro" style="width:100%;height:100%;margin-right:6px")
+                    fieldset
+                        legend Filtros
+                        input.w3-input.w3-round(type="text" name="tipo" placeholder="tipo" style="background-color:#282b30;color:white;border:none")
+                        input.w3-input.w3-round(type="text" name="nome" placeholder="nome" style="background-color:#282b30;color:white;border:none; margin-top:6px")
+                        span(style="display:flex;flex-direction:row;margin-top:6px") 
+                            input.w3-input.w3-round(type="text" name="custo" placeholder="custo" style="background-color:#282b30;color:white;border:none")
+                            select.w3-select(name="custoLimite" style="margin-left:8px;background-color:#424549;color:white;border:none")
+                                option(value=maior) Maior
+                                option(value=menor) Menor
+                        br
+                        button.w3-btn.w3.w3-white.w3-margin-right(style="width:100%" type="submit") #[i.fas.fa-filter] Aplicar
+                form(method="POST" action="/equipamento/ordenacao" style="width:100%")
+                    fieldset
+                        legend Ordenação
+                        span(style="display:flex;flex-direction:row;margin-top:6px")
+                            select.w3-select(name="campo" style="background-color:#424549;;border:none;color:white")
+                                option(value="custo") Custo
+                                option(value="nome") Nome
+                            select.w3-select(name="ordem" style="background-color:#424549;margin-left:6px;border:none;color:white")
+                                option(value="asc") Ascendente
+                                option(value="desc") Descendente
+                        br
+                        button.w3-btn.w3.w3-white.w3-margin-right(style="width:100%" type="submit") #[i.fas.fa-sort] Aplicar
+            br
+            table.w3-table(style="background-color:#282b30;")
                 tr.w3-black
                     th Nome 
                     th Tipo
@@ -15,11 +41,11 @@ block content
                 
                 each equipamento in equipamentos
                     tr.w3-hover-deep-orange
-                        td= equipamento.nome
+                        td #[a(href="/equipamento/"+equipamento._id style="text-decoration:none") #{equipamento.nome}]
                         td= equipamento.tipo
                         td= equipamento.custo
                         td
-                            table.w3-table.w3-white
+                            table.w3-table(style="background-color:#424549;")
                                 tr.w3-black 
                                     th Tamanho
                                 

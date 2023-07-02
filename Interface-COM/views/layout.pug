@@ -14,7 +14,7 @@ html
       if user
         if user.nivelAcesso == "diretor" || user.nivelAcesso == "socio"
           a(href="/home" style="color:white;background-color:transparent").w3-bar-item.w3-button #[i.fas.fa-home] #[span(id="home") Página Principal]
-        span(style="background-color: rgba(46, 46, 46, 0.23);border-radius:12px;padding:3px")
+        span(style="background-color: rgba(46, 46, 46, 0.23);padding:3px")
           if user.nivelAcesso == "diretor" || user.nivelAcesso == "socio"
             a(href="/equipamento/" style="color:white").w3-bar-item.w3-button #[i.fas.fa-tshirt] #[span(id="equipamentos") Equipamentos]
           if user.nivelAcesso == "diretor" || user.nivelAcesso == "socio"

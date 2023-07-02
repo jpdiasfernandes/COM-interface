@@ -13,6 +13,7 @@ var express = require('express');
 var router = express.Router();
 var axios = require('axios')
 var auth = require('../helpers/auth')
+var equipamento = require('../helpers/equipamento')
 
 /*
   descrição: renderiza a página de equipamentos na vista do sócio ou do diretor segundo o nível de acesso.
@@ -43,7 +44,6 @@ router.get('/', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
       res.render('error', {error: erro, message: "Erro!"})
     })
 })
-
 
 /*
   descrição: remove o equipamento com id <idEquipamento>
@@ -223,6 +223,60 @@ router.post('/dividaEquipamento/editar', auth.verificaAcessoDiretor,function(req
       res.render('error', {error: erro, message: "Erro!"})
     })
 
+})
+
+/*
+  descrição: renderiza a página dos equipamentos segundo o filtro selecionado para os equipamentos
+*/
+router.post('/filtro', auth.verificaAcessoSocioOuDiretor,function(req, res, next) {
+  axios.get("http://localhost:7779/equipamento")
+    .then(function(resp){
+        var equipamentos = resp.data
+        equipamentos = equipamento.filtroEquipamentos(equipamentos,req.body)
+        nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
+        if (nivelAcesso == "socio"){
+          res.render('equipamentosSocio', {equipamentos:equipamentos})
+        }else if (nivelAcesso == "diretor"){
+          axios.get("http://localhost:7779/dividasEquipamento")
+            .then(function(resp){
+                var dividasEquipamento = resp.data
+                res.render('equipamentosDiretoria', {dividasEquipamento:dividasEquipamento,equipamentos:equipamentos})
+            })
+            .catch( erro => {
+              res.render('error', {error: erro, message: "Erro!"})
+            })
+        }
+    })
+    .catch( erro => {
+      res.render('error', {error: erro, message: "Erro!"})
+    })
+})
+
+/*
+  descrição: renderiza a página dos equipamentos segundo a ordenação selecionada para os equipamentos
+*/
+router.post('/ordenacao', auth.verificaAcessoSocioOuDiretor,function(req, res, next) {
+  axios.get("http://localhost:7779/equipamento")
+    .then(function(resp){
+        var equipamentos = resp.data
+        equipamentos = equipamento.ordenacaoEquipamentos(equipamentos,req.body)
+        nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
+        if (nivelAcesso == "socio"){
+          res.render('equipamentosSocio', {equipamentos:equipamentos})
+        }else if (nivelAcesso == "diretor"){
+          axios.get("http://localhost:7779/dividasEquipamento")
+            .then(function(resp){
+                var dividasEquipamento = resp.data
+                res.render('equipamentosDiretoria', {dividasEquipamento:dividasEquipamento,equipamentos:equipamentos})
+            })
+            .catch( erro => {
+              res.render('error', {error: erro, message: "Erro!"})
+            })
+        }
+    })
+    .catch( erro => {
+      res.render('error', {error: erro, message: "Erro!"})
+    })
 })
 
 /*
