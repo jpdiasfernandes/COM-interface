@@ -5,7 +5,10 @@ block content
         .w3-row 
             h1 Meu Perfil #[a(href="/utilizador/editar/" + utilizador._id) #[i.fas.fa-edit]] 
         .w3-row 
-            h2 #[i.fas.fa-user] #{utilizador.username}
+            .w3-half
+                h2 #[i.fas.fa-user] #{utilizador.username}
+            .w3-half(style="display:flex; justify-content:flex-end; align-items:center")
+                h2 Balanço #{balanco} #[i.fas.fa-euro-sign]
         .w3-row
             .w3-third.w3-container
                 h4 #[i.fas.fa-mobile-alt] #{utilizador.telMovel}

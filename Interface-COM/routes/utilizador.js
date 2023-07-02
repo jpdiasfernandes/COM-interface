@@ -14,6 +14,7 @@ var router = express.Router();
 var axios = require('axios')
 var auth = require('../helpers/auth')
 var eventos = require('../helpers/eventos')
+var users = require('../helpers/users')
 
 /*
   descrição: renderiza a página de utilizadores. Esta página contém:
@@ -65,8 +66,9 @@ router.get('/perfil', auth.verificaAcessoSocio, async function(req, res, next) {
             }
         }
 
+        var balanco = users.balanco(receitasEvento, dividasEvento)
         console.log(dividasEvento.length)
-        res.render('meuPerfil',{utilizador:utilizador,dividasEquipamentos:dividasUtilizador,dividasEvento:dividasEvento,eventosMap:eventosMap,nivelAcesso:nivelAcesso, receitasEvento: receitasEvento})
+        res.render('meuPerfil',{utilizador:utilizador,dividasEquipamentos:dividasUtilizador,dividasEvento:dividasEvento,eventosMap:eventosMap,nivelAcesso:nivelAcesso, receitasEvento: receitasEvento, balanco: balanco})
 
     } catch(erro) {
         res.render('error', {error: erro, message: "Erro!"})
