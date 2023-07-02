@@ -1,0 +1,57 @@
+version: '1'
+
+services:
+  autenticacao:
+    container_name: autenticacao
+    build: ./Autenticacao-COM
+    restart: always
+    environment:
+      - MONGODB_URL=mongodb://mongodb/COM
+    ports:
+      - '13001:7780'
+    depends_on:
+      - mongodb
+    networks:
+      - com-network
+
+  api:
+    container_name: api
+    build: ./API-COM
+    restart: always
+    environment:
+      - MONGODB_URL=mongodb://mongodb/COM
+      - AUTH_SERVER=autenticacao
+    depends_on:
+      - mongodb
+      - autenticacao
+    networks:
+      - com-network
+
+  interface:
+    container_name: interface
+    build: ./Interface-COM
+    restart: always
+    environment:
+      - AUTH_SERVER=autenticacao
+      - API_SERVER=api
+    ports:
+      - '13000:7778'
+    depends_on:
+      - autenticacao
+      - api
+    networks:
+      - com-network
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    restart: always
+    volumes:
+      - dbdata:/data/db
+    networks:
+      - com-network
+volumes:
+  dbdata:
+
+networks:
+  com-network:
+    driver: bridge

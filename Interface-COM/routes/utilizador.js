@@ -24,7 +24,7 @@ var users = require('../helpers/users')
   Apenas diretores podem acessar a esta página.
 */
 router.get('/', auth.verificaAcessoDiretor, function(req, res, next) {
-    axios.get('http://localhost:7780/user/')
+    axios.get('http://autenticacao:7780/user/')
     .then(resp =>{
         utilizadores = resp.data
         nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
@@ -47,16 +47,16 @@ router.get('/perfil', auth.verificaAcessoSocio, async function(req, res, next) {
   nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
   idUtilizador = auth.getID(req.cookies.token)
     try {
-        var utilizadorRep = await axios.get('http://localhost:7780/user/' + idUtilizador)
+        var utilizadorRep = await axios.get('http://autenticacao:7780/user/' + idUtilizador)
         var utilizador = utilizadorRep.data
 
-        var dividasEquipamentosRep = await axios.get('http://localhost:7779/dividasEquipamento/')
+        var dividasEquipamentosRep = await axios.get('http://api:7779/dividasEquipamento/')
         var dividasEquipamentos = dividasEquipamentosRep.data
 
-        var dividasEventoRep = await axios.get('http://localhost:7779/dividaEvento?user=' + utilizador.nSocio)
+        var dividasEventoRep = await axios.get('http://api:7779/dividaEvento?user=' + utilizador.nSocio)
         var dividasEvento = dividasEventoRep.data
 
-        var receitasEventoRep =  await axios.get('http://localhost:7779/receitaEvento?user=' + utilizador.nSocio)
+        var receitasEventoRep =  await axios.get('http://api:7779/receitaEvento?user=' + utilizador.nSocio)
         var receitasEvento = receitasEventoRep.data
 
         var eventosMap = await eventos.mapEvento([dividasEvento, receitasEvento])
@@ -104,7 +104,7 @@ router.get('/perfil', auth.verificaAcessoSocio, async function(req, res, next) {
   são enviados através do req.body. Apenas diretores podem criar novos utilizadores.
 */
 router.post('/adicionar', auth.verificaAcessoDiretor, function(req, res, next) {
-  axios.post('http://localhost:7780/user/registo',req.body)
+  axios.post('http://autenticacao:7780/user/registo',req.body)
     .then(resp =>{
       nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
       res.status(200).render('feedbackServidor',{texto:"Utilizador adicionado com sucesso",voltarUrl:"/utilizador",nivelAcesso:nivelAcesso})
@@ -125,7 +125,7 @@ router.post('/adicionar', auth.verificaAcessoDiretor, function(req, res, next) {
   e voltar a página de utilizadores ou atualizar os tais valores que modificou do utilizador.
 */
 router.get('/editar/:idUtilizador', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
-  axios.get("http://localhost:7780/user/" + req.params.idUtilizador)
+  axios.get("http://autenticacao:7780/user/" + req.params.idUtilizador)
     .then(function(resp){
         var utilizador = resp.data
         nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
@@ -141,7 +141,7 @@ router.get('/editar/:idUtilizador', auth.verificaAcessoSocioOuDiretor, function(
   são enviados através do req.body.
 */
 router.post('/editar', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
-  axios.put('http://localhost:7780/user/' + req.body._id,req.body)
+  axios.put('http://autenticacao:7780/user/' + req.body._id,req.body)
     .then(resp =>{
       nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
       if (nivelAcesso == "diretor"){
@@ -159,7 +159,7 @@ router.post('/editar', auth.verificaAcessoSocioOuDiretor, function(req, res, nex
   descrição: renderiza a página de visualização dos dados de um utilizador (tanto para o diretor como para o sócio)
 */
 router.get('/:idUtilizador', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
-  axios.get("http://localhost:7780/user/" + req.params.idUtilizador)
+  axios.get("http://autenticacao:7780/user/" + req.params.idUtilizador)
     .then(function(resp){
         var utilizador = resp.data
         res.render('utilizador', {utilizador:utilizador})
@@ -173,7 +173,7 @@ router.get('/:idUtilizador', auth.verificaAcessoSocioOuDiretor, function(req, re
   descrição: remove o utilizador com id <idUser>
 */
 router.get('/remover/:idUser', auth.verificaAcessoDiretor, function(req, res, next) {
-  axios.delete("http://localhost:7780/user/"+req.params.idUser)
+  axios.delete("http://autenticacao:7780/user/"+req.params.idUser)
     .then(function(resp){
         res.render('feedbackServidor', {texto:"Utilizador removido com sucesso",voltarUrl:"/utilizador/"})
     })

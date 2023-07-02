@@ -9,7 +9,8 @@ var LocalStrategy = require('passport-local').Strategy
 var User = require('./models/user')
 var mongoose = require('mongoose')
 
-var mongoDB = 'mongodb://127.0.0.1/COM'
+var mongoDB = process.env.MONGODB_URL
+
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true})
 var db = mongoose.connection
 db.on('error', console.error.bind(console,'MongoDB connection error...'))

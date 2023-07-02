@@ -15,7 +15,7 @@ var auth = require('../helpers/auth')
   descrição: renderiza a página de notificações do sócio ou do diretor segundo o nível de acesso.
 */
 router.get('/', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
-    axios.get("http://localhost:7779/notificacao")
+    axios.get("http://api:7779/notificacao")
         .then(function(resp){
             var notificacoes = resp.data
             nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
@@ -36,7 +36,7 @@ router.get('/', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
 */
 router.post('/adicionar', auth.verificaAcessoDiretor,function(req, res, next) {
     req.body.data = new Date().toISOString().substring(0, 16)
-    axios.post("http://localhost:7779/notificacao",req.body)
+    axios.post("http://api:7779/notificacao",req.body)
       .then(function(resp){
         res.render('feedbackServidor', {texto:"Notificação adicionada com sucesso",voltarUrl:"/notificacao/",})
       })
@@ -51,7 +51,7 @@ router.post('/adicionar', auth.verificaAcessoDiretor,function(req, res, next) {
   e voltar a página de notificações ou confirmar a modificação da notificação.
 */
 router.get('/editar/:idNotificacao', auth.verificaAcessoDiretor,function(req, res, next) {
-    axios.get("http://localhost:7779/notificacao/" + req.params.idNotificacao)
+    axios.get("http://api:7779/notificacao/" + req.params.idNotificacao)
       .then(function(resp){
           var notificacao = resp.data
           res.render('editarNotificacao', {notificacao:notificacao})
@@ -67,7 +67,7 @@ router.get('/editar/:idNotificacao', auth.verificaAcessoDiretor,function(req, re
   com o seu ID)
 */
 router.post('/editar', auth.verificaAcessoDiretor,function(req, res, next) {
-axios.put("http://localhost:7779/notificacao/"+req.body._id,req.body)
+axios.put("http://api:7779/notificacao/"+req.body._id,req.body)
     .then(function(resp){
     res.render('feedbackServidor', {texto:"Notificação alterada com sucesso",voltarUrl:"/notificacao/"})
     })
@@ -82,7 +82,7 @@ axios.put("http://localhost:7779/notificacao/"+req.body._id,req.body)
   descrição: remove a notificação com id <idNotificacao>
 */
 router.get('/remover/:idNotificacao', auth.verificaAcessoDiretor, function(req, res, next) {
-    axios.delete("http://localhost:7779/notificacao/"+req.params.idNotificacao)
+    axios.delete("http://api:7779/notificacao/"+req.params.idNotificacao)
       .then(function(resp){
           res.render('feedbackServidor', {texto:"Notificação removida com sucesso",voltarUrl:"/notificacao/"})
       })
@@ -106,7 +106,7 @@ router.post('/filtro', auth.verificaAcessoSocioOuDiretor,function(req, res, next
     queryString += 'order=' + req.body.ordem + "&"
   }
   
-  axios.get("http://localhost:7779/notificacao" + queryString)
+  axios.get("http://api:7779/notificacao" + queryString)
     .then(function(resp){
         var notificacoes = resp.data
         nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
@@ -125,7 +125,7 @@ router.post('/filtro', auth.verificaAcessoSocioOuDiretor,function(req, res, next
   descrição: renderiza a página da notificação com id <idNotificacao>
 */
 router.get('/:idNotificacao', auth.verificaAcessoDiretor, function(req, res, next) {
-  axios.get("http://localhost:7779/notificacao/"+req.params.idNotificacao)
+  axios.get("http://api:7779/notificacao/"+req.params.idNotificacao)
     .then(function(resp){
         var notificacao = resp.data
         res.render('notificacao', {notificacao:notificacao})

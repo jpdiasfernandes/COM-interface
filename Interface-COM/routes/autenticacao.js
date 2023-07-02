@@ -30,7 +30,7 @@ router.get('/login', function(req, res, next) {
   e a password são enviadas através do req.body
 */
 router.post('/login', function(req, res, next) {
-  axios.post('http://localhost:7780/user/login',req.body)
+  axios.post('http://autenticacao:7780/user/login',req.body)
     .then(resp =>{
       res.cookie('token',resp.data.token).redirect('/home')
     })
