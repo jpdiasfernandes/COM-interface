@@ -29,6 +29,12 @@
     2. [API COM](#api)
     3. [Auth COM](#auth)
     4. [Interface COM](#interface)
+5. [Deployment do Sistema](#deployment)
+    1. [Serviços](#servicos)
+       1. [Autenticação](#autenticacao)
+       2. [API](#api)
+       3. [Interface](#interface)
+       4. [Base de Dados](#bd)
 
 <a id="dominio"></a>
 
@@ -1080,3 +1086,61 @@ A interface gráfica possui funcionalidades e renderização de páginas mediant
         <p><b>Descrição</b>: renderiza a página de notificações segundo o filtro selecionado para as notificações (o filtro é enviado através do <i>req.body</i>).</p>
     </li>
 </ul>
+
+<a id="deployment"></a>
+# Deployment
+
+A configuração necessária para eventualmente fazer o <i>deployment</i> da aplicação foi feita com recurso ao Docker-Compose. 
+
+## Serviços
+<a id="servicos"></a>
+
+Como descrito em [Modelação do Sistema](#modelacao) o nosso sistema possui 4 camadas, sendo que cada uma é facilmente mapeada num serviço de docker.
+
+Os serviços criados foram os seguintes:
+<ul>
+    <li>autenticacao</li>
+    <li>api</li>
+    <li>interface</li>
+    <li>mongodb</li>
+</ul>
+
+A seguir, descrevemos a configuração de cada um dos serviços.
+
+<a id="autenticacao"></a>
+### Autenticação
+
+O serviço de autenticação só pode ser inicializado quando o serviço de [mongodb](#mongodb) estiver a correr, assim este serviço depende do serviço de [mongodb](#mongodb).
+
+Como o serviço de autenticação necessita de fazer pedidos à base de dados foi adicionado uma variável de ambiente <i>MONGO_URL</i> que contém o endereço do serviço de <i>mongodb</i>, que é o nome do serviço no docker-compose. De salientar que tal é possível visto que estão ligados todos na mesma rede <i>com-network</i>.
+
+O serviço de autenticação expõem a porta 13001 para o público. Não é a solução ideal, uma vez que abre ao público uma das interfaces mais críticas do sistema. No entanto, para efeitos de demonstração, foi a solução mais simples que permitia rapidamente adicionar um utilizador à base de dados com a palavra chave hasheada. Para trabalho futuro prentendemos corrigir esta vulnerabilidade.
+
+A imagem usada para o serviço foi configurada com o Dockerfile presente na pasta Autenticacao-COM.
+
+É criada uma pasta /app/autenticacao e utilizada como diretoria de trabalho, onde são copiados os ficheiros pertencentes à pasta Autenticacao-COM para essa diretoria.
+
+De seguida são instaladas as dependências necessárias para correr o serviço, através do <b>RUN</b> npm install e por fim é executado o comando <b>CMD</b> npm start.
+
+
+<a id="api"></a>
+### API 
+De forma análoga ao serviço de [autenticacao](#autenticacao) tem como dependências o serviço de [mongodb](#mongodb) e o serviço de [autenticacao](#autenticacao), este último uma vez que este faz pedidos a esse serviço.
+
+É também criada uma imagem de forma semelhante ao serviço de [autenticacao](#autenticacao), com o Dockerfile presente na pasta API-COM.
+
+<a id="interface"></a>
+### Interface
+Tem como dependência o serviço de [api](#api) e [autenticacao](#autenticacao), uma vez que este faz pedidos a esses serviços.
+
+Expõe a porta 13000 ao público.
+
+A imagem é criada com o Dockerfile presente na pasta Interface-COM, de forma semelhante ao descrito em [autenticacao](#autenticacao).
+
+
+<a id="mongob"></a>
+### Mongodb
+Este serviço não tem dependências e tem como imagem o mongo. 
+
+Como volumes é criado o volume dbdata, na pasta /data/db, que é a pasta onde o mongo vai guardar os dados da base de dados. Desta forma é garantida a persistência dos dados entre execuções do docker-compose.
+
