@@ -280,6 +280,33 @@ router.post('/ordenacao', auth.verificaAcessoSocioOuDiretor,function(req, res, n
 })
 
 /*
+  descrição: renderiza a página dos equipamentos segundo o filtro selecionado para os equipamentos
+*/
+router.post('/dividaEquipamento/filtro', auth.verificaAcessoSocioOuDiretor,function(req, res, next) {
+  axios.get("http://localhost:7779/equipamento")
+    .then(function(resp){
+        var equipamentos = resp.data
+        nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
+        if (nivelAcesso == "socio"){
+          res.render('equipamentosSocio', {equipamentos:equipamentos})
+        }else if (nivelAcesso == "diretor"){
+          axios.get("http://localhost:7779/dividasEquipamento")
+            .then(function(resp){
+                var dividasEquipamento = resp.data
+                dividasEquipamento = equipamento.filtroDividasEquipamentos(dividasEquipamento,req.body)
+                res.render('equipamentosDiretoria', {dividasEquipamento:dividasEquipamento,equipamentos:equipamentos})
+            })
+            .catch( erro => {
+              res.render('error', {error: erro, message: "Erro!"})
+            })
+        }
+    })
+    .catch( erro => {
+      res.render('error', {error: erro, message: "Erro!"})
+    })
+})
+
+/*
   descrição: renderiza a página de visualização de um equipamento (tanto para o diretor como para o sócio)
 */
 router.get('/:idEquipamento', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {

@@ -46,6 +46,45 @@ module.exports.filtroEquipamentos = (equipamentos,filtros) => {
     return equipamentosFiltrados
 }
 
+module.exports.filtroDividasEquipamentos = (dividasEquipamento,filtros) => {
+
+    dividasFiltradas = []
+    console.log(filtros)
+    for (var divida of dividasEquipamento){
+        var satis = true
+
+        if (filtros.codEquipamento != ''){
+            if (divida._id == filtros.codEquipamento){
+                satis = true
+            }else{
+                satis = false
+            }
+        }
+
+        if (filtros.idUser != '' && satis == true){
+            if (divida.idUser == filtros.idUser){
+                satis = true
+            }else{
+                satis = false
+            }
+        }
+
+        if (filtros.estado != '' && satis == true){
+            if (divida.estado == filtros.estado){
+                satis = true
+            }else{
+                satis = false
+            }
+        }
+
+        if (satis == true){
+            dividasFiltradas.push(divida)
+        }
+    }
+    
+    return dividasFiltradas
+}
+
 module.exports.ordenacaoEquipamentos = (equipamentos,ordenacao) => {
     console.log(ordenacao)
     if (ordenacao.campo == "custo"){

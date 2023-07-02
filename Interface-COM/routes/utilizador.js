@@ -163,4 +163,17 @@ router.get('/:idUtilizador', auth.verificaAcessoSocioOuDiretor, function(req, re
     })
 })
 
+/*
+  descrição: remove o utilizador com id <idUser>
+*/
+router.get('/remover/:idUser', auth.verificaAcessoDiretor, function(req, res, next) {
+  axios.delete("http://localhost:7780/user/"+req.params.idUser)
+    .then(function(resp){
+        res.render('feedbackServidor', {texto:"Utilizador removido com sucesso",voltarUrl:"/utilizador/"})
+    })
+    .catch( erro => {
+      res.render('error', {error: erro, message: "Erro!"})
+    })
+})
+
 module.exports = router;

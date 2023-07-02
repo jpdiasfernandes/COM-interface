@@ -60,16 +60,17 @@ block content
                                     a(href="remover/"+equipamento._id style="text-decoration:none") Remover
             .w3-half.w3-container 
                 h1 Requisições
-                form(method="POST" action="/equipamento/dividaEquipamento/ordenacao" style="width:100%")
+                form(method="POST" action="/equipamento/dividaEquipamento/filtro" style="width:100%")
                     fieldset(style="width:100%")
                         legend Filtros
-                        input.w3-input.w3-round(type="text" placeholder="tipo" style="background-color:#282b30;color:white;border:none")
-                        input.w3-input.w3-round(type="text" placeholder="nome" style="background-color:#282b30;color:white;border:none; margin-top:6px")
+                        input.w3-input.w3-round(type="text" name="codEquipamento" placeholder="código do equipamento" style="background-color:#282b30;color:white;border:none")
+                        input.w3-input.w3-round(type="text" name="idUser" placeholder="id do utilizador" style="background-color:#282b30;color:white;border:none; margin-top:6px")
                         span(style="display:flex;flex-direction:row;margin-top:6px") 
-                            input.w3-input.w3-round(type="text" placeholder="custo" style="background-color:#282b30;color:white;border:none")
-                            select.w3-select(name="custo" style="margin-left:8px;background-color:#424549;color:white;border:none")
-                                option(value=maior) Maior
-                                option(value=menor) Menor
+                            input.w3-input.w3-round(type="text" placeholder="estado" style="background-color:#282b30;color:white;border:none")
+                            select.w3-select(name="estado" style="margin-left:8px;background-color:#424549;color:white;border:none")
+                                option(value="entregue") Entregue
+                                option(value="não entregue") Não Entregue
+                                option(value="pago") Pago
                         br
                         button.w3-btn.w3.w3-white.w3-margin-right(style="width:100%" type="submit") #[i.fas.fa-filter] Aplicar
                 br
