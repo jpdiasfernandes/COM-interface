@@ -1,0 +1,28 @@
+extends layout
+
+block content
+    .w3-container(style="background-color:#36393e")
+        .w3-row
+            .w3-col.m3
+                h1
+            .w3-col.m6.w3-container
+                h1 Editar ApoioKm
+            .w3-col.m3
+                h1
+        .w3-row
+            .w3-col.m3
+                h1
+            .w3-col.m6.w3-container
+                form.w3-container(method="POST" action="/apoioKm/editar")
+                    fieldset
+                        input(type="hidden" name="_id" value=apoioKm._id)
+                        input(type="hidden" name="codEvento" value=apoioKm.codEvento)
+                        label Nº Sócio
+                        input.w3-input.w3-round(type="text" name="userID" value=apoioKm.userID)
+                        label Nº Atletas
+                        input.w3-input.w3-round(type="number" name="atletas" min="1" value=apoioKm.atletas)
+                        label Distância
+                        input.w3-input.w3-round(type="number" name="distancia" min="0" value=apoioKm.distancia)
+                    button.w3-btn.w3-deep-orange(style="width:100%" type="submit") Adicionar
+    .w3-col.m3
+                h1

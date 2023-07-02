@@ -20,8 +20,17 @@ module.exports.getReceitaById = (id) => {
         })
 }
 
-module.exports.getReceitasEventoUser = (codEvento, userID) => {
-    return Receita.find({ userID: userID, codEvento: codEvento })
+module.exports.getReceitasByUser = (userID) => {
+    return Receita.find({ userID: userID })
+        .then(receita => {
+            return receita
+        })
+        .catch(erro => {
+            return erro
+        })
+}
+module.exports.getReceitas = () => {
+    return Receita.find()
         .then(receita => {
             return receita
         })
@@ -30,14 +39,40 @@ module.exports.getReceitasEventoUser = (codEvento, userID) => {
         })
 }
 
-module.exports.getReceitasEventoUserApoio = (codEvento, userID, ApoioKm) => {
-    return Receita.find({ userID: userID, codEvento: codEvento, ApoioKm: ApoioKm })
+module.exports.getReceitasByApoio = (apoioKm) => {
+    return Receita.find({ codApoioKm: apoioKm })
         .then(receita => {
-            if (receita.length > 0) {
-                return receita
-            } else {
-                throw new Error('Não existe receita para este evento')
-            }
+            return receita
+        })
+        .catch(erro => {
+            return erro
+        })
+}
+
+module.exports.updateReceita = (id, receita) => {
+    return Receita.updateOne({ _id: id }, receita)
+        .then(receita => {
+            return receita
+        })
+        .catch(erro => {
+            return erro
+        })
+}
+
+module.exports.deleteReceita = (id) => {
+    return Receita.deleteOne({ _id: id })
+        .then(receita => {
+            return receita
+        })
+        .catch(erro => {
+            return erro
+        })
+}
+
+module.exports.deleteReceitaByApoio  = (apoioKmId) => {
+    return Receita.deleteMany({ codApoioKm: apoioKmId })
+        .then(receita => {
+            return receita
         })
         .catch(erro => {
             return erro

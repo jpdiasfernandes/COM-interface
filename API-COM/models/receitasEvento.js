@@ -9,5 +9,4 @@ var receitaEventoSchema = new mongoose.Schema({
     valor:Number
 })
 
-module.exports.model = mongoose.model('receitasevento',receitaEventoSchema)
-module.exports.schema = receitaEventoSchema
+module.exports = mongoose.model('receitasevento',receitaEventoSchema)

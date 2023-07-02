@@ -56,3 +56,13 @@ module.exports.removeApoio = (id) => {
             return erro
         })
 }
+
+module.exports.updateApoio = (id, apoioKm) => {
+    return ApoioKm.updateOne({ _id: id }, apoioKm)
+        .then(apoioKm => {
+            return apoioKm
+        })
+        .catch(erro => {
+            return erro
+        })
+}
