@@ -4,25 +4,10 @@ block content
     .w3-container(style="background-color:#36393e")
         .w3-row
             h1 Eventos
-            .w3-row
-                table.w3-table(style="background-color:#424549")
-                    tr.w3-black
-                        th Nome
-                        th Descrição
-                        th Data início
-                        th Data fim
-
-                    each evento in eventos
-                        tr.w3-hover-deep-orange(onclick="link()")
-                            td
-                                a(href="/evento/" + evento._id style="text-decoration:none")=evento.nome
-                            td= evento.descricao
-                            td= evento.dataInicio
-                            td= evento.dataFim
             .w3-row.w3-padding-16
-                .w3-col.m1
+                .w3-col.m2
                     h1
-                .w3-col.m10
+                .w3-col.m8
                     form.w3-container(method="POST" action="/evento")
                         fieldset
                             label Nome Evento
@@ -34,5 +19,21 @@ block content
                             label Data Fim
                             input.w3-input.w3-round(type="date" name="dataFim")
                         button.w3-btn.w3-deep-orange(style="width:100%" type="submit") Adicionar Evento
-                .w3-col.m1
+                .w3-col.m2
                     h1
+            .w3-row
+                table.w3-table(style="background-color:#424549")
+                    tr.w3-black
+                        th Nome
+                        th Descrição
+                        th Data início (A/M/D)
+                        th Data fim (A/M/D)
+
+                    each evento in eventos
+                        tr.w3-hover-deep-orange(onclick="link()")
+                            td
+                                a(href="/evento/" + evento._id style="text-decoration:none")=evento.nome
+                            td= evento.descricao
+                            td= evento.dataInicio.substring(0,10)
+                            td= evento.dataFim.substring(0,10)
+

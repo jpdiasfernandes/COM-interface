@@ -118,6 +118,15 @@ router.post('/editar', auth.verificaAcessoDiretor, async function(req, res, next
                 }
                 await axios.put('http://localhost:7779/dividaEvento/' + dividaEvento[0]._id, divida)
             }
+        } else if (!inscrito.despesaExtra && req.body.despesaExtra) {
+            // Se não havia despesa extra e começou a haver criar uma dívida
+            var divida = {
+                codEvento: req.body.codEvento,
+                codInscrito: req.body._id,
+                userID: req.body.userID,
+                valor: req.body.despesaExtra
+            }
+            await axios.post('http://localhost:7779/dividaEvento', divida)
         }
 
         axios.put('http://localhost:7779/inscrito/' + req.body._id, req.body)

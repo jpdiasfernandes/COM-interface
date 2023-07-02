@@ -37,30 +37,60 @@ router.get('/', auth.verificaAcessoDiretor, function(req, res, next) {
   descrição: renderiza a página do perfil do utilizador. Esta página contém:
     - informações do utilizador (com opção para edição de qualquer campo com exceçãod o nível da credencial)
 */
-router.get('/perfil', auth.verificaAcessoSocio, function(req, res, next) {
+router.get('/perfil', auth.verificaAcessoSocio, async function(req, res, next) {
   nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
   idUtilizador = auth.getID(req.cookies.token)
-  axios.get('http://localhost:7780/user/' + idUtilizador)
-  .then(resp =>{
-      utilizador = resp.data
-      axios.get('http://localhost:7779/dividasEquipamento/')
-      .then(resp =>{
-          dividasEquipamentos = resp.data
-          dividasUtilizador = []
-          for (var divida of dividasEquipamentos){
-            if (divida.userID == idUtilizador){
-              dividasUtilizador.push(divida)
-            } 
-          } 
-          res.render('meuPerfil',{utilizador:utilizador,dividasEquipamentos:dividasUtilizador,nivelAcesso:nivelAcesso})
-      })
-      .catch( erro => {
-          res.render('error', {error: erro, message: "Erro!"})
-      })
-  })
-  .catch( erro => {
-      res.render('error', {error: erro, message: "Erro!"})
-  })
+    try {
+        var utilizadorRep = await axios.get('http://localhost:7780/user/' + idUtilizador)
+        var utilizador = utilizadorRep.data
+
+        var dividasEquipamentosRep = await axios.get('http://localhost:7779/dividasEquipamento/')
+        var dividasEquipamentos = dividasEquipamentosRep.data
+
+        var dividasEventoRep = await axios.get('http://localhost:7779/dividaEvento?user=' + utilizador.nSocio)
+        var dividasEvento = dividasEventoRep.data
+
+        var eventosMap = new Map()
+        for (const divida of dividasEvento){
+          var eventoRep = await axios.get('http://localhost:7779/evento/' + divida.codEvento)
+          var evento = eventoRep.data
+          eventosMap.set(evento._id,evento)
+        }
+        console.log(eventosMap)
+
+        var dividasUtilizador = []
+        for (const divida of dividasEquipamentos){
+            if (divida.userID == idUtilizador) {
+                dividasUtilizador.push(divida)
+            }
+        }
+
+        console.log(dividasEvento.length)
+        res.render('meuPerfil',{utilizador:utilizador,dividasEquipamentos:dividasUtilizador,dividasEvento:dividasEvento,eventosMap:eventosMap,nivelAcesso:nivelAcesso})
+
+    } catch(erro) {
+        res.render('error', {error: erro, message: "Erro!"})
+    }
+  //.then(resp =>{
+  //    utilizador = resp.data
+  //    axios.get('http://localhost:7779/dividasEquipamento/')
+  //    .then(resp =>{
+  //        dividasEquipamentos = resp.data
+  //        dividasUtilizador = []
+  //        for (var divida of dividasEquipamentos){
+  //          if (divida.userID == idUtilizador){
+  //            dividasUtilizador.push(divida)
+  //          }
+  //        }
+  //        res.render('meuPerfil',{utilizador:utilizador,dividasEquipamentos:dividasUtilizador,nivelAcesso:nivelAcesso})
+  //    })
+  //    .catch( erro => {
+  //        res.render('error', {error: erro, message: "Erro!"})
+  //    })
+  //})
+  //.catch( erro => {
+  //    res.render('error', {error: erro, message: "Erro!"})
+  //})
 })
 
 /*

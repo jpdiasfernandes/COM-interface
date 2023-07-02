@@ -7,14 +7,28 @@ block content
             ul.w3-ul.w3-hoverable(style="background-color:#424549")
                 li.w3-hover-deep-orange Nome: #{evento.nome}
                 li.w3-hover-deep-orange Descrição: #{evento.descricao}
-                li.w3-hover-deep-orange Data Início: #{evento.dataInicio}
-                li.w3-hover-deep-orange Data Fim: #{evento.dataFim}
+                li.w3-hover-deep-orange Data Início: #{evento.dataInicio.substring(0,10)}
+                li.w3-hover-deep-orange Data Fim: #{evento.dataFim.substring(0,10)}
 
+    .w3-row.w3-padding-16
+        .w3-col.m3
+            h1
+        .w3-col.m6.w3-container
+            .w3-row
+                .w3-col.w3-half
+                    h1 Inscritos
+                .w3-col.w3-half.w3-padding-16
+                    form.w3-container(method="POST" action="/inscrito")
+                        input(type="hidden" name="codEvento" value=evento._id)
+                        input(type="hidden" name="userID" value=myUser.nSocio)
+                        button.w3-btn.w3.w3-deep-orange.w3-margin-right(style="width:100%" type="submit") Inscrever
+
+        .w3-col.m3
+            h1
     .w3-row
             .w3-col.m3
                 h1
             .w3-col.m6.w3-container
-                h1 Inscritos
                 table.w3-table(style="background-color:#424549")
                     tr.w3-black
                         th Nome
@@ -33,14 +47,3 @@ block content
             .w3-col.m3
                 h1
 
-        .w3-row.w3-padding-16
-            .w3-col.m3
-                h1
-            .w3-col.m6.w3-container
-                form.w3-container(method="POST" action="/inscrito")
-                    input(type="hidden" name="codEvento" value=evento._id)
-                    input(type="hidden" name="userID" value=myUser.nSocio)
-                    button.w3-btn.w3.w3-deep-orange.w3-margin-right(style="width:100%" type="submit") Inscrever
-
-            .w3-col.m3
-                h1

@@ -39,6 +39,15 @@ router.get('/', function(req, res, next) {
                 res.status(522).json({error:error,mensagem:"Erro na recuperação da Divida"})
             })
     }
+    else if (req.query.user) {
+        Dividas.getDividasUser(req.query.user)
+            .then(dados => {
+                res.status(200).json(dados)
+            })
+            .catch(error => {
+                res.status(522).json({error:error,mensagem:"Erro na recuperação da Divida"})
+            })
+    }
     else {
         Dividas.getDividas()
             .then(dados => {

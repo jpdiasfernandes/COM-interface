@@ -8,13 +8,13 @@ block content
                 tr.w3-black
                     th Nome
                     th Descrição
-                    th Data início
-                    th Data fim
+                    th Data início (A/M/D)
+                    th Data fim (A/M/D)
 
                 each evento in eventos
                     tr.w3-hover-deep-orange(onclick="link()")
                         td
                             a(href="/evento/" + evento._id style="text-decoration:none")=evento.nome
                         td= evento.descricao
-                        td= evento.dataInicio
-                        td= evento.dataFim
+                        td= evento.dataInicio.substring(0,10)
+                        td= evento.dataFim.substring(0,10)
