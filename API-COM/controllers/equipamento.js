@@ -1,8 +1,9 @@
 var Equipamento = require('../models/equipamento')
 
-module.exports.getEquipamentos = () =>{
+module.exports.getEquipamentos = (filter,sort) =>{
     return Equipamento
-        .find()
+        .find(filter)
+        .sort(sort)
         .then(dados =>{
             return dados
         })

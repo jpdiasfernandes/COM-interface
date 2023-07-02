@@ -6,20 +6,17 @@ block content
             .w3-half.w3-container
                 h1 Equipamentos
                 a.w3-btn.w3-deep-orange(href="/equipamento/adicionar" style="width:100%;height:100%;margin-bottom:13px") #[i.fas.fa-plus] Adicionar Equipamento
-                span(style="display:flex;flex-direction:row;margin-top:6px")
-                    form(method="POST" action="/equipamento/filtro" style="width:100%;height:100%;margin-right:6px")
-                        fieldset
-                            legend Filtros
-                            input.w3-input.w3-round(type="text" name="tipo" placeholder="tipo" style="background-color:#282b30;color:white;border:none")
-                            input.w3-input.w3-round(type="text" name="nome" placeholder="nome" style="background-color:#282b30;color:white;border:none; margin-top:6px")
-                            span(style="display:flex;flex-direction:row;margin-top:6px") 
-                                input.w3-input.w3-round(type="text" name="custo" placeholder="custo" style="background-color:#282b30;color:white;border:none")
-                                select.w3-select(name="custoLimite" style="margin-left:8px;background-color:#424549;color:white;border:none")
-                                    option(value=maior) Maior
-                                    option(value=menor) Menor
-                            br
-                            button.w3-btn.w3.w3-white.w3-margin-right(style="width:100%" type="submit") #[i.fas.fa-filter] Aplicar
-                    form(method="POST" action="/equipamento/ordenacao" style="width:100%")
+                form(method="POST" action="/equipamento/filtro" style="width:100%;height:100%;margin-right:6px")
+                    fieldset
+                        legend Filtros
+                        input.w3-input.w3-round(type="text" name="tipo" placeholder="tipo" style="background-color:#282b30;color:white;border:none")
+                        input.w3-input.w3-round(type="text" name="nome" placeholder="nome" style="background-color:#282b30;color:white;border:none; margin-top:6px")
+                        span(style="display:flex;flex-direction:row;margin-top:6px") 
+                            input.w3-input.w3-round(type="text" name="custo" placeholder="custo" style="background-color:#282b30;color:white;border:none")
+                            select.w3-select(name="custoLimite" style="margin-left:8px;background-color:#424549;color:white;border:none")
+                                option(value="maior") Maior
+                                option(value="menor") Menor
+                        br
                         fieldset
                             legend Ordenação
                             span(style="display:flex;flex-direction:row;margin-top:6px")
@@ -29,8 +26,10 @@ block content
                                 select.w3-select(name="ordem" style="background-color:#424549;margin-left:6px;border:none;color:white")
                                     option(value="asc") Ascendente
                                     option(value="desc") Descendente
-                            br
-                            button.w3-btn.w3.w3-white.w3-margin-right(style="width:100%" type="submit") #[i.fas.fa-sort] Aplicar
+                        br
+                        span(style="display:flex;flex-direction:row;margin-top:6px")
+                            a.w3-btn.w3.w3-white.w3-margin-right(href="/equipamento" style="width:100%" type="submit") #[i.fas.fa-eraser] Limpar
+                            button.w3-btn.w3.w3-white.w3-margin-right(style="width:100%" type="submit") #[i.fas.fa-filter] Aplicar
                 br
                 table.w3-table(style="background-color:#282b30;")
                     tr.w3-black 
@@ -65,14 +64,14 @@ block content
                         legend Filtros
                         input.w3-input.w3-round(type="text" name="codEquipamento" placeholder="código do equipamento" style="background-color:#282b30;color:white;border:none")
                         input.w3-input.w3-round(type="text" name="idUser" placeholder="id do utilizador" style="background-color:#282b30;color:white;border:none; margin-top:6px")
-                        span(style="display:flex;flex-direction:row;margin-top:6px") 
-                            input.w3-input.w3-round(type="text" placeholder="estado" style="background-color:#282b30;color:white;border:none")
-                            select.w3-select(name="estado" style="margin-left:8px;background-color:#424549;color:white;border:none")
-                                option(value="entregue") Entregue
-                                option(value="não entregue") Não Entregue
-                                option(value="pago") Pago
+                        select.w3-select(name="estado" style="margin-top:8px;background-color:#424549;color:white;border:none")
+                            option(value="entregue") Entregue
+                            option(value="não entregue") Não Entregue
+                            option(value="pago") Pago
                         br
-                        button.w3-btn.w3.w3-white.w3-margin-right(style="width:100%" type="submit") #[i.fas.fa-filter] Aplicar
+                        span(style="display:flex;flex-direction:row;margin-top:10px;width:100%")
+                            a.w3-btn.w3.w3-white.w3-margin-right(href="/equipamento" style="width:100%" type="submit") #[i.fas.fa-eraser] Limpar
+                            button.w3-btn.w3.w3-white.w3-margin-right(style="width:100%" type="submit") #[i.fas.fa-filter] Aplicar
                 br
                 table.w3-table(style="background-color:#282b30")
                     tr.w3-black 
@@ -88,5 +87,5 @@ block content
                             td= dividaEquipamento.estado
                             td 
                                 button.w3-btn.w3-blue.w3-margin-right  
-                                    a(href="dividaEquipamento/editar/"+dividaEquipamento._id style="text-decoration:none") Atualizar estado
+                                    a(href="/equipamento/dividaEquipamento/editar/"+dividaEquipamento._id style="text-decoration:none") Atualizar estado
     

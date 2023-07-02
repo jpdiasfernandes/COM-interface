@@ -13,7 +13,6 @@ var express = require('express');
 var router = express.Router();
 var axios = require('axios')
 var auth = require('../helpers/auth')
-var equipamento = require('../helpers/equipamento')
 
 /*
   descrição: renderiza a página de equipamentos na vista do sócio ou do diretor segundo o nível de acesso.
@@ -229,10 +228,31 @@ router.post('/dividaEquipamento/editar', auth.verificaAcessoDiretor,function(req
   descrição: renderiza a página dos equipamentos segundo o filtro selecionado para os equipamentos
 */
 router.post('/filtro', auth.verificaAcessoSocioOuDiretor,function(req, res, next) {
-  axios.get("http://localhost:7779/equipamento")
+  queryString = '?'
+  // Parse dos filtros e ordenação na query string
+  if (req.body.tipo != ''){
+    queryString += 'tipo=' + req.body.tipo + "&"
+  }
+  if (req.body.nome != ''){
+    queryString += 'nome=' + req.body.nome + "&"
+  }
+  if (req.body.custo != ''){
+    if (req.body.custoLimite == 'maior'){
+      queryString += 'gt=custo&value=' + req.body.custo + "&"
+    }else{
+      queryString += 'lt=custo&value=' + req.body.custo + "&"
+    }
+  }
+  if (req.body.campo != ''){
+    queryString += 'sort=' + req.body.campo + "&"
+  }
+  if (req.body.ordem != ''){
+    queryString += 'order=' + req.body.ordem + "&"
+  }
+
+  axios.get("http://localhost:7779/equipamento" + queryString)
     .then(function(resp){
         var equipamentos = resp.data
-        equipamentos = equipamento.filtroEquipamentos(equipamentos,req.body)
         nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
         if (nivelAcesso == "socio"){
           res.render('equipamentosSocio', {equipamentos:equipamentos})
@@ -253,36 +273,21 @@ router.post('/filtro', auth.verificaAcessoSocioOuDiretor,function(req, res, next
 })
 
 /*
-  descrição: renderiza a página dos equipamentos segundo a ordenação selecionada para os equipamentos
-*/
-router.post('/ordenacao', auth.verificaAcessoSocioOuDiretor,function(req, res, next) {
-  axios.get("http://localhost:7779/equipamento")
-    .then(function(resp){
-        var equipamentos = resp.data
-        equipamentos = equipamento.ordenacaoEquipamentos(equipamentos,req.body)
-        nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
-        if (nivelAcesso == "socio"){
-          res.render('equipamentosSocio', {equipamentos:equipamentos})
-        }else if (nivelAcesso == "diretor"){
-          axios.get("http://localhost:7779/dividasEquipamento")
-            .then(function(resp){
-                var dividasEquipamento = resp.data
-                res.render('equipamentosDiretoria', {dividasEquipamento:dividasEquipamento,equipamentos:equipamentos})
-            })
-            .catch( erro => {
-              res.render('error', {error: erro, message: "Erro!"})
-            })
-        }
-    })
-    .catch( erro => {
-      res.render('error', {error: erro, message: "Erro!"})
-    })
-})
-
-/*
-  descrição: renderiza a página dos equipamentos segundo o filtro selecionado para os equipamentos
+  descrição: renderiza a página dos equipamentos segundo o filtro selecionado para as dívidas dos equipamentos
 */
 router.post('/dividaEquipamento/filtro', auth.verificaAcessoSocioOuDiretor,function(req, res, next) {
+  queryString = '?'
+  // Parse dos filtros na query string
+  if (req.body.codEquipamento != ''){
+    queryString += 'codEquipamento=' + req.body.codEquipamento + "&"
+  }
+  if (req.body.idUser != ''){
+    queryString += 'idUser=' + req.body.idUser + "&"
+  }
+  if (req.body.estado != ''){
+    queryString += 'estado=' + req.body.estado + "&"
+  }
+  
   axios.get("http://localhost:7779/equipamento")
     .then(function(resp){
         var equipamentos = resp.data
@@ -290,10 +295,9 @@ router.post('/dividaEquipamento/filtro', auth.verificaAcessoSocioOuDiretor,funct
         if (nivelAcesso == "socio"){
           res.render('equipamentosSocio', {equipamentos:equipamentos})
         }else if (nivelAcesso == "diretor"){
-          axios.get("http://localhost:7779/dividasEquipamento")
+          axios.get("http://localhost:7779/dividasEquipamento" + queryString)
             .then(function(resp){
                 var dividasEquipamento = resp.data
-                dividasEquipamento = equipamento.filtroDividasEquipamentos(dividasEquipamento,req.body)
                 res.render('equipamentosDiretoria', {dividasEquipamento:dividasEquipamento,equipamentos:equipamentos})
             })
             .catch( erro => {

@@ -91,6 +91,36 @@ router.get('/remover/:idNotificacao', auth.verificaAcessoDiretor, function(req, 
       })
 })
 
+
+/*
+  descrição: renderiza a página das notificações segundo o filtro selecionado para as notificações
+*/
+router.post('/filtro', auth.verificaAcessoSocioOuDiretor,function(req, res, next) {
+  queryString = '?'
+  
+  // Parse dos filtros na query string
+  if (req.body.campo != ''){
+    queryString += 'sort=' + req.body.campo + "&"
+  }
+  if (req.body.ordem != ''){
+    queryString += 'order=' + req.body.ordem + "&"
+  }
+  
+  axios.get("http://localhost:7779/notificacao" + queryString)
+    .then(function(resp){
+        var notificacoes = resp.data
+        nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
+        if (nivelAcesso == "socio"){
+            res.render('notificacaoSocio', {notificacoes:notificacoes})
+        }else if (nivelAcesso == "diretor"){
+            res.render('notificacaoDiretoria', {notificacoes:notificacoes})
+        }
+    })
+    .catch( erro => {
+        res.render('error', {error: erro, message: "Erro!"})
+    })
+})
+
 /*
   descrição: renderiza a página da notificação com id <idNotificacao>
 */

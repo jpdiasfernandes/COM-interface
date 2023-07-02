@@ -1,8 +1,9 @@
 const Notificacao = require('../models/notificacao')
 
-module.exports.getNotificacoes = () =>{
+module.exports.getNotificacoes = (sort) =>{
     return Notificacao
         .find()
+        .sort(sort)
         .then(dados =>{
             return dados
         })

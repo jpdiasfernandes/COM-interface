@@ -3,7 +3,21 @@ var router = express.Router();
 var DividasEquipamento = require('../controllers/dividasEquipamento')
 
 router.get('/', function(req, res, next) {
-  DividasEquipamento.getDividasEquipamento()
+  var filter = {}
+
+  if (req.query.codEquipamento){
+    filter["codEquipamento"] = req.query.codEquipamento
+  }
+
+  if (req.query.idUser){
+    filter["userID"] = req.query.idUser
+  }
+
+  if (req.query.estado){
+    filter["estado"] = req.query.estado
+  }
+
+  DividasEquipamento.getDividasEquipamento(filter)
     .then(dados => {
       res.status(200).json(dados)
     })

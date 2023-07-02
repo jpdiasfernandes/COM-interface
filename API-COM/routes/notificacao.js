@@ -3,7 +3,13 @@ var router = express.Router();
 var Notificacao = require('../controllers/notificacao')
 
 router.get('/', function(req, res, next) {
-  Notificacao.getNotificacoes()
+  var sort = {}
+
+  if (req.query.sort){
+    sort[req.query.sort] = req.query.order == "asc" ? 1 : -1
+  }
+
+  Notificacao.getNotificacoes(sort)
     .then(dados => {
       res.status(200).json(dados)
     })

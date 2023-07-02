@@ -1,8 +1,8 @@
 var DividasEquipamento = require('../models/dividasEquipamento')
 
-module.exports.getDividasEquipamento = () =>{
+module.exports.getDividasEquipamento = (filter) =>{
     return DividasEquipamento
-        .find()
+        .find(filter)
         .then(dados =>{
             return dados
         })

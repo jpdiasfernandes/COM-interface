@@ -3,7 +3,34 @@ var router = express.Router();
 var Equipamento = require('../controllers/equipamento')
 
 router.get('/', function(req, res, next) {
-  Equipamento.getEquipamentos()
+  var filter = {}
+  var sort = {}
+
+  if (req.query.sort){
+    sort[req.query.sort] = req.query.order == "asc" ? 1 : -1
+  }
+
+  if (req.query.tipo){
+    filter["tipo"] = req.query.tipo
+  }
+
+  if (req.query.nome){
+    filter["nome"] = req.query.nome
+  }
+
+  if (req.query.gt){
+    filter[req.query.gt] = {
+      $gt: req.query.value
+    }
+  }
+
+  if (req.query.lt){
+    filter[req.query.lt] = {
+      $lt: req.query.value
+    }
+  }
+
+  Equipamento.getEquipamentos(filter,sort)
     .then(dados => {
       res.status(200).json(dados)
     })

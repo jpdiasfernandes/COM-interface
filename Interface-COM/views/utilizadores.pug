@@ -46,7 +46,7 @@ block content
                     
                     each utilizador in utilizadores
                         tr.w3-hover-deep-orange
-                            td= utilizador.username
+                            td #[a(href="/utilizador/"+utilizador._id style="text-decoration:none") #{utilizador.username}]
                             td= utilizador.telMovel
                             td 
                                 button.w3-btn.w3-blue.w3-margin-right  
