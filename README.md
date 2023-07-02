@@ -273,65 +273,340 @@ A API de dados do sistema COM possui as operações CRUD associadas aos  verbos 
 <ul style="list-style: none;">
     <li>
         <h2><b>/equipamento</b></h2>
-        <ul style="list-style: none;">
+        <ul>
             <li>
                 <div style="display:flex;text-align:center">
                     <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
-                    <div style="margin-left:5px;text-align:center">/equipamento</div>
+                    <div style="margin-left:5px;text-align:center">/equipamento?query</div>
                 </div>
-            </li>
+                <p><b>Descrição</b>: lista os equipamentos do sistema (podem ser usados filtros na <i>query string</i>).</p>
+                <p><b>Query String</b>: 
+                <ul>
+                    <li>
+                        tipo;
+                    </li>
+                    <li>
+                        nome;
+                    </li>
+                    <li>
+                        gt (greater then) & value;
+                    </li>
+                    <li>
+                        lt (greater then) & value;
+                    </li>
+                    <li>
+                        sort & order (ordena segundo custo ou ordem alfabética dos nomes dos equipamentos).
+                    </li>
+                </ul>
+                </p>
+                </li>
+                <p><b>Exemplo</b>: /equipamento?tipo=Mochila&sort=custo&order=asc
             <li>
                 <div style="display:flex;text-align:center">
                     <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
                     <div style="margin-left:5px;text-align:center">/equipamento/:idEquipamento</div>
                 </div>
+                <p><b>Descrição</b>: Recupera o equipamento com id indicado na URL<idEquipamento>.</p>
             </li>
             <li>
                 <div style="display:flex;text-align:center">
                     <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
                     <div style="margin-left:5px;text-align:center">/equipamento</div>
                 </div>
+                <p><b>Descrição</b>: Cria um equipamento com os dados enviados através do <i>req.body</i>.</p>
             </li>
             <li>
                 <div style="display:flex;text-align:center">
                     <h4 style="background-color:red;padding:3px;width:60px;text-align:center"><b>DELETE</b></h4>
                     <div style="margin-left:5px;text-align:center">/equipamento/:idEquipamento</div>
                 </div>
+                <p><b>Descrição</b>: Remove o equipamento com o id indicado na URL.</p>
             </li>
             <li>
                 <div style="display:flex;text-align:center">
                     <h4 style="background-color:orange;padding:3px;width:60px;text-align:center"><b>PUT</b></h4>
                     <div style="margin-left:5px;text-align:center">/equipamento/:idEquipamento</div>
                 </div>
+                <p><b>Descrição</b>: Atualiza o equipamento com id enviado na URL e os dados enviados através do <i>req.body</i>.</p>
             </li>
         </ul>
     </li>
     <li>
         <h2><b>/dividaEquipamento</b></h2>
-        <ul style="list-style: none;">
+        <ul>
             <li>
                 <div style="display:flex;text-align:center">
                     <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
-                    <div style="margin-left:5px;text-align:center">/dividaEquipamento</div>
+                    <div style="margin-left:5px;text-align:center">/dividaEquipamento?query</div>
                 </div>
-            </li>
+                <p><b>Descrição</b>: lista as requisições de equipamentos do sistema (podem ser usados filtros na <i>query string</i>).</p>
+                <p><b>Query String</b>: 
+                <ul>
+                    <li>
+                        codEquipamento;
+                    </li>
+                    <li>
+                        userID;
+                    </li>
+                    <li>
+                        estado (entregue, não entregue ou pago).
+                    </li>
+                </ul>
+                </p>
+                </li>
+                <p><b>Exemplo</b>: /dividaEquipamento?codEquipamento=183081&estado=entregue
             <li>
                 <div style="display:flex;text-align:center">
                     <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
                     <div style="margin-left:5px;text-align:center">/dividaEquipamento/:idDividaEquipamento</div>
                 </div>
+                <p><b>Descrição</b>: Recupera a requisição do equipamento com o id indicado na URL.</p>
             </li>
             <li>
                 <div style="display:flex;text-align:center">
                     <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
                     <div style="margin-left:5px;text-align:center">/dividaEquipamento</div>
                 </div>
+                <p><b>Descrição</b>: Cria a requisição de um equipamento com os dados enviados através do <i>req.body</i>.</p>
+            </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:red;padding:3px;width:60px;text-align:center"><b>DELETE</b></h4>
+                    <div style="margin-left:5px;text-align:center">/dividaEquipamento/:idDividaEquipamento</div>
+                </div>
+                <p><b>Descrição</b>: Remove a requisição do equipamento com o id indicado na URL.</p>
             </li>
             <li>
                 <div style="display:flex;text-align:center">
                     <h4 style="background-color:orange;padding:3px;width:60px;text-align:center"><b>PUT</b></h4>
                     <div style="margin-left:5px;text-align:center">/dividaEquipamento/:idDividaEquipamento</div>
                 </div>
+                <p><b>Descrição</b>: atualiza a requisição do equipamento com id indicado na URL</p>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <h2><b>/notificacao</b></h2>
+        <ul>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+                    <div style="margin-left:5px;text-align:center">/notificacao?query</div>
+                </div>
+                <p><b>Descrição</b>: lista as notificações do sistema (podem ser usados filtros na <i>query string</i>).</p>
+                <p><b>Query String</b>: 
+                <ul>
+                    <li>
+                        sort & order (ordena as notificações segundo a data de criação) 
+                    </li>
+                </ul>
+                </p>
+                </li>
+                <p><b>Exemplo</b>: /notificacao?sort=data&order=desc
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+                    <div style="margin-left:5px;text-align:center">/notificacao/:idNotificacao</div>
+                </div>
+                <p><b>Descrição</b>: Recupera a notificacao com o id indicado na URL.</p>
+            </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
+                    <div style="margin-left:5px;text-align:center">/notificacao</div>
+                </div>
+                <p><b>Descrição</b>: Cria a notificação com os dados enviados através do <i>req.body</i>.</p>
+            </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:red;padding:3px;width:60px;text-align:center"><b>DELETE</b></h4>
+                    <div style="margin-left:5px;text-align:center">/notificação/:idNotificação</div>
+                </div>
+                <p><b>Descrição</b>: Remove a notificação com o id indicado na URL.</p>
+            </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:orange;padding:3px;width:60px;text-align:center"><b>PUT</b></h4>
+                    <div style="margin-left:5px;text-align:center">/notificacao/:idNotificacao</div>
+                </div>
+                <p><b>Descrição</b>: atualiza a notificação com id indicado na URL</p>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <h2><b>/apoioKM</b></h2>
+        <ul>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+                    <div style="margin-left:5px;text-align:center">/apoioKM?query</div>
+                </div>
+                <p><b>Descrição</b>: lista os apoios ao KM do sistema (podem ser usados filtros na <i>query string</i>).</p>
+                <p><b>Query String</b>: 
+                <ul>
+                    <li>
+                        evento (retorna os apoios ao KM associados ao evento)
+                    </li>
+                </ul>
+                </p>
+                </li>
+                <p><b>Exemplo</b>: /apoioKM?evento=11100009
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+                    <div style="margin-left:5px;text-align:center">/apoioKM/:idApoio</div>
+                </div>
+                <p><b>Descrição</b>: Recupera o apoio ao KM com o id indicado na URL.</p>
+            </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
+                    <div style="margin-left:5px;text-align:center">/apoioKM</div>
+                </div>
+                <p><b>Descrição</b>: Cria o apoio ao KM com os dados enviados através do <i>req.body</i>.</p>
+            </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:red;padding:3px;width:60px;text-align:center"><b>DELETE</b></h4>
+                    <div style="margin-left:5px;text-align:center">/apoioKM/:idApoio</div>
+                </div>
+                <p><b>Descrição</b>: Remove o apoio ao KM com o id indicado na URL.</p>
+            </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:orange;padding:3px;width:60px;text-align:center"><b>PUT</b></h4>
+                    <div style="margin-left:5px;text-align:center">/apoioKM/:idApoio</div>
+                </div>
+                <p><b>Descrição</b>: atualiza o apoio ao KM com id indicado na URL.</p>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <h2><b>/tamanhoEquipamento</b></h2>
+            <ul>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+                    <div style="margin-left:5px;text-align:center">/apoioKM/:idApoio</div>
+                </div>
+                <p><b>Descrição</b>: lista os tamanhos dos equipamentos do sistema.</p>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <h2><b>/transporte</b></h2>
+        <ul>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+                    <div style="margin-left:5px;text-align:center">/transporte?query</div>
+                </div>
+                <p><b>Descrição</b>: lista os transportes do sistema (podem ser usados filtros na <i>query string</i>).</p>
+                <p><b>Query String</b>: 
+                <ul>
+                    <li>
+                        evento (retorna os transportes associados ao evento).
+                    </li>
+                </ul>
+                </p>
+                </li>
+                <p><b>Exemplo</b>: /transporte?evento=11100009
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+                    <div style="margin-left:5px;text-align:center">/transporte/:idTransporte</div>
+                </div>
+                <p><b>Descrição</b>: Recupera o transporte com o id indicado na URL.</p>
+            </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
+                    <div style="margin-left:5px;text-align:center">/transporte</div>
+                </div>
+                <p><b>Descrição</b>: Cria o transporte com os dados enviados através do <i>req.body</i>.</p>
+            </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:red;padding:3px;width:60px;text-align:center"><b>DELETE</b></h4>
+                    <div style="margin-left:5px;text-align:center">/transporte/:idTransporte</div>
+                </div>
+                <p><b>Descrição</b>: Remove o transporte com o id indicado na URL.</p>
+            </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:orange;padding:3px;width:60px;text-align:center"><b>PUT</b></h4>
+                    <div style="margin-left:5px;text-align:center">/transporte/:idTransporte</div>
+                </div>
+                <p><b>Descrição</b>: atualiza o transporte com id indicado na URL.</p>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <h2><b>/evento</b></h2>
+        <ul>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+                    <div style="margin-left:5px;text-align:center">/evento</div>
+                </div>
+                <p><b>Descrição</b>: lista os eventos do sistema.</p>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+                    <div style="margin-left:5px;text-align:center">/evento/:idEvento</div>
+                </div>
+                <p><b>Descrição</b>: Recupera o evento com o id indicado na URL.</p>
+            </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
+                    <div style="margin-left:5px;text-align:center">/evento</div>
+                </div>
+                <p><b>Descrição</b>: Cria o evento com os dados enviados através do <i>req.body</i>.</p>
+            </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:red;padding:3px;width:60px;text-align:center"><b>DELETE</b></h4>
+                    <div style="margin-left:5px;text-align:center">/evento/:idEvento</div>
+                </div>
+                <p><b>Descrição</b>: Remove o evento com o id indicado na URL.</p>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <h2><b>/dividaEvento</b></h2>
+        <ul>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+                    <div style="margin-left:5px;text-align:center">/evento?query</div>
+                </div>
+                <p><b>Descrição</b>: lista as dívidas sobre os eventos do sistema.</p>
+                <p><b>Query String</b>: 
+                <ul>
+                </ul>
+                </p>
+                </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
+                    <div style="margin-left:5px;text-align:center">/dividaEvento</div>
+                </div>
+                <p><b>Descrição</b>: Cria uma dívida de um evento com os dados enviados através do <i>req.body</i>.</p>
+            </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:red;padding:3px;width:60px;text-align:center"><b>DELETE</b></h4>
+                    <div style="margin-left:5px;text-align:center">/dividaEvento/:idDivida</div>
+                </div>
+                <p><b>Descrição</b>: Remove a dívida do evento com o id indicado na URL.</p>
+            </li>
+            <li>
+                <div style="display:flex;text-align:center">
+                    <h4 style="background-color:orange;padding:3px;width:60px;text-align:center"><b>PUT</b></h4>
+                    <div style="margin-left:5px;text-align:center">/dividaEvento/:idDivida</div>
+                </div>
+                <p><b>Descrição</b>: atualiza a dívida do evento com id indicado na URL.</p>
             </li>
         </ul>
     </li>
@@ -341,60 +616,81 @@ A API de dados do sistema COM possui as operações CRUD associadas aos  verbos 
 
 ## Auth COM
 
-O processo de autenticação utilizado foi com JWT (<i>JSON Web Tokens</i>), juntamente com a estratégia de autenticação <b>local</b> da biblioteca <i>passport</i> no contexto do <i>plugin</i> passportLocalMongoose. Isto é, o <i>username</i> e <i>password</i> dos utilizadores são utilizados para realização do processo de <i>login</i> e, no caso de haver sucesso na verificação destes dados, é gerado um <i>token</i> JWT que é enviado ao cliente. A partir deste <i>token</i> as rotas da aplicação cliente são protegidas.
+O processo de autenticação utilizado foi com JWT (<i>JSON Web Tokens</i>), juntamente com a estratégia de autenticação <b>local</b> da biblioteca <i>passport</i> no contexto do <i>plugin</i> passportLocalMongoose. Isto é, o <i>username</i> e <i>password</i> dos utilizadores são utilizados para a realização do processo de <i>login</i> e, no caso de haver sucesso na verificação destes dados, é gerado um <i>token</i> JWT com tempo de expiração de 1 hora que é enviado ao cliente. A partir deste <i>token</i> as rotas da aplicação cliente são protegidas.
+
+A interface COM, ao receber o <i>token</i> do servidor de autenticação, envia este ao cliente através dos <i>cookies</i>. A partir daí, os pedidos do cliente sempre carregam este <i>token</i> através dos <i>cookies</i> que é verificado no <i>middleware</i> das rotas da interface COM. Este <i>middleware</i> tem como função proteger as rotas segundo o nível de acesso dos utilizadores. Deste modo, existem três  protegeções de rotas:
+
+<ul>
+<li> rotas destinadas somente a diretores;
+<li> rotas destinadas somente a sócios;
+<li> rotas destinadas tanto a sócios como diretores;
+</ul>
+
+O <i>payload</i> do <i>token</i> JWT possui o nível de credencial do utilizador. Por tanto, caso o tempo de expiração seja validado juntamente com o nível de acesso do utilizador, então a rota destinado é acessada. Caso contrário, o utilizador não tem permissão para acessá-la.
+
+Para além do tempo de expiração do <i>token</i>, existe também a possibilidade do utilizador forçar o <i>logout</i> na aplicação. Neste cenário, o seu <i>token</i> é colocado numa <i>blacklist</i> e, por tanto, tal lista é utilizada também no <i>middleware</i> de proteção das rotas.
+
 O servidor de autenticação possui as operações relativas ao processo de criação, autenticação e atualização dos dados dos utilizadores. A seguir são listados os seus <i>endpoints</i>:
 
 <ul style="list-style: none;">
     <li>
         <h2><b>/user</b></h2>
-        <ul style="list-style: none;">
+        <ul>
             <li>
                 <div style="display:flex;text-align:center">
                     <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
                     <div style="margin-left:5px;text-align:center">/user</div>
                 </div>
+                <p><b>Descrição</b>: lista os utilizadores do sistema (tanto sócios como diretores)</p>
             </li>
             <li>
                 <div style="display:flex;text-align:center">
                     <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
                     <div style="margin-left:5px;text-align:center">/user/:id</div>
                 </div>
+                <p><b>Descrição</b>: recupera o utilizador com id indicado na URL.</p>
             </li>
              <li>
                 <div style="display:flex;text-align:center">
                     <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
                     <div style="margin-left:5px;text-align:center">/user/registo</div>
                 </div>
+                <p><b>Descrição</b>: cria o utilizador com os dados enviados através do <i>req.body</i>.</p>
             </li>
             <li>
                 <div style="display:flex;text-align:center">
                     <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
                     <div style="margin-left:5px;text-align:center">/user/login</div>
                 </div>
+                <p><b>Descrição</b>: realiza o <i>login</i> do utilizador. Este processo consiste na verificação do <i>username</i> e <i>password</i> que são enviados através do <i>req.body</i> e, no caso de sucesso, é gerado um token JWT que é enviado ao cliente. Este <i>token</i> possui o <i>username</i>, nível de acesso e <i>id</i> do utilizador.</p>
             </li>
             <li>
                 <div style="display:flex;text-align:center">
                     <h4 style="background-color:orange;padding:3px;width:60px;text-align:center"><b>PUT</b></h4>
                     <div style="margin-left:5px;text-align:center">/user/:id</div>
                 </div>
+                <p><b>Descrição</b>: atualiza o utilizador com id indicado na URL e dados enviados através do <i>req.body</i>.</p>
             </li>
             <li>
                 <div style="display:flex;text-align:center">
                     <h4 style="background-color:red;padding:3px;width:60px;text-align:center"><b>DELETE</b></h4>
                     <div style="margin-left:5px;text-align:center">/user/:id</div>
                 </div>
+                <p><b>Descrição</b>: remove o utilizador com id indicado na URL.</p>
             </li>
             <li>
                 <div style="display:flex;text-align:center">
                     <h4 style="background-color:orange;padding:3px;width:60px;text-align:center"><b>PUT</b></h4>
                     <div style="margin-left:5px;text-align:center">/user/:id/ativar</div>
                 </div>
+                <p><b>Descrição</b>: atualiza o <i>status</i> do utilizador indicado na URL para "ativo".</p>
             </li>
             <li>
                 <div style="display:flex;text-align:center">
                     <h4 style="background-color:orange;padding:3px;width:60px;text-align:center"><b>PUT</b></h4>
                     <div style="margin-left:5px;text-align:center">/user/:id/desativar</div>
                 </div>
+                <p><b>descrição</b>: atualiza o <i>status</i> do utilizador indicado na URL para "desativado".</p>
             </li>
         </ul>
     </li>
@@ -408,11 +704,11 @@ A interface gráfica possui funcionalidades e renderização de páginas mediant
 
 ### Sócios
 
-<ul style="list-style: none;">
+<ul>
     <li>
         <div style="display:flex;text-align:center">
             <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
-            <div style="margin-left:5px;text-align:center">/equipamento/socio</div>
+            <div style="margin-left:5px;text-align:center">/equipamento</div>
             <br>
         </div>
         <p><b>Descrição</b>: renderiza a página de equipamentos na vista do sócio. Esta vista apresenta os equipamentos com a opção de requisitá-los.</p>
@@ -431,11 +727,89 @@ A interface gráfica possui funcionalidades e renderização de páginas mediant
         </div>
         <p><b>Descrição</b>: requisita um equipamento X de tamanho Y. Os dados são enviados através do <i>req.body</i>.</p>
     </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
+            <div style="margin-left:5px;text-align:center">/equipamento/filtro</div>
+        </div>
+        <p><b>Descrição</b>: renderiza a página dos equipamentos segundo o filtro selecionado para os equipamentos.</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
+            <div style="margin-left:5px;text-align:center">/dividaEquipamento/filtro</div>
+        </div>
+        <p><b>Descrição</b>: renderiza a página dos equipamentos segundo o filtro selecionado para as dívidas dos equipamentos</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+            <div style="margin-left:5px;text-align:center">/:idEquipamento</div>
+        </div>
+        <p><b>Descrição</b>: renderiza a página de visualização de um equipamento.</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+            <div style="margin-left:5px;text-align:center">/utilizador/perfil</div>
+        </div>
+        <p><b>Descrição</b>: renderiza a página do perfil do utilizador. Esta página contém:
+        <ul>
+        <li>informações do utilizador (com opção para edição de qualquer campo com exceção do nível da credencial);
+        <li>listagem das dívidas sobre equipamentos do utilizador;
+        <li>listagem das dívidas sobre eventos do utilizador;
+        <li>listagem das receitas do utilizador;
+        <li>balanço (saldo do utilizador).</p>
+        </ul>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+            <div style="margin-left:5px;text-align:center">/utilizador/editar/:idUtilizador</div>
+        </div>
+        <p><b>Descrição</b>: renderiza a página de edição dos dados do utilizador na vista do sócio (é possível modificar todos os campos exceto o nível de credencial).</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
+            <div style="margin-left:5px;text-align:center">/utilizador/editar/:idUtilizador</div>
+        </div>
+        <p><b>Descrição</b>: realiza a atualização do utilizador após a confirmação do formulário de edição dos seus dados.  Os dados do utilizador
+  são enviados através do req.body.</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+            <div style="margin-left:5px;text-align:center">/:idUtilizador</div>
+        </div>
+        <p><b>Descrição</b>: renderiza a página de visualização dos dados de um utilizador.</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+            <div style="margin-left:5px;text-align:center">/notificacao</div>
+        </div>
+        <p><b>Descrição</b>: descrição: renderiza a página de notificações (apenas para visualização)</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
+            <div style="margin-left:5px;text-align:center">/notificacao/filtro</div>
+        </div>
+        <p><b>Descrição</b>: renderiza a página de notificações segundo o filtro selecionado para as notificações (o filtro é enviado através do <i>req.body</i>).</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
+            <div style="margin-left:5px;text-align:center">/home</div>
+        </div>
+        <p><b>Descrição</b>: renderiza a página inicial da aplicação. Esta página contém hiperlinks para as páginas dos <b>eventos</b>, <b>equipamentos</b> e <b>notificações</b>.</p>
+    </li>
 </ul>
 
 ### Diretores
 
-<ul style="list-style: none;">
+<ul>
     <li>
         <div style="display:flex;text-align:center">
             <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
@@ -504,5 +878,100 @@ A interface gráfica possui funcionalidades e renderização de páginas mediant
         <p><b>Descrição</b>: atualiza o estado da dívida de um equipamento.
   A dívida do equipamento é enviada através do <i>req.body</i> (juntamente
   com o seu ID)</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+            <div style="margin-left:5px;text-align:center">/utilizador</div>
+        </div>
+        <p><b>Descrição</b>: renderiza a página de utilizadores. Esta página contém:
+        <ul>
+        <li>formulário para adição de um novo utilizador (sócio ou diretor);
+        <li>listagem de todos os utilizadores, com a opção de edição de todos os campos do utilizador, assim como a remoção de um utilizador;</p>
+    </li>
+    </ul>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
+            <div style="margin-left:5px;text-align:center">/utilizador</div>
+        </div>
+        <p><b>Descrição</b>: realiza o registo de um utilizador. Os dados do utilizador
+  são enviados através do req.body. Apenas diretores podem criar novos utilizadores.</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+            <div style="margin-left:5px;text-align:center">/utilizador/editar/:idUtilizador</div>
+        </div>
+        <p><b>Descrição</b>: renderiza a página de edição dos dados do utilizador na vista do diretor (é possível modificar todos os campos do utilizador).</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
+            <div style="margin-left:5px;text-align:center">/utilizador/editar/:idUtilizador</div>
+        </div>
+        <p><b>Descrição</b>: realiza a atualização do utilizador após a confirmação do formulário de edição dos seus dados.  Os dados do utilizador
+  são enviados através do req.body.</p>
+  </li>
+  <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+            <div style="margin-left:5px;text-align:center">/utilizador/:idUtilizador</div>
+        </div>
+        <p><b>Descrição</b>: renderiza a página de visualização dos dados de um utilizador.</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+            <div style="margin-left:5px;text-align:center">/utilizador/remover/:idUser</div>
+        </div>
+        <p><b>Descrição</b>: remove o utilizador com id {idUser}.</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+            <div style="margin-left:5px;text-align:center">/notificacao</div>
+        </div>
+        <p><b>Descrição</b>: renderiza a página de notificações com a opção de visualizar, criar e editar as notificações.</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
+            <div style="margin-left:5px;text-align:center">/notificacao/adicionar</div>
+        </div>
+        <p><b>Descrição</b>: adiciona uma nova notificação
+  A notificação é enviada através do req.body.</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+            <div style="margin-left:5px;text-align:center">/notificacao/editar/:idNotificacao</div>
+        </div>
+        <p><b>Descrição</b>: renderiza a página de edição de uma notificação.
+  Após modificar a notificação, o diretor pode cancelar a edição
+  e voltar a página de notificações ou confirmar a modificação da notificação.</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
+            <div style="margin-left:5px;text-align:center">/notificacao/editar</div>
+        </div>
+        <p><b>Descrição</b>: atualiza uma notificação. Os dados a serem alterados
+  da notificação são enviados através do req.body (juntamente
+  com o seu ID).</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
+            <div style="margin-left:5px;text-align:center">/remover/:idNotificacao</div>
+        </div>
+        <p><b>Descrição</b>: remove a notificação com id {idNotificacao}.</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
+            <div style="margin-left:5px;text-align:center">/notificacao/filtro</div>
+        </div>
+        <p><b>Descrição</b>: renderiza a página de notificações segundo o filtro selecionado para as notificações (o filtro é enviado através do <i>req.body</i>).</p>
     </li>
 </ul>

@@ -37,7 +37,11 @@ router.get('/', auth.verificaAcessoDiretor, function(req, res, next) {
 
 /*
   descrição: renderiza a página do perfil do utilizador. Esta página contém:
-    - informações do utilizador (com opção para edição de qualquer campo com exceçãod o nível da credencial)
+    - informações do utilizador (com opção para edição de qualquer campo com exceção do nível da credencial);
+    - listagem das dívidas sobre equipamentos do utilizador;
+    - listagem das dívidas sobre eventos do utilizador;
+    - listagem das receitas do utilizador;
+    - balanço (saldo do utilizador).
 */
 router.get('/perfil', auth.verificaAcessoSocio, async function(req, res, next) {
   nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
