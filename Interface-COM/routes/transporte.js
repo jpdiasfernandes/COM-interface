@@ -96,7 +96,16 @@ router.post('/editar', auth.verificaAcessoDiretor, async function(req,res,next) 
                 for (const divida of dividasEvento) {
                     await axios.delete('http://localhost:7779/dividaEvento/' + divida._id)
                 }
-            } else if(req.body.custo != transporte.custo) {
+            }  else if (req.body.custo && !transporte.custo) {
+                var dividaPost = {
+                    codEvento: req.body.codEvento,
+                    codTransporte: req.body._id,
+                    userID: transportado,
+                    valor: req.body.custo
+                }
+                await axios.post('http://localhost:7779/dividaEvento', dividaPost)
+            }
+            else if(req.body.custo != transporte.custo) {
                 // Se o custo foi alterado atualizar as dívidas
                 var dividaPut = {
                     codEvento: req.body.codEvento,

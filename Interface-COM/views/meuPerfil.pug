@@ -23,7 +23,27 @@ block content
         hr
         .w3-row
             .w3-third.w3-container
-                h3 TODO
+                .w3-row
+                    h3 Dívidas de Eventos
+                .w3-row
+                    table.w3-table(style="background-color:#424549")
+                        tr.w3-black
+                            th Evento
+                            th Data
+                            th Valor
+                            th Categoria
+                        each dividaEvento in dividasEvento
+                            - var evento = eventosMap.get(dividaEvento.codEvento)
+                            tr.w3-hover-deep-orange(onclick="link()")
+                                td
+                                    a(href="/evento/" + dividaEvento.codEvento style="text-decoration:none")=evento.nome
+                                td= evento.dataInicio.substring(0,10)
+                                td= dividaEvento.valor
+                                if dividaEvento.codTransporte
+                                    td Transporte
+                                else if dividaEvento.codInscrito
+                                    td Inscrição
+
             .w3-third.w3-container
                 h3 TODO
             .w3-third.w3-container
