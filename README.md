@@ -23,7 +23,8 @@
     2.  [Sistema](#orgc0bdb1b)
         1.  [Funcionais](#org0e2ccc1)
         2.  [Não funcionais](#org9fd4947)
-3. [Modelação do Sistema](#modelacao)
+3. [Esboços das Interfaces](#interfaces)
+4. [Modelação do Sistema](#modelacao)
     1. [Arquitetura](#modelacao)
     2. [API COM](#api)
     3. [Auth COM](#auth)
@@ -211,8 +212,6 @@ Para terminar com a necessidade da criação de novas folhas de forma anual o cl
             -   Data
             -   Categoria de receita
         
-        ? Como fazer a apoios relativos a mais de um evento? Por exemplo anuais?
-        
         -   Uma despesa é caracterizada por:
             -   Ordem (código da despesa)
             -   Natureza da Despesa
@@ -256,6 +255,80 @@ Para terminar com a necessidade da criação de novas folhas de forma anual o cl
 -   O sistema deve ter uma interface gráfica na web [MUST]
 -   O sistema deve ter autenticação por tokens [MUST]
 
+<a id="interfaces"></a>
+
+# Esboços das Interfaces
+
+A seguir serão mostrados alguns <i>prints</i> da aplicação cliente (Interface COM) destinada aos sócios e diretores.
+
+#### Página de Login 
+<img src="images/inter1.png">
+
+<br>
+
+#### Página Inicial
+<img src="images/inter2.png">
+
+<br>
+
+#### Página de Equipamentos na vista do Diretor
+<img src="images/inter3.png">
+
+<br>
+
+#### Página de utilizadores na vista do Diretor
+<img src="images/inter4.png">
+
+<br>
+
+#### Página de Notificações na vista do Diretor
+<img src="images/inter5.png">
+
+<br>
+
+#### Página de adição de equipamento na vista do Diretor
+<img src="images/inter6.png">
+
+<br>
+
+#### Página de Equipamentos na vista do Sócio
+<img src="images/inter7.png">
+
+<br>
+
+#### Página de requisição de um equipamento
+<img src="images/inter8.png">
+
+<br>
+
+#### Página de Notificações na vista do Sócio
+<img src="images/inter9.png">
+
+<br>
+
+#### Página do Perfil do Sócio
+<img src="images/inter10.png">
+
+<br>
+
+#### Página de um Evento na vista do Sócio
+<img src="images/inter11.png">
+
+<br>
+
+#### Página dos Eventos na vista do Diretor
+<img src="images/inter12.png">
+
+<br>
+
+#### Página de um Evento na vista do Diretor
+<img src="images/inter13.png">
+
+<br>
+
+#### Página dos Eventos na vista do Sócio
+<img src="images/inter14.png">
+
 <a id="modelacao"></a>
 
 # Modelação do Sistema
@@ -263,6 +336,17 @@ Para terminar com a necessidade da criação de novas folhas de forma anual o cl
 <a id="arquitetura"></a>
 
 ## Arquitetura
+
+O sistema concebido possui 4 camadas:
+
+<ul>
+<li> <b>API COM:</b> REST API do sistema, fornece e processa os dados relativos a todos os objetos com excecão do <i>utilizador</i> 
+<li> <b>AUTH COM:</b> Servidor de Autenticação, responsável pela autenticação, gestão (criação, atualização e remoção) dos utilizadores do sistema, assim como a  geração de <i>tokens</i> JWT.
+<li> <b>Interface COM:</b> fornece as páginas WEB da aplicação - se comunica com a API COM e o AUTH COM para concretizar as suas operações. 
+<li> <b>Base de Dados:</b> concebida em MongoDB. 
+</ul>
+
+<img src="images/arqCOM-01.png">
 
 <a id="api"></a>
 
@@ -813,7 +897,7 @@ A interface gráfica possui funcionalidades e renderização de páginas mediant
     <li>
         <div style="display:flex;text-align:center">
             <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
-            <div style="margin-left:5px;text-align:center">/equipamento/diretoria</div>
+            <div style="margin-left:5px;text-align:center">/equipamento</div>
             <br>
         </div>
         <p><b>Descrição</b>: renderiza a página de equipamentos na vista da diretoria.
@@ -878,6 +962,27 @@ A interface gráfica possui funcionalidades e renderização de páginas mediant
         <p><b>Descrição</b>: atualiza o estado da dívida de um equipamento.
   A dívida do equipamento é enviada através do <i>req.body</i> (juntamente
   com o seu ID)</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
+            <div style="margin-left:5px;text-align:center">/equipamento/filtro</div>
+        </div>
+        <p><b>Descrição</b>: renderiza a página dos equipamentos segundo o filtro selecionado para os equipamentos.</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:green;padding:3px;width:60px;text-align:center"><b>POST</b></h4>
+            <div style="margin-left:5px;text-align:center">/dividaEquipamento/filtro</div>
+        </div>
+        <p><b>Descrição</b>: renderiza a página dos equipamentos segundo o filtro selecionado para as dívidas dos equipamentos</p>
+    </li>
+    <li>
+        <div style="display:flex;text-align:center">
+            <h4 style="background-color:blue;padding:3px;width:60px;text-align:center"><b>GET</b></h4>
+            <div style="margin-left:5px;text-align:center">/:idEquipamento</div>
+        </div>
+        <p><b>Descrição</b>: renderiza a página de visualização de um equipamento.</p>
     </li>
     <li>
         <div style="display:flex;text-align:center">
