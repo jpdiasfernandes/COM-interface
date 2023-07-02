@@ -129,7 +129,7 @@ router.post('/editar', auth.verificaAcessoDiretor, async function(req, res, next
             await axios.post('http://localhost:7779/dividaEvento', divida)
         }
 
-        axios.put('http://localhost:7779/inscrito/' + req.body._id, req.body)
+        await axios.put('http://localhost:7779/inscrito/' + req.body._id, req.body)
         res.redirect('/inscrito/' + req.body._id)
     } catch(erro) {
         res.render('error', {error: erro, message: "Erro!"})

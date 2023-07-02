@@ -43,6 +43,7 @@ router.post('/', function(req, res, next) {
         })
 })
 
+
 router.delete('/:idApoio', function(req, res, next) {
     Apoio.removeApoio(req.params.idApoio)
         .then(dados => {
@@ -51,6 +52,17 @@ router.delete('/:idApoio', function(req, res, next) {
         .catch(error => {
             res.status(204).json({error:error,mensagem:"Erro na remoção do Apoio"})
         })
+})
+
+router.put('/:idApoio', function(req, res, next) {
+    Apoio.updateApoio(req.params.idApoio,req.body)
+        .then(dados => {
+            res.status(200).json(dados)
+        })
+        .catch(error => {
+            res.status(204).json({error:error,mensagem:"Erro na atualização do Apoio"})
+        })
+
 })
 
 module.exports = router;

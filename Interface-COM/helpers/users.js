@@ -12,3 +12,17 @@ module.exports.mapSocioUser = async (list) => {
     }
     return map
 }
+
+module.exports.balanco = (receitas, dividas) => {
+    var sum = 0
+
+    for (const receita of receitas) {
+        sum += receita.valor
+    }
+
+    for (const divida of dividas) {
+        sum -= divida.valor
+    }
+
+    return sum
+}
