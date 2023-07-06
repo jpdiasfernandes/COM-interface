@@ -22,14 +22,14 @@ var auth = require('../helpers/auth')
   que fizeram uma requisição. O diretor ainda pode atualizar o estado destas requisições.
 */
 router.get('/', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
-  axios.get("http://api:7779/equipamento")
+  axios.get("http://localhost:7779/equipamento")
     .then(function(resp){
         var equipamentos = resp.data
         nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
         if (nivelAcesso == "socio"){
           res.render('equipamentosSocio', {equipamentos:equipamentos})
         }else if (nivelAcesso == "diretor"){
-          axios.get("http://api:7779/dividasEquipamento")
+          axios.get("http://localhost:7779/dividasEquipamento")
             .then(function(resp){
                 var dividasEquipamento = resp.data
                 res.render('equipamentosDiretoria', {dividasEquipamento:dividasEquipamento,equipamentos:equipamentos})
@@ -49,7 +49,7 @@ router.get('/', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
 */
 router.get('/remover/:idEquipamento', auth.verificaAcessoDiretor, function(req, res, next) {
   console.log("cheguei")
-  axios.delete("http://api:7779/equipamento/"+req.params.idEquipamento)
+  axios.delete("http://localhost:7779/equipamento/"+req.params.idEquipamento)
     .then(function(resp){
         res.render('feedbackServidor', {texto:"Equipamento removido com sucesso",voltarUrl:"/equipamento/"})
     })
@@ -64,7 +64,7 @@ router.get('/remover/:idEquipamento', auth.verificaAcessoDiretor, function(req, 
   requisitar o equipamento ou cancelar a operação
 */
 router.get('/requisitar/:idEquipamento', auth.verificaAcessoSocio,function(req, res, next) {
-  axios.get("http://api:7779/equipamento/" + req.params.idEquipamento)
+  axios.get("http://localhost:7779/equipamento/" + req.params.idEquipamento)
     .then(function(resp){
         var equipamento = resp.data
         res.render('requisitarEquipamento', {equipamento:equipamento})
@@ -80,10 +80,10 @@ router.get('/requisitar/:idEquipamento', auth.verificaAcessoSocio,function(req, 
   e voltar a página principal ou atualizar os tais valores que modificou do equipamento.
 */
 router.get('/editar/:idEquipamento', auth.verificaAcessoDiretor,function(req, res, next) {
-  axios.get("http://api:7779/equipamento/" + req.params.idEquipamento)
+  axios.get("http://localhost:7779/equipamento/" + req.params.idEquipamento)
     .then(function(resp){
         var equipamento = resp.data
-        axios.get("http://api:7779/tamanhoEquipamento/")
+        axios.get("http://localhost:7779/tamanhoEquipamento/")
         .then(function(resp){
             var tamanhosEquipamentos = resp.data
             res.render('editarEquipamento', {equipamento:equipamento,tamanhosEquipamentos:tamanhosEquipamentos})
@@ -101,7 +101,7 @@ router.get('/editar/:idEquipamento', auth.verificaAcessoDiretor,function(req, re
   descrição: renderiza a página de adição de um equipamento.
 */
 router.get('/adicionar', auth.verificaAcessoDiretor,function(req, res, next) {
-  axios.get("http://api:7779/tamanhoEquipamento/")
+  axios.get("http://localhost:7779/tamanhoEquipamento/")
     .then(function(resp){
         var tamanhosEquipamentos = resp.data
         res.render('adicionarEquipamento', {tamanhosEquipamentos:tamanhosEquipamentos})
@@ -133,7 +133,7 @@ router.post('/editar', auth.verificaAcessoDiretor,function(req, res, next) {
       })
   }
 
-  axios.put("http://api:7779/equipamento/"+equipamento._id,equipamento)
+  axios.put("http://localhost:7779/equipamento/"+equipamento._id,equipamento)
     .then(function(resp){
       res.render('feedbackServidor', {texto:"Equipamento alterado com sucesso",voltarUrl:"/equipamento/"})
     })
@@ -161,7 +161,7 @@ router.post('/adicionar', auth.verificaAcessoDiretor,function(req, res, next) {
       })
   }
 
-  axios.post("http://api:7779/equipamento",equipamento)
+  axios.post("http://localhost:7779/equipamento",equipamento)
     .then(function(resp){
       res.render('feedbackServidor', {texto:"Equipamento adicionado com sucesso",voltarUrl:"/equipamento/"})
     })
@@ -183,7 +183,7 @@ router.post('/requisitar', auth.verificaAcessoSocio,function(req, res, next) {
     tamanho:req.body.tamanho
   }
 
-  axios.post("http://api:7779/dividasEquipamento",dividaEquipamento)
+  axios.post("http://localhost:7779/dividasEquipamento",dividaEquipamento)
     .then(function(resp){
       res.render('feedbackServidor', {texto:"Equipamento requisitado adicionado com sucesso",voltarUrl:"/equipamento/"})
     })
@@ -198,7 +198,7 @@ router.post('/requisitar', auth.verificaAcessoSocio,function(req, res, next) {
   e voltar a página principal ou atualizao tal estado que modificou da divida.
 */
 router.get('/dividaEquipamento/editar/:idDividaEquipamento', auth.verificaAcessoDiretor,function(req, res, next) {
-  axios.get("http://api:7779/dividasEquipamento/" + req.params.idDividaEquipamento)
+  axios.get("http://localhost:7779/dividasEquipamento/" + req.params.idDividaEquipamento)
     .then(function(resp){
         var dividaEquipamento = resp.data
         res.render('editarDividaEquipamento', {dividaEquipamento:dividaEquipamento})
@@ -214,7 +214,7 @@ router.get('/dividaEquipamento/editar/:idDividaEquipamento', auth.verificaAcesso
   com o seu ID)
 */
 router.post('/dividaEquipamento/editar', auth.verificaAcessoDiretor,function(req, res, next) {
-  axios.put("http://api:7779/dividasEquipamento/"+req.body._id,req.body)
+  axios.put("http://localhost:7779/dividasEquipamento/"+req.body._id,req.body)
     .then(function(resp){
       res.render('feedbackServidor', {texto:"Estado da dívida do equipamento alterada com sucesso",voltarUrl:"/equipamento/"})
     })
@@ -250,14 +250,14 @@ router.post('/filtro', auth.verificaAcessoSocioOuDiretor,function(req, res, next
     queryString += 'order=' + req.body.ordem + "&"
   }
 
-  axios.get("http://api:7779/equipamento" + queryString)
+  axios.get("http://localhost:7779/equipamento" + queryString)
     .then(function(resp){
         var equipamentos = resp.data
         nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
         if (nivelAcesso == "socio"){
           res.render('equipamentosSocio', {equipamentos:equipamentos})
         }else if (nivelAcesso == "diretor"){
-          axios.get("http://api:7779/dividasEquipamento")
+          axios.get("http://localhost:7779/dividasEquipamento")
             .then(function(resp){
                 var dividasEquipamento = resp.data
                 res.render('equipamentosDiretoria', {dividasEquipamento:dividasEquipamento,equipamentos:equipamentos})
@@ -288,14 +288,14 @@ router.post('/dividaEquipamento/filtro', auth.verificaAcessoSocioOuDiretor,funct
     queryString += 'estado=' + req.body.estado + "&"
   }
   
-  axios.get("http://api:7779/equipamento")
+  axios.get("http://localhost:7779/equipamento")
     .then(function(resp){
         var equipamentos = resp.data
         nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
         if (nivelAcesso == "socio"){
           res.render('equipamentosSocio', {equipamentos:equipamentos})
         }else if (nivelAcesso == "diretor"){
-          axios.get("http://api:7779/dividasEquipamento" + queryString)
+          axios.get("http://localhost:7779/dividasEquipamento" + queryString)
             .then(function(resp){
                 var dividasEquipamento = resp.data
                 res.render('equipamentosDiretoria', {dividasEquipamento:dividasEquipamento,equipamentos:equipamentos})
@@ -314,7 +314,7 @@ router.post('/dividaEquipamento/filtro', auth.verificaAcessoSocioOuDiretor,funct
   descrição: renderiza a página de visualização de um equipamento (tanto para o diretor como para o sócio)
 */
 router.get('/:idEquipamento', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
-  axios.get("http://api:7779/equipamento/" + req.params.idEquipamento)
+  axios.get("http://localhost:7779/equipamento/" + req.params.idEquipamento)
     .then(function(resp){
         var equipamento = resp.data
         res.render('equipamento', {equipamento:equipamento})

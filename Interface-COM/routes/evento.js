@@ -18,7 +18,7 @@ var users = require('../helpers/users')
         - listagem de todos os eventos. (tanto sócios como diretores)
  */
 router.get('/', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
-    axios.get('http://api:7779/evento')
+    axios.get('http://localhost:7779/evento')
         .then(resp =>{
             eventos = resp.data
             nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
@@ -37,10 +37,10 @@ router.get('/', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
 
 router.get('/:idEvento', auth.verificaAcessoSocioOuDiretor, async function(req, res, next) {
     try {
-        var eventoResp = await axios.get('http://api:7779/evento/' + req.params.idEvento)
+        var eventoResp = await axios.get('http://localhost:7779/evento/' + req.params.idEvento)
         var evento = eventoResp.data
 
-        var incritosRep = await axios.get('http://api:7779/inscrito?evento=' + req.params.idEvento)
+        var incritosRep = await axios.get('http://localhost:7779/inscrito?evento=' + req.params.idEvento)
         var inscritos = incritosRep.data
 
         //for (const inscrito of inscritos) {
@@ -53,10 +53,10 @@ router.get('/:idEvento', auth.verificaAcessoSocioOuDiretor, async function(req, 
 
         nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
         if (nivelAcesso == "diretor") {
-            var transportesRep = await axios.get('http://api:7779/transporte?evento=' + req.params.idEvento)
+            var transportesRep = await axios.get('http://localhost:7779/transporte?evento=' + req.params.idEvento)
             var transportes = transportesRep.data
 
-            var apoiosRep = await axios.get('http://api:7779/apoioKm?evento=' + req.params.idEvento)
+            var apoiosRep = await axios.get('http://localhost:7779/apoioKm?evento=' + req.params.idEvento)
             var apoios = apoiosRep.data
 
 
@@ -71,10 +71,13 @@ router.get('/:idEvento', auth.verificaAcessoSocioOuDiretor, async function(req, 
             //    apoioUsersMap.set(apoio.userID, socio)
             //}
 
-            res.render('eventoDiretoria',{evento:evento,nivelAcesso:nivelAcesso, inscritos: inscritos, transportes: transportes, apoios: apoios, usersMap : usersMap})
+            var usersListRep = await axios.get('http://localhost:7780/user/')
+            var usersList = usersListRep.data
+
+            res.render('eventoDiretoria',{evento:evento,nivelAcesso:nivelAcesso, inscritos: inscritos, transportes: transportes, apoios: apoios, usersMap : usersMap, users: usersList})
         } else if (nivelAcesso == "socio") {
             const myId = auth.getID(req.cookies.token)
-            const myUserRep = await axios.get('http://autenticacao:7780/user/' + myId)
+            const myUserRep = await axios.get('http://localhost:7780/user/' + myId)
             const myUser = myUserRep.data
 
             var usersMap = await users.mapSocioUser([inscritos])
@@ -88,7 +91,7 @@ router.get('/:idEvento', auth.verificaAcessoSocioOuDiretor, async function(req, 
 router.post('/', auth.verificaAcessoDiretor, async function(req, res, next) {
     try {
         var evento = req.body
-        var eventoResp = await axios.post('http://api:7779/evento', evento)
+        var eventoResp = await axios.post('http://localhost:7779/evento', evento)
         var evento = eventoResp.data
         res.redirect('/evento')
     } catch (error) {
