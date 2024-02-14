@@ -15,18 +15,19 @@ var auth = require('../helpers/auth')
   descrição: renderiza a página de notificações do sócio ou do diretor segundo o nível de acesso.
 */
 router.get('/', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
+    let user = auth.getUser(req.cookies.token)
     axios.get("http://localhost:7779/notificacao")
         .then(function(resp){
             var notificacoes = resp.data
             nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
             if (nivelAcesso == "socio"){
-                res.render('notificacaoSocio', {notificacoes:notificacoes})
+                res.render('notificacaoSocio', {notificacoes:notificacoes, user:user})
             }else if (nivelAcesso == "diretor"){
-                res.render('notificacaoDiretoria', {notificacoes:notificacoes})
+                res.render('notificacaoDiretoria', {notificacoes:notificacoes, user:user})
             }
         })
         .catch( erro => {
-            res.render('error', {error: erro, message: "Erro!"})
+            res.render('error', {error: erro, message: "Erro!", user:user})
         })
 })
 
@@ -36,12 +37,13 @@ router.get('/', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
 */
 router.post('/adicionar', auth.verificaAcessoDiretor,function(req, res, next) {
     req.body.data = new Date().toISOString().substring(0, 16)
+    let user = auth.getUser(req.cookies.token)
     axios.post("http://localhost:7779/notificacao",req.body)
       .then(function(resp){
-        res.render('feedbackServidor', {texto:"Notificação adicionada com sucesso",voltarUrl:"/notificacao/",})
+        res.render('feedbackServidor', {texto:"Notificação adicionada com sucesso",voltarUrl:"/notificacao/", user:user})
       })
       .catch( erro => {
-        res.render('error', {error: erro, message: "Erro!"})
+        res.render('error', {error: erro, message: "Erro!", user:user})
       })
 })
 
@@ -51,13 +53,14 @@ router.post('/adicionar', auth.verificaAcessoDiretor,function(req, res, next) {
   e voltar a página de notificações ou confirmar a modificação da notificação.
 */
 router.get('/editar/:idNotificacao', auth.verificaAcessoDiretor,function(req, res, next) {
+    let user = auth.getUser(req.cookies.token)
     axios.get("http://localhost:7779/notificacao/" + req.params.idNotificacao)
       .then(function(resp){
           var notificacao = resp.data
-          res.render('editarNotificacao', {notificacao:notificacao})
+          res.render('editarNotificacao', {notificacao:notificacao, user:user})
       })
       .catch( erro => {
-        res.render('error', {error: erro, message: "Erro!"})
+        res.render('error', {error: erro, message: "Erro!", user:user})
       })
 })
   
@@ -67,12 +70,13 @@ router.get('/editar/:idNotificacao', auth.verificaAcessoDiretor,function(req, re
   com o seu ID)
 */
 router.post('/editar', auth.verificaAcessoDiretor,function(req, res, next) {
+    let user = auth.getUser(req.cookies.token)
 axios.put("http://localhost:7779/notificacao/"+req.body._id,req.body)
     .then(function(resp){
-    res.render('feedbackServidor', {texto:"Notificação alterada com sucesso",voltarUrl:"/notificacao/"})
+    res.render('feedbackServidor', {texto:"Notificação alterada com sucesso",voltarUrl:"/notificacao/", user:user})
     })
     .catch( erro => {
-    res.render('error', {error: erro, message: "Erro!"})
+    res.render('error', {error: erro, message: "Erro!", user:user})
     })
 
 })
@@ -82,12 +86,13 @@ axios.put("http://localhost:7779/notificacao/"+req.body._id,req.body)
   descrição: remove a notificação com id <idNotificacao>
 */
 router.get('/remover/:idNotificacao', auth.verificaAcessoDiretor, function(req, res, next) {
+    let user = auth.getUser(req.cookies.token)
     axios.delete("http://localhost:7779/notificacao/"+req.params.idNotificacao)
       .then(function(resp){
-          res.render('feedbackServidor', {texto:"Notificação removida com sucesso",voltarUrl:"/notificacao/"})
+          res.render('feedbackServidor', {texto:"Notificação removida com sucesso",voltarUrl:"/notificacao/", user:user})
       })
       .catch( erro => {
-        res.render('error', {error: erro, message: "Erro!"})
+        res.render('error', {error: erro, message: "Erro!", user:user})
       })
 })
 
@@ -97,7 +102,8 @@ router.get('/remover/:idNotificacao', auth.verificaAcessoDiretor, function(req, 
 */
 router.post('/filtro', auth.verificaAcessoSocioOuDiretor,function(req, res, next) {
   queryString = '?'
-  
+
+    let user = auth.getUser(req.cookies.token)
   // Parse dos filtros na query string
   if (req.body.campo != ''){
     queryString += 'sort=' + req.body.campo + "&"
@@ -111,13 +117,13 @@ router.post('/filtro', auth.verificaAcessoSocioOuDiretor,function(req, res, next
         var notificacoes = resp.data
         nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
         if (nivelAcesso == "socio"){
-            res.render('notificacaoSocio', {notificacoes:notificacoes})
+            res.render('notificacaoSocio', {notificacoes:notificacoes, user:user})
         }else if (nivelAcesso == "diretor"){
-            res.render('notificacaoDiretoria', {notificacoes:notificacoes})
+            res.render('notificacaoDiretoria', {notificacoes:notificacoes, user:user})
         }
     })
     .catch( erro => {
-        res.render('error', {error: erro, message: "Erro!"})
+        res.render('error', {error: erro, message: "Erro!", user:user})
     })
 })
 
@@ -125,13 +131,14 @@ router.post('/filtro', auth.verificaAcessoSocioOuDiretor,function(req, res, next
   descrição: renderiza a página da notificação com id <idNotificacao>
 */
 router.get('/:idNotificacao', auth.verificaAcessoDiretor, function(req, res, next) {
+    let user = auth.getUser(req.cookies.token)
   axios.get("http://localhost:7779/notificacao/"+req.params.idNotificacao)
     .then(function(resp){
         var notificacao = resp.data
-        res.render('notificacao', {notificacao:notificacao})
+        res.render('notificacao', {notificacao:notificacao, user:user})
     })
     .catch( erro => {
-      res.render('error', {error: erro, message: "Erro!"})
+      res.render('error', {error: erro, message: "Erro!", user:user})
     })
 })
 

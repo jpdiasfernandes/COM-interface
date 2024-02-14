@@ -22,25 +22,26 @@ var auth = require('../helpers/auth')
   que fizeram uma requisição. O diretor ainda pode atualizar o estado destas requisições.
 */
 router.get('/', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
+    var user = auth.getUser(req.cookies.token)
   axios.get("http://localhost:7779/equipamento")
     .then(function(resp){
         var equipamentos = resp.data
         nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
         if (nivelAcesso == "socio"){
-          res.render('equipamentosSocio', {equipamentos:equipamentos})
+          res.render('equipamentosSocio', {equipamentos:equipamentos, user:user})
         }else if (nivelAcesso == "diretor"){
           axios.get("http://localhost:7779/dividasEquipamento")
             .then(function(resp){
                 var dividasEquipamento = resp.data
-                res.render('equipamentosDiretoria', {dividasEquipamento:dividasEquipamento,equipamentos:equipamentos})
+                res.render('equipamentosDiretoria', {dividasEquipamento:dividasEquipamento,equipamentos:equipamentos, user:user})
             })
             .catch( erro => {
-              res.render('error', {error: erro, message: "Erro!"})
+              res.render('error', {error: erro, message: "Erro!", user:user})
             })
         }
     })
     .catch( erro => {
-      res.render('error', {error: erro, message: "Erro!"})
+      res.render('error', {error: erro, message: "Erro!", user:user})
     })
 })
 
@@ -49,12 +50,13 @@ router.get('/', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
 */
 router.get('/remover/:idEquipamento', auth.verificaAcessoDiretor, function(req, res, next) {
   console.log("cheguei")
+    var user = auth.getUser(req.cookies.token)
   axios.delete("http://localhost:7779/equipamento/"+req.params.idEquipamento)
     .then(function(resp){
-        res.render('feedbackServidor', {texto:"Equipamento removido com sucesso",voltarUrl:"/equipamento/"})
+        res.render('feedbackServidor', {texto:"Equipamento removido com sucesso",voltarUrl:"/equipamento/", user:user})
     })
     .catch( erro => {
-      res.render('error', {error: erro, message: "Erro!"})
+      res.render('error', {error: erro, message: "Erro!", user:user})
     })
 })
 
@@ -64,13 +66,14 @@ router.get('/remover/:idEquipamento', auth.verificaAcessoDiretor, function(req, 
   requisitar o equipamento ou cancelar a operação
 */
 router.get('/requisitar/:idEquipamento', auth.verificaAcessoSocio,function(req, res, next) {
+    var user = auth.getUser(req.cookies.token)
   axios.get("http://localhost:7779/equipamento/" + req.params.idEquipamento)
     .then(function(resp){
         var equipamento = resp.data
-        res.render('requisitarEquipamento', {equipamento:equipamento})
+        res.render('requisitarEquipamento', {equipamento:equipamento, user:user})
     })
     .catch( erro => {
-      res.render('error', {error: erro, message: "Erro!"})
+      res.render('error', {error: erro, message: "Erro!", user:user})
     })
 });
 
@@ -80,20 +83,21 @@ router.get('/requisitar/:idEquipamento', auth.verificaAcessoSocio,function(req, 
   e voltar a página principal ou atualizar os tais valores que modificou do equipamento.
 */
 router.get('/editar/:idEquipamento', auth.verificaAcessoDiretor,function(req, res, next) {
+    var user = auth.getUser(req.cookies.token)
   axios.get("http://localhost:7779/equipamento/" + req.params.idEquipamento)
     .then(function(resp){
         var equipamento = resp.data
         axios.get("http://localhost:7779/tamanhoEquipamento/")
         .then(function(resp){
             var tamanhosEquipamentos = resp.data
-            res.render('editarEquipamento', {equipamento:equipamento,tamanhosEquipamentos:tamanhosEquipamentos})
+            res.render('editarEquipamento', {equipamento:equipamento,tamanhosEquipamentos:tamanhosEquipamentos, user:user})
         })
         .catch( erro => {
-          res.render('error', {error: erro, message: "Erro!"})
+          res.render('error', {error: erro, message: "Erro!", user:user})
         })
     })
     .catch( erro => {
-      res.render('error', {error: erro, message: "Erro!"})
+      res.render('error', {error: erro, message: "Erro!", user:user})
     })
 });
 
@@ -101,13 +105,14 @@ router.get('/editar/:idEquipamento', auth.verificaAcessoDiretor,function(req, re
   descrição: renderiza a página de adição de um equipamento.
 */
 router.get('/adicionar', auth.verificaAcessoDiretor,function(req, res, next) {
+    var user = auth.getUser(req.cookies.token)
   axios.get("http://localhost:7779/tamanhoEquipamento/")
     .then(function(resp){
         var tamanhosEquipamentos = resp.data
-        res.render('adicionarEquipamento', {tamanhosEquipamentos:tamanhosEquipamentos})
+        res.render('adicionarEquipamento', {tamanhosEquipamentos:tamanhosEquipamentos, user:user})
     })
     .catch( erro => {
-      res.render('error', {error: erro, message: "Erro!"})
+      res.render('error', {error: erro, message: "Erro!", user:user})
     })
 
 })
@@ -133,12 +138,13 @@ router.post('/editar', auth.verificaAcessoDiretor,function(req, res, next) {
       })
   }
 
+    var user = auth.getUser(req.cookies.token)
   axios.put("http://localhost:7779/equipamento/"+equipamento._id,equipamento)
     .then(function(resp){
-      res.render('feedbackServidor', {texto:"Equipamento alterado com sucesso",voltarUrl:"/equipamento/"})
+      res.render('feedbackServidor', {texto:"Equipamento alterado com sucesso",voltarUrl:"/equipamento/", user:user})
     })
     .catch( erro => {
-      res.render('error', {error: erro, message: "Erro!"})
+      res.render('error', {error: erro, message: "Erro!", user:user})
     })
 })
 
@@ -161,12 +167,13 @@ router.post('/adicionar', auth.verificaAcessoDiretor,function(req, res, next) {
       })
   }
 
+    var user = auth.getUser(req.cookies.token)
   axios.post("http://localhost:7779/equipamento",equipamento)
     .then(function(resp){
-      res.render('feedbackServidor', {texto:"Equipamento adicionado com sucesso",voltarUrl:"/equipamento/"})
+      res.render('feedbackServidor', {texto:"Equipamento adicionado com sucesso",voltarUrl:"/equipamento/", user:user})
     })
     .catch( erro => {
-      res.render('error', {error: erro, message: "Erro!"})
+      res.render('error', {error: erro, message: "Erro!", user:user})
     })
 })
 
@@ -183,12 +190,13 @@ router.post('/requisitar', auth.verificaAcessoSocio,function(req, res, next) {
     tamanho:req.body.tamanho
   }
 
+    var user = auth.getUser(req.cookies.token)
   axios.post("http://localhost:7779/dividasEquipamento",dividaEquipamento)
     .then(function(resp){
-      res.render('feedbackServidor', {texto:"Equipamento requisitado adicionado com sucesso",voltarUrl:"/equipamento/"})
+      res.render('feedbackServidor', {texto:"Equipamento requisitado adicionado com sucesso",voltarUrl:"/equipamento/", user:user})
     })
     .catch( erro => {
-      res.render('error', {error: erro, message: "Erro!"})
+      res.render('error', {error: erro, message: "Erro!", user:user})
     })
 })
 
@@ -198,13 +206,14 @@ router.post('/requisitar', auth.verificaAcessoSocio,function(req, res, next) {
   e voltar a página principal ou atualizao tal estado que modificou da divida.
 */
 router.get('/dividaEquipamento/editar/:idDividaEquipamento', auth.verificaAcessoDiretor,function(req, res, next) {
+    var user = auth.getUser(req.cookies.token)
   axios.get("http://localhost:7779/dividasEquipamento/" + req.params.idDividaEquipamento)
     .then(function(resp){
         var dividaEquipamento = resp.data
-        res.render('editarDividaEquipamento', {dividaEquipamento:dividaEquipamento})
+        res.render('editarDividaEquipamento', {dividaEquipamento:dividaEquipamento, user:user})
     })
     .catch( erro => {
-      res.render('error', {error: erro, message: "Erro!"})
+      res.render('error', {error: erro, message: "Erro!", user:user})
     })
 })
 
@@ -214,12 +223,13 @@ router.get('/dividaEquipamento/editar/:idDividaEquipamento', auth.verificaAcesso
   com o seu ID)
 */
 router.post('/dividaEquipamento/editar', auth.verificaAcessoDiretor,function(req, res, next) {
+    var user = auth.getUser(req.cookies.token)
   axios.put("http://localhost:7779/dividasEquipamento/"+req.body._id,req.body)
     .then(function(resp){
-      res.render('feedbackServidor', {texto:"Estado da dívida do equipamento alterada com sucesso",voltarUrl:"/equipamento/"})
+      res.render('feedbackServidor', {texto:"Estado da dívida do equipamento alterada com sucesso",voltarUrl:"/equipamento/", user:user})
     })
     .catch( erro => {
-      res.render('error', {error: erro, message: "Erro!"})
+      res.render('error', {error: erro, message: "Erro!", user:user})
     })
 
 })
@@ -251,24 +261,25 @@ router.post('/filtro', auth.verificaAcessoSocioOuDiretor,function(req, res, next
   }
 
   axios.get("http://localhost:7779/equipamento" + queryString)
+    var user = auth.getUser(req.cookies.token)
     .then(function(resp){
         var equipamentos = resp.data
         nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
         if (nivelAcesso == "socio"){
-          res.render('equipamentosSocio', {equipamentos:equipamentos})
+          res.render('equipamentosSocio', {equipamentos:equipamentos, user:user})
         }else if (nivelAcesso == "diretor"){
           axios.get("http://localhost:7779/dividasEquipamento")
             .then(function(resp){
                 var dividasEquipamento = resp.data
-                res.render('equipamentosDiretoria', {dividasEquipamento:dividasEquipamento,equipamentos:equipamentos})
+                res.render('equipamentosDiretoria', {dividasEquipamento:dividasEquipamento,equipamentos:equipamentos, user:user})
             })
             .catch( erro => {
-              res.render('error', {error: erro, message: "Erro!"})
+              res.render('error', {error: erro, message: "Erro!", user:user})
             })
         }
     })
     .catch( erro => {
-      res.render('error', {error: erro, message: "Erro!"})
+      res.render('error', {error: erro, message: "Erro!", user: user})
     })
 })
 
@@ -287,26 +298,27 @@ router.post('/dividaEquipamento/filtro', auth.verificaAcessoSocioOuDiretor,funct
   if (req.body.estado != ''){
     queryString += 'estado=' + req.body.estado + "&"
   }
-  
+
+  var user = auth.getUser(req.cookies.token)
   axios.get("http://localhost:7779/equipamento")
     .then(function(resp){
         var equipamentos = resp.data
         nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
         if (nivelAcesso == "socio"){
-          res.render('equipamentosSocio', {equipamentos:equipamentos})
+          res.render('equipamentosSocio', {equipamentos:equipamentos, user:user})
         }else if (nivelAcesso == "diretor"){
           axios.get("http://localhost:7779/dividasEquipamento" + queryString)
             .then(function(resp){
                 var dividasEquipamento = resp.data
-                res.render('equipamentosDiretoria', {dividasEquipamento:dividasEquipamento,equipamentos:equipamentos})
+                res.render('equipamentosDiretoria', {dividasEquipamento:dividasEquipamento,equipamentos:equipamentos, user:user})
             })
             .catch( erro => {
-              res.render('error', {error: erro, message: "Erro!"})
+              res.render('error', {error: erro, message: "Erro!", user:user})
             })
         }
     })
     .catch( erro => {
-      res.render('error', {error: erro, message: "Erro!"})
+      res.render('error', {error: erro, message: "Erro!", user:user})
     })
 })
 
@@ -314,13 +326,14 @@ router.post('/dividaEquipamento/filtro', auth.verificaAcessoSocioOuDiretor,funct
   descrição: renderiza a página de visualização de um equipamento (tanto para o diretor como para o sócio)
 */
 router.get('/:idEquipamento', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
+    var user = auth.getUser(req.cookies.token)
   axios.get("http://localhost:7779/equipamento/" + req.params.idEquipamento)
     .then(function(resp){
         var equipamento = resp.data
-        res.render('equipamento', {equipamento:equipamento})
+        res.render('equipamento', {equipamento:equipamento, user: user})
     })
     .catch( erro => {
-      res.render('error', {error: erro, message: "Erro!"})
+      res.render('error', {error: erro, message: "Erro!", user: user})
     })
 })
 

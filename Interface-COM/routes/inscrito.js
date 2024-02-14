@@ -29,6 +29,7 @@ var users = require('../helpers/users')
 //})
 
 router.get('/remover/:idInscrito', auth.verificaAcessoSocioOuDiretor, async function(req, res, next) {
+    let user = auth.getUser(req.cookies.token)
     try {
         var inscritoRep = await axios.get('http://localhost:7779/inscrito/' + req.params.idInscrito)
         var inscrito = inscritoRep.data
@@ -38,22 +39,24 @@ router.get('/remover/:idInscrito', auth.verificaAcessoSocioOuDiretor, async func
         await axios.delete('http://localhost:7779/inscrito/' + req.params.idInscrito)
         res.redirect('/evento/' + inscrito.codEvento)
     } catch (erro) {
-        res.render('error', {error: erro, message: "Erro!"})
+        res.render('error', {error: erro, message: "Erro!", user:user})
     }
 })
 
 router.get('/:idInscrito', auth.verificaAcessoDiretor, async function(req, res, next) {
-   try {
+    let user = auth.getUser(req.cookies.token)
+    try {
        var inscritoRep = await axios.get('http://localhost:7779/inscrito/' + req.params.idInscrito)
        var inscrito = inscritoRep.data
        var usersMap = await users.mapSocioUser([[inscrito]])
        var nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
-       res.render('inscritoDiretoria', {inscrito: inscrito, nivelAcesso: nivelAcesso, usersMap:usersMap})
+       res.render('inscritoDiretoria', {inscrito: inscrito, nivelAcesso: nivelAcesso, usersMap:usersMap, user:user})
    } catch (erro) {
-       res.render('error', {error: erro, message: "Erro!"})
+       res.render('error', {error: erro, message: "Erro!", user:user})
    }
 })
 router.post('/', auth.verificaAcessoSocioOuDiretor, async function(req, res, next) {
+    let user = auth.getUser(req.cookies.token)
     try {
         var inscritosRep = await axios.get('http://localhost:7779/inscrito?evento=' + req.body.codEvento + '&user=' + req.body.userID)
         var inscritos = inscritosRep.data
@@ -79,23 +82,25 @@ router.post('/', auth.verificaAcessoSocioOuDiretor, async function(req, res, nex
 
         res.redirect('/evento/' + req.body.codEvento)
     } catch(erro) {
-        res.render('error', {error: erro, message: "Erro!"})
+        res.render('error', {error: erro, message: "Erro!", user:user})
     }
 
 })
 
 router.get('/editar/:idInscrito', auth.verificaAcessoDiretor, async function(req, res, next) {
+    let user = auth.getUser(req.cookies.token)
     try {
         var inscritoRep = await axios.get('http://localhost:7779/inscrito/' + req.params.idInscrito)
         var inscrito = inscritoRep.data
         var nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
 
-        res.render('editarInscrito', {nivelAcesso: nivelAcesso, inscrito: inscrito})
+        res.render('editarInscrito', {nivelAcesso: nivelAcesso, inscrito: inscrito, user:user})
     } catch (erro) {
-        res.render('error', {error: erro, message: "Erro!"})
+        res.render('error', {error: erro, message: "Erro!", user:user})
     }
 })
 router.post('/editar', auth.verificaAcessoDiretor, async function(req, res, next) {
+    let user = auth.getUser(req.cookies.token)
     try {
         var inscritoRep = await axios.get('http://localhost:7779/inscrito/' + req.body._id)
         var inscrito = inscritoRep.data
@@ -132,7 +137,7 @@ router.post('/editar', auth.verificaAcessoDiretor, async function(req, res, next
         await axios.put('http://localhost:7779/inscrito/' + req.body._id, req.body)
         res.redirect('/inscrito/' + req.body._id)
     } catch(erro) {
-        res.render('error', {error: erro, message: "Erro!"})
+        res.render('error', {error: erro, message: "Erro!", user:user})
     }
 })
 

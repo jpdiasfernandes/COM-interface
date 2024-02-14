@@ -34,6 +34,7 @@ function getValorApoio(atletas, distancia) {
 }
 
 router.post('/', auth.verificaAcessoDiretor, async function(req, res, next) {
+    var user = auth.getUser(req.cookies.token)
     try {
         var apoioKmRep = await axios.post('http://localhost:7779/apoioKm', req.body)
         var apoioKm = apoioKmRep.data
@@ -53,11 +54,12 @@ router.post('/', auth.verificaAcessoDiretor, async function(req, res, next) {
 
         res.redirect('/evento/' + req.body.codEvento)
     } catch(erro) {
-        res.render('error', {error: erro, message: "Erro!"})
+        res.render('error', {error: erro, message: "Erro!", user: user})
     }
 })
 
 router.get('/remover/:idApoioKm', auth.verificaAcessoDiretor, async function(req, res, next) {
+    var user = auth.getUser(req.cookies.token)
     try {
         var apoioRep = await axios.get('http://localhost:7779/apoioKm/' + req.params.idApoioKm)
         var apoio = apoioRep.data
@@ -67,11 +69,12 @@ router.get('/remover/:idApoioKm', auth.verificaAcessoDiretor, async function(req
         await axios.delete('http://localhost:7779/apoioKm/' + req.params.idApoioKm)
         res.redirect('/evento/' + apoio.codEvento)
     } catch (erro) {
-        res.render('error', {error: erro, message: "Erro!"})
+        res.render('error', {error: erro, message: "Erro!", user:user})
     }
 })
 
 router.get('/:idApoioKm', auth.verificaAcessoDiretor, async function(req, res, next) {
+    var user = auth.getUser(req.cookies.token)
     try {
         var apoioRep = await axios.get('http://localhost:7779/apoioKm/' + req.params.idApoioKm)
         var apoio = apoioRep.data
@@ -80,25 +83,26 @@ router.get('/:idApoioKm', auth.verificaAcessoDiretor, async function(req, res, n
         var socio = socioRep.data
 
         var nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
-        res.render('apoioKmDiretoria', {apoio: apoio, nivelAcesso : nivelAcesso, socio: socio})
+        res.render('apoioKmDiretoria', {apoio: apoio, nivelAcesso : nivelAcesso, socio: socio, user: user})
     } catch (erro) {
-        res.render('error', {error: erro, message: "Erro!"})
+        res.render('error', {error: erro, message: "Erro!", user:user})
     }
 })
 
 router.get('/editar/:idApoioKm', auth.verificaAcessoDiretor, async function(req, res, next) {
+    var user = auth.getUser(req.cookies.token)
     try {
         var apoioKmRep = await axios.get('http://localhost:7779/apoioKm/' + req.params.idApoioKm)
         var apoioKm = apoioKmRep.data
-
         var nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
-        res.render('editarApoioKm', {apoioKm: apoioKm, nivelAcesso: nivelAcesso})
+        res.render('editarApoioKm', {apoioKm: apoioKm, nivelAcesso: nivelAcesso, user:user})
     } catch (erro) {
-        res.render('error', {error: erro, message: "Erro!"})
+        res.render('error', {error: erro, message: "Erro!", user:user})
     }
 })
 
 router.post('/editar', auth.verificaAcessoDiretor, async function(req,res,next) {
+    var user = auth.getUser(req.cookies.token)
     try {
         var apoioKmRep = await axios.get('http://localhost:7779/apoioKm/' + req.body._id)
         var apoioKm = apoioKmRep.data
@@ -120,7 +124,7 @@ router.post('/editar', auth.verificaAcessoDiretor, async function(req,res,next) 
         await axios.put('http://localhost:7779/apoioKm/' + req.body._id, req.body)
         res.redirect('/apoioKm/' + req.body._id)
     } catch (erro) {
-        res.render('error', {error: erro, message: "Erro!"})
+        res.render('error', {error: erro, message: "Erro!", user:user})
     }
 })
 module.exports = router

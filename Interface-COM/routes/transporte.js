@@ -14,6 +14,7 @@ var axios = require('axios')
 var auth = require('../helpers/auth')
 
 router.post('/', auth.verificaAcessoDiretor, async function(req, res, next) {
+    let user = auth.getUser(req.cookies.token)
     try {
         var transporteRep = await axios.post('http://localhost:7779/transporte', req.body)
         var transporte = transporteRep.data
@@ -33,7 +34,7 @@ router.post('/', auth.verificaAcessoDiretor, async function(req, res, next) {
 
         res.redirect('/evento/' + req.body.codEvento)
     } catch(erro) {
-        res.render('error', {error: erro, message: "Erro!"})
+        res.render('error', {error: erro, message: "Erro!", user:user})
     }
 })
 
@@ -47,19 +48,21 @@ router.get('/remover/:idTransporte', auth.verificaAcessoDiretor, async function(
 
         res.redirect('/evento/' + transporte.data.codEvento)
     } catch (erro) {
-        res.render('error', {error: erro, message: "Erro!"})
+        res.render('error', {error: erro, message: "Erro!", user:user})
     }
 })
 
 router.get('/adicionar/:idEvento', auth.verificaAcessoDiretor, async function(req, res, next) {
+    let user = auth.getUser(req.cookies.token)
     var nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
 
     var userListRep = await axios.get('http://localhost:7780/user/')
     var userList = userListRep.data
-    res.render('adicionarTransporte', {codEvento: req.params.idEvento, nivelAcesso: nivelAcesso, users:userList})
+    res.render('adicionarTransporte', {codEvento: req.params.idEvento, nivelAcesso: nivelAcesso, users:userList, user: user})
 })
 
 router.post('/editar', auth.verificaAcessoDiretor, async function(req,res,next) {
+    let user = auth.getUser(req.cookies.token)
     try {
         var transporteRep = await axios.get('http://localhost:7779/transporte/' + req.body._id)
         var transporte = transporteRep.data
@@ -123,11 +126,12 @@ router.post('/editar', auth.verificaAcessoDiretor, async function(req,res,next) 
         await axios.put('http://localhost:7779/transporte/' + req.body._id, req.body)
         res.redirect('/transporte/' + req.body._id)
     } catch(erro) {
-        res.render('error', {error: erro, message: "Erro!"})
+        res.render('error', {error: erro, message: "Erro!", user:user})
     }
 })
 
 router.get('/remover/:idTransporte', auth.verificaAcessoDiretor, async function(req, res, next) {
+    let user = auth.getUser(req.cookies.token)
     try {
         var transporteRep = await axios.get('http://localhost:7779/transporte/' + req.params.idTransporte)
         var transporte = transporteRep.data
@@ -137,23 +141,25 @@ router.get('/remover/:idTransporte', auth.verificaAcessoDiretor, async function(
         await axios.delete('http://localhost:7779/transporte/' + req.params.idTransporte)
         res.redirect('/evento/' + transporte.codEvento)
     } catch (erro) {
-        res.render('error', {error: erro, message: "Erro!"})
+        res.render('error', {error: erro, message: "Erro!", user:user})
     }
 })
 
 router.get('/editar/:idTransporte', auth.verificaAcessoDiretor, async function(req, res, next) {
+    let user = auth.getUser(req.cookies.token)
     try {
         var nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
         var transporteRep = await axios.get('http://localhost:7779/transporte/' + req.params.idTransporte)
         var transporte = transporteRep.data
-        res.render('editarTransporte', {transporte: transporte, nivelAcesso: nivelAcesso})
+        res.render('editarTransporte', {transporte: transporte, nivelAcesso: nivelAcesso, user:user})
     } catch (erro) {
-        res.render('error', {error: erro, message: "Erro!"})
+        res.render('error', {error: erro, message: "Erro!", user:user})
     }
 
 
 })
 router.get('/:idTransporte', auth.verificaAcessoDiretor, async function(req, res, next) {
+    let user = auth.getUser(req.cookies.token)
     try {
         var repTransporte = await axios.get('http://localhost:7779/transporte/' + req.params.idTransporte)
         var transporte = repTransporte.data
@@ -182,9 +188,9 @@ router.get('/:idTransporte', auth.verificaAcessoDiretor, async function(req, res
                 condutoresList.push(user)
         }
         nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
-        res.render('transporteDiretoria', {transporte: transporte, nivelAcesso: nivelAcesso, transportados: transportadosList, condutores: condutoresList})
+        res.render('transporteDiretoria', {transporte: transporte, nivelAcesso: nivelAcesso, transportados: transportadosList, condutores: condutoresList, user:user})
     } catch (error) {
-        res.render('error', {error: error, message: "Erro!"})
+        res.render('error', {error: error, message: "Erro!", user:user})
     }
 
 })

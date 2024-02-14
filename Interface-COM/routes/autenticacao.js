@@ -22,7 +22,7 @@ var token_blackList = []
   descrição: renderiza a página de login do utilizador
 */
 router.get('/login', function(req, res, next) {
-    res.render('login',{nivelAcesso:"none"})
+    res.render('login',{nivelAcesso:"none",user:null})
 })
 
 /*
@@ -36,9 +36,9 @@ router.post('/login', function(req, res, next) {
     })
     .catch(erro =>{
       if (erro.response.status == 401){
-        res.status(401).render('feedbackServidor',{texto:"Credenciais inválidas",voltarUrl:"/autenticacao/login"})
+        res.status(401).render('feedbackServidor',{texto:"Credenciais inválidas",voltarUrl:"/autenticacao/login", user:null})
       }else{
-        res.render('error', {error: erro, message: erro})
+        res.render('error', {error: erro, message: erro, user:null})
       }
     })
 })

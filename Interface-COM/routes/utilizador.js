@@ -24,14 +24,15 @@ var users = require('../helpers/users')
   Apenas diretores podem acessar a esta página.
 */
 router.get('/', auth.verificaAcessoDiretor, function(req, res, next) {
+    let user = auth.getUser(req.cookies.token)
     axios.get('http://localhost:7780/user/')
     .then(resp =>{
         utilizadores = resp.data
         nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
-        res.render('utilizadores',{utilizadores:utilizadores,nivelAcesso:nivelAcesso})
+        res.render('utilizadores',{utilizadores:utilizadores,nivelAcesso:nivelAcesso, user:user})
     })
     .catch( erro => {
-        res.render('error', {error: erro, message: "Erro!"})
+        res.render('error', {error: erro, message: "Erro!", user:user})
     })
 })
 
@@ -44,6 +45,7 @@ router.get('/', auth.verificaAcessoDiretor, function(req, res, next) {
     - balanço (saldo do utilizador).
 */
 router.get('/perfil', auth.verificaAcessoSocio, async function(req, res, next) {
+    let user = auth.getUser(req.cookies.token)
   nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
   idUtilizador = auth.getID(req.cookies.token)
     try {
@@ -72,10 +74,10 @@ router.get('/perfil', auth.verificaAcessoSocio, async function(req, res, next) {
 
         var balanco = users.balanco(receitasEvento, dividasEvento)
         console.log(dividasEvento.length)
-        res.render('meuPerfil',{utilizador:utilizador,dividasEquipamentos:dividasUtilizador,dividasEvento:dividasEvento,eventosMap:eventosMap,nivelAcesso:nivelAcesso, receitasEvento: receitasEvento, balanco: balanco})
+        res.render('meuPerfil',{utilizador:utilizador,dividasEquipamentos:dividasUtilizador,dividasEvento:dividasEvento,eventosMap:eventosMap,nivelAcesso:nivelAcesso, receitasEvento: receitasEvento, balanco: balanco, user:user})
 
     } catch(erro) {
-        res.render('error', {error: erro, message: "Erro!"})
+        res.render('error', {error: erro, message: "Erro!", user:user})
     }
   //.then(resp =>{
   //    utilizador = resp.data
@@ -104,17 +106,18 @@ router.get('/perfil', auth.verificaAcessoSocio, async function(req, res, next) {
   são enviados através do req.body. Apenas diretores podem criar novos utilizadores.
 */
 router.post('/adicionar', auth.verificaAcessoDiretor, function(req, res, next) {
+    let user = auth.getUser(req.cookies.token)
   axios.post('http://localhost:7780/user/registo',req.body)
     .then(resp =>{
       nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
-      res.status(200).render('feedbackServidor',{texto:"Utilizador adicionado com sucesso",voltarUrl:"/utilizador",nivelAcesso:nivelAcesso})
+      res.status(200).render('feedbackServidor',{texto:"Utilizador adicionado com sucesso",voltarUrl:"/utilizador",nivelAcesso:nivelAcesso, user:user})
     })
     .catch(erro =>{
       if (erro.response.status == 520){
         nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
-        res.status(520).render('feedbackServidor',{texto:erro.response.data.message,voltarUrl:"/utilizador",nivelAcesso:nivelAcesso})
+        res.status(520).render('feedbackServidor',{texto:erro.response.data.message,voltarUrl:"/utilizador",nivelAcesso:nivelAcesso, user:user})
       }else{
-        res.render('error', {error: erro, message: erro})
+        res.render('error', {error: erro, message: erro, user:user})
       }
     })
 })
@@ -125,14 +128,15 @@ router.post('/adicionar', auth.verificaAcessoDiretor, function(req, res, next) {
   e voltar a página de utilizadores ou atualizar os tais valores que modificou do utilizador.
 */
 router.get('/editar/:idUtilizador', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
+    let user = auth.getUser(req.cookies.token)
   axios.get("http://localhost:7780/user/" + req.params.idUtilizador)
     .then(function(resp){
         var utilizador = resp.data
         nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
-        res.render('editarUtilizador', {utilizador:utilizador, nivelAcesso:nivelAcesso})
+        res.render('editarUtilizador', {utilizador:utilizador, nivelAcesso:nivelAcesso, user:user})
     })
     .catch( erro => {
-      res.render('error', {error: erro, message: "Erro!"})
+      res.render('error', {error: erro, message: "Erro!", user:user})
     })
 })
 
@@ -141,17 +145,18 @@ router.get('/editar/:idUtilizador', auth.verificaAcessoSocioOuDiretor, function(
   são enviados através do req.body.
 */
 router.post('/editar', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
+    let user = auth.getUser(req.cookies.token)
   axios.put('http://localhost:7780/user/' + req.body._id,req.body)
     .then(resp =>{
       nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
       if (nivelAcesso == "diretor"){
-        res.status(200).render('feedbackServidor',{texto:"Utilizador alterado com sucesso",voltarUrl:"/utilizador",nivelAcesso:nivelAcesso})
+        res.status(200).render('feedbackServidor',{texto:"Utilizador alterado com sucesso",voltarUrl:"/utilizador",nivelAcesso:nivelAcesso, user:user})
       }else{
-        res.status(200).render('feedbackServidor',{texto:"Utilizador alterado com sucesso",voltarUrl:"/utilizador/perfil" ,nivelAcesso:nivelAcesso})
+        res.status(200).render('feedbackServidor',{texto:"Utilizador alterado com sucesso",voltarUrl:"/utilizador/perfil" ,nivelAcesso:nivelAcesso, user:user})
       }
     })
     .catch(erro =>{
-      res.render('error', {error: erro, message: erro})
+      res.render('error', {error: erro, message: erro, user:user})
     })
 })
 
@@ -159,13 +164,14 @@ router.post('/editar', auth.verificaAcessoSocioOuDiretor, function(req, res, nex
   descrição: renderiza a página de visualização dos dados de um utilizador (tanto para o diretor como para o sócio)
 */
 router.get('/:idUtilizador', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
+    let user = auth.getUser(req.cookies.token)
   axios.get("http://localhost:7780/user/" + req.params.idUtilizador)
     .then(function(resp){
         var utilizador = resp.data
-        res.render('utilizador', {utilizador:utilizador})
+        res.render('utilizador', {utilizador:utilizador, user:user})
     })
     .catch( erro => {
-      res.render('error', {error: erro, message: "Erro!"})
+      res.render('error', {error: erro, message: "Erro!", user:user})
     })
 })
 
@@ -173,12 +179,13 @@ router.get('/:idUtilizador', auth.verificaAcessoSocioOuDiretor, function(req, re
   descrição: remove o utilizador com id <idUser>
 */
 router.get('/remover/:idUser', auth.verificaAcessoDiretor, function(req, res, next) {
+    let user = auth.getUser(req.cookies.token)
   axios.delete("http://localhost:7780/user/"+req.params.idUser)
     .then(function(resp){
-        res.render('feedbackServidor', {texto:"Utilizador removido com sucesso",voltarUrl:"/utilizador/"})
+        res.render('feedbackServidor', {texto:"Utilizador removido com sucesso",voltarUrl:"/utilizador/", user:user})
     })
     .catch( erro => {
-      res.render('error', {error: erro, message: "Erro!"})
+      res.render('error', {error: erro, message: "Erro!", user:user})
     })
 })
 

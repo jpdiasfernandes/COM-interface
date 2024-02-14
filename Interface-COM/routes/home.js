@@ -10,7 +10,7 @@ var auth = require('../helpers/auth')
   descrição: renderiza a página home da aplicação
 */
 router.get('/', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
-    user = auth.getUser(req.cookies.token)
+    let user = auth.getUser(req.cookies.token)
     res.render('home', {user:user})
 })
 
