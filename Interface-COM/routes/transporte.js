@@ -16,7 +16,7 @@ var auth = require('../helpers/auth')
 router.post('/', auth.verificaAcessoDiretor, async function(req, res, next) {
     let user = auth.getUser(req.cookies.token)
     try {
-        var transporteRep = await axios.post('http://localhost:7779/transporte', req.body)
+        var transporteRep = await axios.post('http://api:7779/transporte', req.body)
         var transporte = transporteRep.data
 
         if (req.body.custo) {
@@ -27,7 +27,7 @@ router.post('/', auth.verificaAcessoDiretor, async function(req, res, next) {
                     userID: transportado,
                     valor: req.body.custo
                 }
-                var resp = await axios.post('http://localhost:7779/dividaEvento', divida)
+                var resp = await axios.post('http://api:7779/dividaEvento', divida)
                 console.log(resp.data)
             }
         }
@@ -40,11 +40,11 @@ router.post('/', auth.verificaAcessoDiretor, async function(req, res, next) {
 
 router.get('/remover/:idTransporte', auth.verificaAcessoDiretor, async function(req, res, next) {
     try {
-        var transporte = await axios.get('http://localhost:7779/transporte/' + req.params.idTransporte)
+        var transporte = await axios.get('http://api:7779/transporte/' + req.params.idTransporte)
 
-        await axios.delete('http://localhost:7779/dividaEvento?transporte=' + req.params.idTransporte)
+        await axios.delete('http://api:7779/dividaEvento?transporte=' + req.params.idTransporte)
 
-        var deleted = await axios.delete('http://localhost:7779/transporte/' + req.params.idTransporte)
+        var deleted = await axios.delete('http://api:7779/transporte/' + req.params.idTransporte)
 
         res.redirect('/evento/' + transporte.data.codEvento)
     } catch (erro) {
@@ -56,7 +56,7 @@ router.get('/adicionar/:idEvento', auth.verificaAcessoDiretor, async function(re
     let user = auth.getUser(req.cookies.token)
     var nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
 
-    var userListRep = await axios.get('http://localhost:7780/user/')
+    var userListRep = await axios.get('http://autenticacao:7780/user/')
     var userList = userListRep.data
     res.render('adicionarTransporte', {codEvento: req.params.idEvento, nivelAcesso: nivelAcesso, users:userList, user: user})
 })
@@ -64,7 +64,7 @@ router.get('/adicionar/:idEvento', auth.verificaAcessoDiretor, async function(re
 router.post('/editar', auth.verificaAcessoDiretor, async function(req,res,next) {
     let user = auth.getUser(req.cookies.token)
     try {
-        var transporteRep = await axios.get('http://localhost:7779/transporte/' + req.body._id)
+        var transporteRep = await axios.get('http://api:7779/transporte/' + req.body._id)
         var transporte = transporteRep.data
 
         if (!Array.isArray(req.body.transportados)) {
@@ -83,24 +83,24 @@ router.post('/editar', auth.verificaAcessoDiretor, async function(req,res,next) 
                 valor: req.body.custo
             }
 
-            var resp = await axios.post('http://localhost:7779/dividaEvento', divida)
+            var resp = await axios.post('http://api:7779/dividaEvento', divida)
         }
 
         for (const transportado of transportadosRemovidos) {
-            await axios.delete('http://localhost:7779/dividaEvento?transporte=' + transporte._id + '&user=' + transportado)
+            await axios.delete('http://api:7779/dividaEvento?transporte=' + transporte._id + '&user=' + transportado)
         }
 
-        var dividasEventoRep = await axios.get('http://localhost:7779/dividaEvento?transporte=' + req.body._id)
+        var dividasEventoRep = await axios.get('http://api:7779/dividaEvento?transporte=' + req.body._id)
         var dividasEvento = dividasEventoRep.data
 
         for (const transportado of transportadosMantidos) {
-            var dividaRep = await axios.get('http://localhost:7779/dividaEvento?transporte=' + transporte._id + '&user=' + transportado)
+            var dividaRep = await axios.get('http://api:7779/dividaEvento?transporte=' + transporte._id + '&user=' + transportado)
             var divida = dividaRep.data
 
             // Se já não houver custo, apagar as dívidas
             if (!req.body.custo) {
                 for (const divida of dividasEvento) {
-                    await axios.delete('http://localhost:7779/dividaEvento/' + divida._id)
+                    await axios.delete('http://api:7779/dividaEvento/' + divida._id)
                 }
             }  else if (req.body.custo && !transporte.custo) {
                 var dividaPost = {
@@ -109,7 +109,7 @@ router.post('/editar', auth.verificaAcessoDiretor, async function(req,res,next) 
                     userID: transportado,
                     valor: req.body.custo
                 }
-                await axios.post('http://localhost:7779/dividaEvento', dividaPost)
+                await axios.post('http://api:7779/dividaEvento', dividaPost)
             }
             else if(req.body.custo != transporte.custo) {
                 // Se o custo foi alterado atualizar as dívidas
@@ -119,11 +119,11 @@ router.post('/editar', auth.verificaAcessoDiretor, async function(req,res,next) 
                     userID: divida.userID,
                     valor: req.body.custo
                 }
-                await axios.put('http://localhost:7779/dividaEvento/' + divida._id, dividaPut)
+                await axios.put('http://api:7779/dividaEvento/' + divida._id, dividaPut)
             }
         }
 
-        await axios.put('http://localhost:7779/transporte/' + req.body._id, req.body)
+        await axios.put('http://api:7779/transporte/' + req.body._id, req.body)
         res.redirect('/transporte/' + req.body._id)
     } catch(erro) {
         res.render('error', {error: erro, message: "Erro!", user:user})
@@ -133,12 +133,12 @@ router.post('/editar', auth.verificaAcessoDiretor, async function(req,res,next) 
 router.get('/remover/:idTransporte', auth.verificaAcessoDiretor, async function(req, res, next) {
     let user = auth.getUser(req.cookies.token)
     try {
-        var transporteRep = await axios.get('http://localhost:7779/transporte/' + req.params.idTransporte)
+        var transporteRep = await axios.get('http://api:7779/transporte/' + req.params.idTransporte)
         var transporte = transporteRep.data
 
-        await axios.delete('http://localhost:7779/dividaEvento?transporte=' + req.params.idTransporte)
+        await axios.delete('http://api:7779/dividaEvento?transporte=' + req.params.idTransporte)
 
-        await axios.delete('http://localhost:7779/transporte/' + req.params.idTransporte)
+        await axios.delete('http://api:7779/transporte/' + req.params.idTransporte)
         res.redirect('/evento/' + transporte.codEvento)
     } catch (erro) {
         res.render('error', {error: erro, message: "Erro!", user:user})
@@ -149,7 +149,7 @@ router.get('/editar/:idTransporte', auth.verificaAcessoDiretor, async function(r
     let user = auth.getUser(req.cookies.token)
     try {
         var nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
-        var transporteRep = await axios.get('http://localhost:7779/transporte/' + req.params.idTransporte)
+        var transporteRep = await axios.get('http://api:7779/transporte/' + req.params.idTransporte)
         var transporte = transporteRep.data
         res.render('editarTransporte', {transporte: transporte, nivelAcesso: nivelAcesso, user:user})
     } catch (erro) {
@@ -161,10 +161,10 @@ router.get('/editar/:idTransporte', auth.verificaAcessoDiretor, async function(r
 router.get('/:idTransporte', auth.verificaAcessoDiretor, async function(req, res, next) {
     let user = auth.getUser(req.cookies.token)
     try {
-        var repTransporte = await axios.get('http://localhost:7779/transporte/' + req.params.idTransporte)
+        var repTransporte = await axios.get('http://api:7779/transporte/' + req.params.idTransporte)
         var transporte = repTransporte.data
 
-        var repUtilizadores = await axios.get('http://localhost:7780/user/')
+        var repUtilizadores = await axios.get('http://autenticacao:7780/user/')
         var utilizadores = repUtilizadores.data
 
         var transportados = new Set()

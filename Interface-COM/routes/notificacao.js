@@ -16,7 +16,7 @@ var auth = require('../helpers/auth')
 */
 router.get('/', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
     let user = auth.getUser(req.cookies.token)
-    axios.get("http://localhost:7779/notificacao")
+    axios.get("http://api:7779/notificacao")
         .then(function(resp){
             var notificacoes = resp.data
             nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
@@ -38,7 +38,7 @@ router.get('/', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
 router.post('/adicionar', auth.verificaAcessoDiretor,function(req, res, next) {
     req.body.data = new Date().toISOString().substring(0, 16)
     let user = auth.getUser(req.cookies.token)
-    axios.post("http://localhost:7779/notificacao",req.body)
+    axios.post("http://api:7779/notificacao",req.body)
       .then(function(resp){
         res.render('feedbackServidor', {texto:"Notificação adicionada com sucesso",voltarUrl:"/notificacao/", user:user})
       })
@@ -54,7 +54,7 @@ router.post('/adicionar', auth.verificaAcessoDiretor,function(req, res, next) {
 */
 router.get('/editar/:idNotificacao', auth.verificaAcessoDiretor,function(req, res, next) {
     let user = auth.getUser(req.cookies.token)
-    axios.get("http://localhost:7779/notificacao/" + req.params.idNotificacao)
+    axios.get("http://api:7779/notificacao/" + req.params.idNotificacao)
       .then(function(resp){
           var notificacao = resp.data
           res.render('editarNotificacao', {notificacao:notificacao, user:user})
@@ -71,7 +71,7 @@ router.get('/editar/:idNotificacao', auth.verificaAcessoDiretor,function(req, re
 */
 router.post('/editar', auth.verificaAcessoDiretor,function(req, res, next) {
     let user = auth.getUser(req.cookies.token)
-axios.put("http://localhost:7779/notificacao/"+req.body._id,req.body)
+axios.put("http://api:7779/notificacao/"+req.body._id,req.body)
     .then(function(resp){
     res.render('feedbackServidor', {texto:"Notificação alterada com sucesso",voltarUrl:"/notificacao/", user:user})
     })
@@ -87,7 +87,7 @@ axios.put("http://localhost:7779/notificacao/"+req.body._id,req.body)
 */
 router.get('/remover/:idNotificacao', auth.verificaAcessoDiretor, function(req, res, next) {
     let user = auth.getUser(req.cookies.token)
-    axios.delete("http://localhost:7779/notificacao/"+req.params.idNotificacao)
+    axios.delete("http://api:7779/notificacao/"+req.params.idNotificacao)
       .then(function(resp){
           res.render('feedbackServidor', {texto:"Notificação removida com sucesso",voltarUrl:"/notificacao/", user:user})
       })
@@ -112,7 +112,7 @@ router.post('/filtro', auth.verificaAcessoSocioOuDiretor,function(req, res, next
     queryString += 'order=' + req.body.ordem + "&"
   }
   
-  axios.get("http://localhost:7779/notificacao" + queryString)
+  axios.get("http://api:7779/notificacao" + queryString)
     .then(function(resp){
         var notificacoes = resp.data
         nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
@@ -132,7 +132,7 @@ router.post('/filtro', auth.verificaAcessoSocioOuDiretor,function(req, res, next
 */
 router.get('/:idNotificacao', auth.verificaAcessoDiretor, function(req, res, next) {
     let user = auth.getUser(req.cookies.token)
-  axios.get("http://localhost:7779/notificacao/"+req.params.idNotificacao)
+  axios.get("http://api:7779/notificacao/"+req.params.idNotificacao)
     .then(function(resp){
         var notificacao = resp.data
         res.render('notificacao', {notificacao:notificacao, user:user})

@@ -23,14 +23,14 @@ var auth = require('../helpers/auth')
 */
 router.get('/', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
     var user = auth.getUser(req.cookies.token)
-  axios.get("http://localhost:7779/equipamento")
+  axios.get("http://api:7779/equipamento")
     .then(function(resp){
         var equipamentos = resp.data
         nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
         if (nivelAcesso == "socio"){
           res.render('equipamentosSocio', {equipamentos:equipamentos, user:user})
         }else if (nivelAcesso == "diretor"){
-          axios.get("http://localhost:7779/dividasEquipamento")
+          axios.get("http://api:7779/dividasEquipamento")
             .then(function(resp){
                 var dividasEquipamento = resp.data
                 res.render('equipamentosDiretoria', {dividasEquipamento:dividasEquipamento,equipamentos:equipamentos, user:user})
@@ -51,7 +51,7 @@ router.get('/', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
 router.get('/remover/:idEquipamento', auth.verificaAcessoDiretor, function(req, res, next) {
   console.log("cheguei")
     var user = auth.getUser(req.cookies.token)
-  axios.delete("http://localhost:7779/equipamento/"+req.params.idEquipamento)
+  axios.delete("http://api:7779/equipamento/"+req.params.idEquipamento)
     .then(function(resp){
         res.render('feedbackServidor', {texto:"Equipamento removido com sucesso",voltarUrl:"/equipamento/", user:user})
     })
@@ -67,7 +67,7 @@ router.get('/remover/:idEquipamento', auth.verificaAcessoDiretor, function(req, 
 */
 router.get('/requisitar/:idEquipamento', auth.verificaAcessoSocio,function(req, res, next) {
     var user = auth.getUser(req.cookies.token)
-  axios.get("http://localhost:7779/equipamento/" + req.params.idEquipamento)
+  axios.get("http://api:7779/equipamento/" + req.params.idEquipamento)
     .then(function(resp){
         var equipamento = resp.data
         res.render('requisitarEquipamento', {equipamento:equipamento, user:user})
@@ -84,10 +84,10 @@ router.get('/requisitar/:idEquipamento', auth.verificaAcessoSocio,function(req, 
 */
 router.get('/editar/:idEquipamento', auth.verificaAcessoDiretor,function(req, res, next) {
     var user = auth.getUser(req.cookies.token)
-  axios.get("http://localhost:7779/equipamento/" + req.params.idEquipamento)
+  axios.get("http://api:7779/equipamento/" + req.params.idEquipamento)
     .then(function(resp){
         var equipamento = resp.data
-        axios.get("http://localhost:7779/tamanhoEquipamento/")
+        axios.get("http://api:7779/tamanhoEquipamento/")
         .then(function(resp){
             var tamanhosEquipamentos = resp.data
             res.render('editarEquipamento', {equipamento:equipamento,tamanhosEquipamentos:tamanhosEquipamentos, user:user})
@@ -106,7 +106,7 @@ router.get('/editar/:idEquipamento', auth.verificaAcessoDiretor,function(req, re
 */
 router.get('/adicionar', auth.verificaAcessoDiretor,function(req, res, next) {
     var user = auth.getUser(req.cookies.token)
-  axios.get("http://localhost:7779/tamanhoEquipamento/")
+  axios.get("http://api:7779/tamanhoEquipamento/")
     .then(function(resp){
         var tamanhosEquipamentos = resp.data
         res.render('adicionarEquipamento', {tamanhosEquipamentos:tamanhosEquipamentos, user:user})
@@ -139,7 +139,7 @@ router.post('/editar', auth.verificaAcessoDiretor,function(req, res, next) {
   }
 
     var user = auth.getUser(req.cookies.token)
-  axios.put("http://localhost:7779/equipamento/"+equipamento._id,equipamento)
+  axios.put("http://api:7779/equipamento/"+equipamento._id,equipamento)
     .then(function(resp){
       res.render('feedbackServidor', {texto:"Equipamento alterado com sucesso",voltarUrl:"/equipamento/", user:user})
     })
@@ -168,7 +168,7 @@ router.post('/adicionar', auth.verificaAcessoDiretor,function(req, res, next) {
   }
 
     var user = auth.getUser(req.cookies.token)
-  axios.post("http://localhost:7779/equipamento",equipamento)
+  axios.post("http://api:7779/equipamento",equipamento)
     .then(function(resp){
       res.render('feedbackServidor', {texto:"Equipamento adicionado com sucesso",voltarUrl:"/equipamento/", user:user})
     })
@@ -191,7 +191,7 @@ router.post('/requisitar', auth.verificaAcessoSocio,function(req, res, next) {
   }
 
     var user = auth.getUser(req.cookies.token)
-  axios.post("http://localhost:7779/dividasEquipamento",dividaEquipamento)
+  axios.post("http://api:7779/dividasEquipamento",dividaEquipamento)
     .then(function(resp){
       res.render('feedbackServidor', {texto:"Equipamento requisitado adicionado com sucesso",voltarUrl:"/equipamento/", user:user})
     })
@@ -207,7 +207,7 @@ router.post('/requisitar', auth.verificaAcessoSocio,function(req, res, next) {
 */
 router.get('/dividaEquipamento/editar/:idDividaEquipamento', auth.verificaAcessoDiretor,function(req, res, next) {
     var user = auth.getUser(req.cookies.token)
-  axios.get("http://localhost:7779/dividasEquipamento/" + req.params.idDividaEquipamento)
+  axios.get("http://api:7779/dividasEquipamento/" + req.params.idDividaEquipamento)
     .then(function(resp){
         var dividaEquipamento = resp.data
         res.render('editarDividaEquipamento', {dividaEquipamento:dividaEquipamento, user:user})
@@ -224,7 +224,7 @@ router.get('/dividaEquipamento/editar/:idDividaEquipamento', auth.verificaAcesso
 */
 router.post('/dividaEquipamento/editar', auth.verificaAcessoDiretor,function(req, res, next) {
     var user = auth.getUser(req.cookies.token)
-  axios.put("http://localhost:7779/dividasEquipamento/"+req.body._id,req.body)
+  axios.put("http://api:7779/dividasEquipamento/"+req.body._id,req.body)
     .then(function(resp){
       res.render('feedbackServidor', {texto:"Estado da dívida do equipamento alterada com sucesso",voltarUrl:"/equipamento/", user:user})
     })
@@ -260,7 +260,7 @@ router.post('/filtro', auth.verificaAcessoSocioOuDiretor,function(req, res, next
     queryString += 'order=' + req.body.ordem + "&"
   }
 
-  axios.get("http://localhost:7779/equipamento" + queryString)
+  axios.get("http://api:7779/equipamento" + queryString)
     var user = auth.getUser(req.cookies.token)
     .then(function(resp){
         var equipamentos = resp.data
@@ -268,7 +268,7 @@ router.post('/filtro', auth.verificaAcessoSocioOuDiretor,function(req, res, next
         if (nivelAcesso == "socio"){
           res.render('equipamentosSocio', {equipamentos:equipamentos, user:user})
         }else if (nivelAcesso == "diretor"){
-          axios.get("http://localhost:7779/dividasEquipamento")
+          axios.get("http://api:7779/dividasEquipamento")
             .then(function(resp){
                 var dividasEquipamento = resp.data
                 res.render('equipamentosDiretoria', {dividasEquipamento:dividasEquipamento,equipamentos:equipamentos, user:user})
@@ -300,14 +300,14 @@ router.post('/dividaEquipamento/filtro', auth.verificaAcessoSocioOuDiretor,funct
   }
 
   var user = auth.getUser(req.cookies.token)
-  axios.get("http://localhost:7779/equipamento")
+  axios.get("http://api:7779/equipamento")
     .then(function(resp){
         var equipamentos = resp.data
         nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
         if (nivelAcesso == "socio"){
           res.render('equipamentosSocio', {equipamentos:equipamentos, user:user})
         }else if (nivelAcesso == "diretor"){
-          axios.get("http://localhost:7779/dividasEquipamento" + queryString)
+          axios.get("http://api:7779/dividasEquipamento" + queryString)
             .then(function(resp){
                 var dividasEquipamento = resp.data
                 res.render('equipamentosDiretoria', {dividasEquipamento:dividasEquipamento,equipamentos:equipamentos, user:user})
@@ -327,7 +327,7 @@ router.post('/dividaEquipamento/filtro', auth.verificaAcessoSocioOuDiretor,funct
 */
 router.get('/:idEquipamento', auth.verificaAcessoSocioOuDiretor, function(req, res, next) {
     var user = auth.getUser(req.cookies.token)
-  axios.get("http://localhost:7779/equipamento/" + req.params.idEquipamento)
+  axios.get("http://api:7779/equipamento/" + req.params.idEquipamento)
     .then(function(resp){
         var equipamento = resp.data
         res.render('equipamento', {equipamento:equipamento, user: user})

@@ -10,6 +10,7 @@ var eventoSchema = new mongoose.Schema({
     descricao: String,
     dataInicio: Date,
     dataFim: Date,
+    local: String
 })
 
 module.exports = mongoose.model('evento', eventoSchema)

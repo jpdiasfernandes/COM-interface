@@ -36,7 +36,7 @@ function getValorApoio(atletas, distancia) {
 router.post('/', auth.verificaAcessoDiretor, async function(req, res, next) {
     var user = auth.getUser(req.cookies.token)
     try {
-        var apoioKmRep = await axios.post('http://localhost:7779/apoioKm', req.body)
+        var apoioKmRep = await axios.post('http://api:7779/apoioKm', req.body)
         var apoioKm = apoioKmRep.data
 
         console.log(apoioKm)
@@ -48,7 +48,7 @@ router.post('/', auth.verificaAcessoDiretor, async function(req, res, next) {
                 valor : getValorApoio(apoioKm.atletas, apoioKm.distancia)
             }
 
-            var receitaRep = await axios.post('http://localhost:7779/receitaEvento', receita)
+            var receitaRep = await axios.post('http://api:7779/receitaEvento', receita)
             console.log(receitaRep.data)
         }
 
@@ -61,12 +61,12 @@ router.post('/', auth.verificaAcessoDiretor, async function(req, res, next) {
 router.get('/remover/:idApoioKm', auth.verificaAcessoDiretor, async function(req, res, next) {
     var user = auth.getUser(req.cookies.token)
     try {
-        var apoioRep = await axios.get('http://localhost:7779/apoioKm/' + req.params.idApoioKm)
+        var apoioRep = await axios.get('http://api:7779/apoioKm/' + req.params.idApoioKm)
         var apoio = apoioRep.data
 
-        await axios.delete('http://localhost:7779/receitaEvento?apoio=' + apoio._id)
+        await axios.delete('http://api:7779/receitaEvento?apoio=' + apoio._id)
 
-        await axios.delete('http://localhost:7779/apoioKm/' + req.params.idApoioKm)
+        await axios.delete('http://api:7779/apoioKm/' + req.params.idApoioKm)
         res.redirect('/evento/' + apoio.codEvento)
     } catch (erro) {
         res.render('error', {error: erro, message: "Erro!", user:user})
@@ -76,10 +76,10 @@ router.get('/remover/:idApoioKm', auth.verificaAcessoDiretor, async function(req
 router.get('/:idApoioKm', auth.verificaAcessoDiretor, async function(req, res, next) {
     var user = auth.getUser(req.cookies.token)
     try {
-        var apoioRep = await axios.get('http://localhost:7779/apoioKm/' + req.params.idApoioKm)
+        var apoioRep = await axios.get('http://api:7779/apoioKm/' + req.params.idApoioKm)
         var apoio = apoioRep.data
 
-        var socioRep = await axios.get('http://localhost:7780/user/socio/' + apoio.userID)
+        var socioRep = await axios.get('http://autenticacao:7780/user/socio/' + apoio.userID)
         var socio = socioRep.data
 
         var nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
@@ -92,7 +92,7 @@ router.get('/:idApoioKm', auth.verificaAcessoDiretor, async function(req, res, n
 router.get('/editar/:idApoioKm', auth.verificaAcessoDiretor, async function(req, res, next) {
     var user = auth.getUser(req.cookies.token)
     try {
-        var apoioKmRep = await axios.get('http://localhost:7779/apoioKm/' + req.params.idApoioKm)
+        var apoioKmRep = await axios.get('http://api:7779/apoioKm/' + req.params.idApoioKm)
         var apoioKm = apoioKmRep.data
         var nivelAcesso = auth.getNivelDeAcesso(req.cookies.token)
         res.render('editarApoioKm', {apoioKm: apoioKm, nivelAcesso: nivelAcesso, user:user})
@@ -104,10 +104,10 @@ router.get('/editar/:idApoioKm', auth.verificaAcessoDiretor, async function(req,
 router.post('/editar', auth.verificaAcessoDiretor, async function(req,res,next) {
     var user = auth.getUser(req.cookies.token)
     try {
-        var apoioKmRep = await axios.get('http://localhost:7779/apoioKm/' + req.body._id)
+        var apoioKmRep = await axios.get('http://api:7779/apoioKm/' + req.body._id)
         var apoioKm = apoioKmRep.data
 
-        var receitaEventoRep = await axios.get('http://localhost:7779/receitaEvento?apoio=' + req.body._id)
+        var receitaEventoRep = await axios.get('http://api:7779/receitaEvento?apoio=' + req.body._id)
         var receitaEvento = receitaEventoRep.data
 
         if ((apoioKm.distancia != req.body.distancia || apoioKm.atletas != req.body.atletas) && (receitaEvento.length == 1)) {
@@ -118,10 +118,10 @@ router.post('/editar', auth.verificaAcessoDiretor, async function(req,res,next) 
                 userID: req.body.userID,
                 valor: getValorApoio(req.body.atletas, req.body.distancia)
             }
-            await axios.put('http://localhost:7779/receitaEvento/' + receitaEvento[0]._id, receita)
+            await axios.put('http://api:7779/receitaEvento/' + receitaEvento[0]._id, receita)
         }
 
-        await axios.put('http://localhost:7779/apoioKm/' + req.body._id, req.body)
+        await axios.put('http://api:7779/apoioKm/' + req.body._id, req.body)
         res.redirect('/apoioKm/' + req.body._id)
     } catch (erro) {
         res.render('error', {error: erro, message: "Erro!", user:user})
